@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
-import '/home/screens/home_screens.dart';
+import '../../home/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
