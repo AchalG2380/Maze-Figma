@@ -28,12 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background, // navy
+      backgroundColor: AppColor.lightDarkBackground,
       body: Stack(
         children: [
           // The curved second color
           Positioned.fill(
-            child: CustomPaint(painter: _CurvePainter(color: AppColor.surface)),
+            child: CustomPaint(
+              painter: _CurvePainter(color: AppColor.background),
+            ),
           ),
           // Logo on top
           Center(child: Image.asset('assets/images/Logo.png')),

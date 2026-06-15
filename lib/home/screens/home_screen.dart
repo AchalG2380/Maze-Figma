@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
+import 'package:maze/market/screen/market_screen.dart';
+import 'package:maze/tradingDetails/screen/tradingDetails_screen.dart';
+import 'package:maze/profile/screens/profile_screen.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,24 +12,44 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.menu),
-        title: Text(AppStrings.home, textAlign: TextAlign.center),
-        actions: [Icon(Icons.wallet)],
-        backgroundColor: AppColor.primary,
-      ),
+      // appBar: AppBar(
+      //   leading: Icon(Icons.menu),
+      //   title: Text(AppStrings.home, textAlign: TextAlign.center),
+      //   actions: [Icon(Icons.wallet)],
+      //   backgroundColor: AppColor.primary,
+      // ),
       backgroundColor: AppColor.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.menu, color: AppColor.textPrimary),
+                    Center(
+                      child: Text(
+                        AppStrings.home,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColor.textPrimary,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.wallet, color: AppColor.textPrimary),
+                  ],
+                ),
+              ),
               Container(
                 margin: const EdgeInsets.only(bottom: 5, left: 3, right: 3),
                 width: double.infinity,
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(10),
                   color: AppColor.textBackground,
                 ),
                 child: Text(
@@ -86,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: AppColor.lightBackground,
+                  color: AppColor.surface,
                 ),
                 child: Text(
                   AppStrings.marketStatistics,
@@ -106,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.only(top: 14, left: 10, right: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColor.lightBackground,
+                          color: AppColor.lightDarkBackground,
                         ),
                         child: Column(
                           children: [
@@ -148,7 +172,7 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.only(top: 14, left: 10, right: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColor.lightBackground,
+                          color: AppColor.lightDarkBackground,
                         ),
                         child: Column(
                           children: [
@@ -192,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: AppColor.primary,
+                  color: AppColor.lightBackground,
                 ),
                 child: Column(
                   children: [
@@ -220,6 +244,9 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.button,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
                         child: Text(
                           AppStrings.referButton,
@@ -237,7 +264,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: AppColor.lightBackground,
+                  color: AppColor.surface,
                 ),
                 child: Row(
                   children: [
@@ -262,7 +289,7 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColor.lightBackground,
+                      color: AppColor.lightDarkBackground,
                     ),
                     child: Row(
                       children: [
@@ -288,7 +315,7 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColor.lightBackground,
+                      color: AppColor.lightDarkBackground,
                     ),
                     child: Row(
                       children: [
@@ -316,7 +343,6 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColor.secondary,
-        selectedItemColor: AppColor.lightBackground,
         unselectedItemColor: AppColor.textSecondary,
         type: BottomNavigationBarType.fixed,
         items: const [
@@ -328,6 +354,36 @@ class HomeScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
+        onTap: (value) {
+          switch (value) {
+            case 0:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TradingdetailsScreen(),
+                ),
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MarketScreen()),
+              );
+              break;
+            case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+              break;
+          }
+        },
       ),
     );
   }
