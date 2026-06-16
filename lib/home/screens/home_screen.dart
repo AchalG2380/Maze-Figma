@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
-import 'package:maze/market/screen/market_screen.dart';
-import 'package:maze/tradingDetails/screen/tradingDetails_screen.dart';
+import 'package:maze/market/screens/market_screen.dart';
+import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import 'package:maze/profile/screens/profile_screen.dart';
 import 'package:get/get.dart';
+import '../../myCard/screens/myCard_screen.dart';
+import '../../Scan/screens/scan_screen.dart';
+import 'package:maze/appWidgets/appWidgets.dart';
+import '../widgets/home_widgets.dart';
+
+const List<Map<String, dynamic>> _recentTransactions = [
+  {
+    'icon': Icons.arrow_upward,
+    'title': AppStrings.Received,
+    'amount': AppStrings.ReceivedAmount,
+    'color': AppColor.textGreen,
+  },
+  {
+    'icon': Icons.arrow_downward,
+    'title': AppStrings.Withdrawn,
+    'amount': AppStrings.WithdrawnAmount,
+    'color': AppColor.textRed,
+  },
+];
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,31 +37,22 @@ class HomeScreen extends StatelessWidget {
       //   actions: [Icon(Icons.wallet)],
       //   backgroundColor: AppColor.primary,
       // ),
+      extendBody: true,
       backgroundColor: AppColor.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.menu, color: AppColor.textPrimary),
-                    Center(
-                      child: Text(
-                        AppStrings.home,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColor.textPrimary,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Icon(Icons.wallet, color: AppColor.textPrimary),
-                  ],
-                ),
+              CustomScreenHeader(
+                title: AppStrings.home,
+                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                actions: [
+                  IconButton(
+                    onPressed: () => Get.to(() => const MyCardScreen()),
+                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                  ),
+                ],
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 5, left: 3, right: 3),
@@ -71,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Icon(
-                        Icons.qr_code,
+                        Icons.qr_code_2_outlined,
                         color: AppColor.textPrimary,
                         size: 24,
                       ),
@@ -124,88 +134,20 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 child: Row(
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 14, left: 10, right: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.lightDarkBackground,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.circle, color: Colors.white),
-                                SizedBox(width: 50),
-                                Text(
-                                  AppStrings.ethereumPrice,
-                                  style: TextStyle(color: AppColor.textPrimary),
-                                ),
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                AppStrings.ethereum,
-                                style: TextStyle(color: AppColor.textSecondary),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Text(
-                                AppStrings.ethereumToday,
-                                style: TextStyle(color: AppColor.textGreen),
-                              ),
-                            ),
-                            Center(
-                              child: Image.asset('assets/images/Graph.png'),
-                            ),
-                          ],
-                        ),
-                      ),
+                    MarketStatistics(
+                      price: AppStrings.ethereumPrice,
+                      name: AppStrings.ethereum,
+                      today: AppStrings.ethereumToday,
+                      imageUrl: "assets/images/Graph.png",
+                      color: AppColor.textGreen,
                     ),
                     SizedBox(width: 20),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 14, left: 10, right: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.lightDarkBackground,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.circle, color: Colors.white),
-                                SizedBox(width: 50),
-                                Text(
-                                  AppStrings.bitcoinPrice,
-                                  style: TextStyle(color: AppColor.textPrimary),
-                                ),
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                AppStrings.bitcoin,
-                                style: TextStyle(color: AppColor.textSecondary),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Text(
-                                AppStrings.bitcoinToday,
-                                style: TextStyle(color: AppColor.textRed),
-                              ),
-                            ),
-                            Center(
-                              child: Image.asset('assets/images/Graph2.png'),
-                            ),
-                          ],
-                        ),
-                      ),
+                    MarketStatistics(
+                      price: AppStrings.bitcoinPrice,
+                      name: AppStrings.bitcoin,
+                      today: AppStrings.bitcoinToday,
+                      imageUrl: "assets/images/Graph2.png",
+                      color: AppColor.textRed,
                     ),
                   ],
                 ),
@@ -283,108 +225,65 @@ class HomeScreen extends StatelessWidget {
 
               Column(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(3.0),
-                    width: double.infinity,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.arrow_upward, color: AppColor.textGreen),
-                        Text(
-                          AppStrings.Received,
-                          style: TextStyle(color: AppColor.textPrimary),
+                  ..._recentTransactions
+                      .map(
+                        (items) => RecentTransactions(
+                          icon: items['icon'],
+                          title: items['title'],
+                          amount: items['amount'],
+                          color: items['color'],
                         ),
-                        Spacer(),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            AppStrings.ReceivedAmount,
-                            style: TextStyle(color: AppColor.textGreen),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(3.0),
-                    width: double.infinity,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.arrow_downward, color: AppColor.textRed),
-                        Text(
-                          AppStrings.Withdrawn,
-                          style: TextStyle(color: AppColor.textPrimary),
-                        ),
-                        Spacer(),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            AppStrings.WithdrawnAmount,
-                            style: TextStyle(color: AppColor.textRed),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                      )
+                      .toList(),
                 ],
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColor.secondary,
-        unselectedItemColor: AppColor.textSecondary,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallet'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange),
-            label: 'Exchange',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        onTap: (value) {
-          switch (value) {
+      // Reusable Notch Bottom App Bar
+      bottomNavigationBar: CustomBottomAppBar(
+        currentIndex:
+            0, // 0 for Home, 1 for Wallet, 2 for Market, 3 for Profile
+        onTap: (index) {
+          switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const TradingdetailsScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const MarketScreen()),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const MarketScreen()),
+                MaterialPageRoute(builder: (_) => const TradingdetailsScreen()),
               );
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
               );
               break;
           }
         },
       ),
+      // Reusable Floating Scanner Button
+      floatingActionButton: CustomScanFAB(
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const ScanScreens()),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

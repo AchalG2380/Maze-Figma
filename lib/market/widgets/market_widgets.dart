@@ -85,3 +85,28 @@ class MarketDepthWidget extends StatelessWidget {
     );
   }
 }
+
+class LatestTradesRow extends StatelessWidget {
+  final String amount;
+  final String price;
+  final String time;
+
+  const LatestTradesRow({
+    super.key,
+    required this.amount,
+    required this.price,
+    required this.time,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(amount, style: TextStyle(color: AppColor.textSecondary)),
+        Text(price, style: TextStyle(color: AppColor.textGreen)),
+        Text(time, style: TextStyle(color: AppColor.textSecondary)),
+      ],
+    );
+  }
+}

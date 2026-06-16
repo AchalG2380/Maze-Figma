@@ -2,8 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
 import 'package:maze/home/screens/home_screen.dart';
-import 'package:maze/market/screen/market_screen.dart';
-import 'package:maze/tradingDetails/screen/tradingDetails_screen.dart';
+import 'package:maze/market/screens/market_screen.dart';
+import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
+import '../../scan/screens/scan_screen.dart';
+import 'package:maze/appWidgets/appWidgets.dart';
+import '../widgets/profile_widgets.dart';
+
+const List<Map<String, dynamic>> _settingsItems = [
+  {'icon': Icons.person_2, 'title': AppStrings.edit},
+  {'icon': Icons.lock_open, 'title': AppStrings.editPass},
+  {'icon': Icons.money, 'title': AppStrings.currencyW},
+  {'icon': Icons.shield_outlined, 'title': AppStrings.twoFactorAuthentication},
+];
+
+const List<Map<String, dynamic>> supportRowItems = [
+  {'title': AppStrings.contactSupport},
+  {'title': AppStrings.notificationSett},
+];
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -17,25 +32,21 @@ class ProfileScreen extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.arrow_back_ios, color: AppColor.textPrimary),
-                    Center(
-                      child: Text(
-                        AppStrings.profile,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColor.textPrimary,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Icon(Icons.settings_outlined, color: AppColor.textPrimary),
-                  ],
+              CustomScreenHeader(
+                title: AppStrings.profile,
+                leading: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColor.textPrimary,
                 ),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.settings_outlined,
+                      color: AppColor.textPrimary,
+                    ),
+                  ),
+                ],
               ),
               Center(
                 child: Stack(
@@ -93,85 +104,19 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 20),
 
               Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.person_2, color: AppColor.textSecondary),
-                        SizedBox(width: 20),
-                        Text(
-                          AppStrings.edit,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.lock_open, color: AppColor.textSecondary),
-                        SizedBox(width: 20),
-                        Text(
-                          AppStrings.editPass,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.money, color: AppColor.textSecondary),
-                        SizedBox(width: 20),
-                        Text(
-                          AppStrings.currencyW,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.shield_outlined,
-                          color: AppColor.textSecondary,
-                        ),
-                        SizedBox(width: 20),
-                        Text(
-                          AppStrings.twoFactorAuthentication,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                ],
+                children: _settingsItems.map((item) {
+                  return Column(
+                    children: [
+                      SettingsRow(
+                        icon: item['icon'] as IconData,
+                        title: item['title'] as String,
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  );
+                }).toList(),
               ),
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -182,42 +127,19 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 8),
               Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          AppStrings.faceID,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                        Spacer(),
-                        Switch(value: false, onChanged: (value) {}),
-                      ],
-                    ),
+                  OptionRow(
+                    title: AppStrings.faceID,
+                    trailing: Switch(value: false, onChanged: (value) {}),
                   ),
                   SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          AppStrings.notificationSett,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                      ],
-                    ),
+                  OptionRow(
+                    title: AppStrings.notificationSett,
+                    // no trailing = nothing rendered after Spacer
                   ),
                   SizedBox(height: 8),
                 ],
               ),
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -227,98 +149,61 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          AppStrings.contactSupport,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColor.textSecondary,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColor.lightDarkBackground,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          AppStrings.contactSupport,
-                          style: TextStyle(color: AppColor.textSecondary),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColor.textSecondary,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                children: supportRowItems.map((item) {
+                  return Column(
+                    children: [
+                      SupportRow(title: item['title'] as String),
+                      SizedBox(height: 8),
+                    ],
+                  );
+                }).toList(),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColor.secondary,
-        unselectedItemColor: AppColor.textSecondary,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallet'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange),
-            label: 'Market',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        onTap: (value) {
-          switch (value) {
+      // Reusable Notch Bottom App Bar
+      bottomNavigationBar: CustomBottomAppBar(
+        currentIndex: 0,
+        onTap: (index) {
+          switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const TradingdetailsScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const MarketScreen()),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const MarketScreen()),
+                MaterialPageRoute(builder: (_) => const TradingdetailsScreen()),
               );
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
               );
               break;
           }
         },
       ),
+      // Reusable Floating Scanner Button
+      floatingActionButton: CustomScanFAB(
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const ScanScreens()),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

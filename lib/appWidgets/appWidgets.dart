@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+import 'package:maze/core/app_color.dart';
+
+/// A reusable custom header widget that matches the design of the screens in the Maze app.
+/// Since most screens use `SingleChildScrollView` with a top header inside the Column,
+/// this is built as a standard Widget for direct placement inside a layout.
+class CustomScreenHeader extends StatelessWidget {
+  final String title;
+  final Widget? leading;
+  final List<Widget>? actions;
+
+  const CustomScreenHeader({
+    super.key,
+    required this.title,
+    this.leading,
+    this.actions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Leading widget or an empty spacer to preserve layout alignment
+          leading ?? const SizedBox(width: 48),
+
+          Expanded(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: AppColor.textPrimary,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+
+          // Trailing actions row
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: actions ?? [const SizedBox(width: 48)],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A reusable bottom navigation bar matching the notch design.
+/// Communicates user selection back to the parent using the [onTap] callback.
+class CustomBottomAppBar extends StatelessWidget {
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+
+  const CustomBottomAppBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      color: AppColor.secondary,
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 6,
+      child: SizedBox(
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildTabIcon(icon: Icons.home, index: 0),
+            _buildTabIcon(icon: Icons.wallet, index: 1),
+            const SizedBox(width: 56), // Notch gap for the central FAB
+            _buildTabIcon(icon: Icons.currency_exchange_outlined, index: 2),
+            _buildTabIcon(icon: Icons.person, index: 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabIcon({required IconData icon, required int index}) {
+    final isSelected = currentIndex == index;
+    return IconButton(
+      icon: Icon(
+        icon,
+        color: isSelected ? AppColor.textPrimary : AppColor.textSecondary,
+      ),
+      onPressed: () => onTap(index),
+    );
+  }
+}
+
+/// A reusable Floating Action Button matching the custom scanner notch button design.
+class CustomScanFAB extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const CustomScanFAB({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColor.surface,
+        border: Border.all(color: Colors.blue.shade300, width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: AppColor.primary.withValues(alpha: 0.5),
+            blurRadius: 15,
+            spreadRadius: 3,
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: const Icon(
+          Icons.qr_code_scanner_outlined,
+          color: Colors.white,
+          size: 26,
+        ),
+        onPressed: onPressed,
+      ),
+    );
+  }
+}

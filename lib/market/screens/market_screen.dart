@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
 import 'package:maze/home/screens/home_screen.dart';
-import 'package:maze/market/screen/widgets/widgets.dart';
-import 'package:maze/tradingDetails/screen/tradingDetails_screen.dart';
+import 'package:maze/market/widgets/market_widgets.dart';
+import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import 'package:get/get.dart';
 import 'package:maze/profile/screens/profile_screen.dart';
+import 'package:maze/scan/screens/scan_screen.dart';
+import '../../myCard/screens/myCard_screen.dart';
+import 'package:maze/appWidgets/appWidgets.dart';
 
 class MarketController extends GetxController {
   // Make showTimeline observable (.obs)
@@ -29,26 +32,17 @@ class MarketScreen extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.menu, color: AppColor.textPrimary),
-                    Center(
-                      child: Text(
-                        AppStrings.exchangeMarket,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColor.textPrimary,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Icon(Icons.wallet, color: AppColor.textPrimary),
-                  ],
-                ),
+              CustomScreenHeader(
+                title: AppStrings.exchangeMarket,
+                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                actions: [
+                  IconButton(
+                    onPressed: () => Get.to(() => const MyCardScreen()),
+                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                  ),
+                ],
               ),
+
               Row(
                 children: [
                   Expanded(
@@ -315,25 +309,21 @@ class MarketScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("0.5"), Text("69,589.55"), Text("10:30")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("0.5"), Text("69,589.55"), Text("10:30")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("0.5"), Text("69,589.55"), Text("10:30")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("0.5"), Text("69,589.55"), Text("10:30")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("0.5"), Text("69,589.55"), Text("10:30")],
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: AppColor.lightDarkBackground,
+                    ),
+                    child: Column(
+                      children: List.generate(
+                        5,
+                        (index) => const LatestTradesRow(
+                          amount: AppStrings.amountBTCtext,
+                          price: AppStrings.priceETHtext,
+                          time: AppStrings.timetext,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -341,50 +331,49 @@ class MarketScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColor.secondary,
-        unselectedItemColor: AppColor.textSecondary,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallet'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange),
-            label: 'Exchange',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        onTap: (value) {
-          switch (value) {
+      // Reusable Notch Bottom App Bar
+      bottomNavigationBar: CustomBottomAppBar(
+        currentIndex:
+            0, // 0 for Home, 1 for Wallet, 2 for Market, 3 for Profile
+        onTap: (index) {
+          switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const TradingdetailsScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const MarketScreen()),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const MarketScreen()),
+                MaterialPageRoute(builder: (_) => const TradingdetailsScreen()),
               );
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
               );
               break;
           }
         },
       ),
+      // Reusable Floating Scanner Button
+      floatingActionButton: CustomScanFAB(
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const ScanScreens()),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
