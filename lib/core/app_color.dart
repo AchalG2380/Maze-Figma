@@ -11,12 +11,13 @@ class AppColor {
   static const Color textSecondary = Color(0xFFCCCCCC);
   static const Color textGreen = Colors.greenAccent;
   static const Color textRed = Colors.redAccent;
-  static const Color textBackground = Color.fromRGBO(255, 255, 255, 0.429);
+  static const Color textBackground = Color.fromRGBO(255, 255, 255, 0.47);
 
-  static const Color down = Colors.redAccent;
-  static const Color up = Colors.greenAccent;
+  static const Color high = Colors.green;
+  static const Color low = Colors.red;
 
   static const Color button = Color.fromRGBO(255, 168, 0, 1);
+  static const Color button2 = Color.fromRGBO(84, 94, 83, 1);
 
   // --- Background / Surface ---
   static const Color background = Color.fromRGBO(1, 4, 31, 1);

@@ -9,7 +9,37 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  // ← add this
+
+  late AnimationController _controller;
+  late Animation<double> _scale;
+  late Animation<double> _fade;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 1. Setup animation
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    _scale = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.elasticOut, // ← the pop effect
+    );
+
+    _fade = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+
+    _controller.forward(); // ← start animation
+
+    // 2. Navigate after delay
+    _navigateToNextScreen();
+  }
+
   Future<void> _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
@@ -20,9 +50,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _navigateToNextScreen();
+  void dispose() {
+    _controller.dispose(); // ← always dispose
+    super.dispose();
   }
 
   @override
@@ -31,20 +61,30 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: AppColor.lightDarkBackground,
       body: Stack(
         children: [
-          // The curved second color
+          // Your existing curve background — untouched
           Positioned.fill(
             child: CustomPaint(
               painter: _CurvePainter(color: AppColor.background),
             ),
           ),
-          // Logo on top
-          Center(child: Image.asset('assets/images/Logo.png')),
+
+          // Logo with pop animation
+          Center(
+            child: ScaleTransition(
+              scale: _scale,
+              child: FadeTransition(
+                opacity: _fade,
+                child: Image.asset('assets/images/Logo.png'),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
+// Your existing painter — zero changes needed
 class _CurvePainter extends CustomPainter {
   final Color color;
   _CurvePainter({required this.color});
@@ -54,7 +94,6 @@ class _CurvePainter extends CustomPainter {
     final paint = Paint()..color = color;
     final path = Path();
 
-    // Start from bottom-left area, curve up to top-right
     path.moveTo(0, size.height * 0.98);
     path.quadraticBezierTo(
       size.width * 0.5,

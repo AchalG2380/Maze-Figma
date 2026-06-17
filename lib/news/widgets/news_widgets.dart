@@ -17,8 +17,13 @@ class NewsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColor.lightDarkBackground,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(4.0),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +64,6 @@ class NewsItemWidget extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
                   Text(
                     website,
                     style: const TextStyle(
@@ -79,9 +83,9 @@ class NewsItemWidget extends StatelessWidget {
                       ),
                       const Spacer(),
                       const Icon(
-                        Icons.bookmarks_outlined,
+                        Icons.bookmark_border,
                         color: AppColor.textSecondary,
-                        size: 16,
+                        size: 23,
                       ),
                     ],
                   ),

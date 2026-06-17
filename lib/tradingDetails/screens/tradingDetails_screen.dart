@@ -42,7 +42,10 @@ class TradingdetailsScreen extends StatelessWidget {
             children: [
               CustomScreenHeader(
                 title: AppStrings.tradingDetails,
-                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
@@ -56,7 +59,8 @@ class TradingdetailsScreen extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      padding: const EdgeInsets.all(14),
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 11),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColor.lightBackground),
@@ -65,67 +69,74 @@ class TradingdetailsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.high,
-                                style: TextStyle(color: AppColor.textGreen),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.high,
+                                    style: TextStyle(color: AppColor.high),
+                                  ),
+                                  Text(
+                                    AppStrings.highPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
-                              Text(
-                                AppStrings.low,
-                                style: TextStyle(color: AppColor.textRed),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.low,
+                                    style: TextStyle(color: AppColor.low),
+                                  ),
+                                  Text(
+                                    AppStrings.lowPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
                             ],
                           ),
+                          Divider(color: AppColor.textSecondary, thickness: 1),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.highPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.volBTC,
+                                    style: TextStyle(
+                                      color: AppColor.textSecondary,
+                                    ),
+                                  ),
+                                  Text(
+                                    AppStrings.highPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
-                              Text(
-                                AppStrings.lowPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.volETH,
+                                    style: TextStyle(
+                                      color: AppColor.textSecondary,
+                                    ),
+                                  ),
+                                  Text(
+                                    AppStrings.lowPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.volBTC,
-                                style: TextStyle(color: AppColor.textSecondary),
-                              ),
-                              Spacer(),
-                              Text(
-                                AppStrings.volETH,
-                                style: TextStyle(color: AppColor.textSecondary),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.highPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
-                              ),
-                              Spacer(),
-                              Text(
-                                AppStrings.lowPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
-                              ),
-                              Spacer(),
                             ],
                           ),
                         ],
@@ -181,98 +192,111 @@ class TradingdetailsScreen extends StatelessWidget {
                     flex: 7,
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.horizontal(
-                          right: Radius.circular(12),
-                        ),
-                        color: AppColor.lightDarkBackground,
-                      ),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: 450,
-                            width: double.infinity,
-                            child: ClipRRect(
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: -60,
-                                    right: 0,
-                                    top: 0,
-                                    bottom: 0,
-                                    child: Image.asset(
-                                      'assets/images/Analytics.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ],
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.horizontal(
+                                right: Radius.circular(12),
                               ),
+                              color: AppColor.lightDarkBackground,
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.primary,
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    "H1",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 450,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          left: -60,
+                                          right: 0,
+                                          top: 0,
+                                          bottom: 0,
+                                          child: Image.asset(
+                                            'assets/images/Analytics.png',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 16),
-                              SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.primary,
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                const SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColor.primary,
+                                          padding: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "H1",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.reply,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.primary,
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                    const SizedBox(width: 16),
+                                    SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColor.primary,
+                                          padding: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        child: const Icon(
+                                          Icons.reply,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.language,
-                                    color: Colors.white,
-                                  ),
+                                    const SizedBox(width: 16),
+                                    SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColor.primary,
+                                          padding: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        child: const Icon(
+                                          Icons.language,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
 
                           Row(
@@ -308,11 +332,13 @@ class TradingdetailsScreen extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
+                              Spacer(),
                               Text(
                                 AppStrings.orderBook,
                                 style: TextStyle(color: AppColor.textPrimary),
                               ),
+                              Spacer(),
                             ],
                           ),
                           const SizedBox(height: 10),
@@ -335,11 +361,13 @@ class TradingdetailsScreen extends StatelessWidget {
                           const SizedBox(height: 22),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
+                              Spacer(),
                               Text(
                                 AppStrings.trades,
                                 style: TextStyle(color: AppColor.textPrimary),
                               ),
+                              Spacer(),
                             ],
                           ),
                           const SizedBox(height: 10),

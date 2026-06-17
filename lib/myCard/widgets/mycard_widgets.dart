@@ -11,7 +11,7 @@ class BalanceRow extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(5),
         color: AppColor.surface,
         border: Border.all(color: AppColor.primary, width: 1),
       ),
@@ -58,13 +58,15 @@ class TodayRow extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: AppColor.lightDarkBackground,
+        border: Border.all(color: AppColor.primary, width: 1),
       ),
       child: Row(
         children: [
           Icon(Icons.circle, color: AppColor.textSecondary, size: 50),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name, style: const TextStyle(color: AppColor.textSecondary)),
+              Text(name, style: const TextStyle(color: AppColor.textPrimary)),
               Text(date, style: const TextStyle(color: AppColor.textSecondary)),
             ],
           ),

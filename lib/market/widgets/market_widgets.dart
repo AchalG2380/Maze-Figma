@@ -89,24 +89,29 @@ class MarketDepthWidget extends StatelessWidget {
 class LatestTradesRow extends StatelessWidget {
   final String amount;
   final String price;
+  final Color priceColor;
   final String time;
 
   const LatestTradesRow({
     super.key,
     required this.amount,
     required this.price,
+    required this.priceColor,
     required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(amount, style: TextStyle(color: AppColor.textSecondary)),
-        Text(price, style: TextStyle(color: AppColor.textGreen)),
-        Text(time, style: TextStyle(color: AppColor.textSecondary)),
-      ],
+    return Container(
+      padding: const EdgeInsets.all(4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(amount, style: TextStyle(color: AppColor.textSecondary)),
+          Text(price, style: TextStyle(color: priceColor)),
+          Text(time, style: TextStyle(color: AppColor.textSecondary)),
+        ],
+      ),
     );
   }
 }

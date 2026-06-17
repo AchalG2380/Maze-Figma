@@ -4,12 +4,14 @@ import 'package:maze/core/app_color.dart';
 class RecentTransactions extends StatelessWidget {
   final IconData icon;
   final String title;
+  final String titleDate;
   final String amount;
   final Color color;
   const RecentTransactions({
     super.key,
     required this.icon,
     required this.title,
+    required this.titleDate,
     required this.amount,
     required this.color,
   });
@@ -27,7 +29,16 @@ class RecentTransactions extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: color),
-          Text(title, style: TextStyle(color: AppColor.textPrimary)),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(color: AppColor.textPrimary),
+              ),
+              Text(titleDate, style: TextStyle(color: AppColor.textSecondary)),
+            ],
+          ),
           Spacer(),
           Align(
             alignment: Alignment.bottomRight,
@@ -64,6 +75,7 @@ class MarketStatistics extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColor.lightDarkBackground,
+          border: Border.all(color: AppColor.secondary, width: 1),
         ),
         child: Column(
           children: [

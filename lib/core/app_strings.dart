@@ -11,7 +11,9 @@ class AppStrings {
   static const String bitcoin = "Bitcoin";
   static const String marketStatistics = "Market Statistics";
   static const String Withdrawn = "Withdrawn";
+  static const String WithdrawnDate = "January 10, 2001";
   static const String Received = "Received";
+  static const String ReceivedDate = "January 10, 2001";
 
   static const String referRewards = "Refer Rewards";
   static const String referButton = "Refer a  Friend";
@@ -19,19 +21,19 @@ class AppStrings {
   static const String seeMore = "See more";
 
   static const String liveMarkets =
-      "Market cap S780,091 . BTC Dominance 32.11% . Cryptocurrencies3";
-  static const String balance = "S41,000";
+      "Market cap \$780,091 . BTC Dominance 32.11% . Cryptocurrencies3";
+  static const String balance = "\$41,000";
   static const String todayChange = "+19.25 for today";
   static const String ethereumPrice = "355.01ETH";
   static const String bitcoinPrice = "355.01BTC";
   static const String ethereumToday = "+11.75%";
   static const String bitcoinToday = "-11.75%";
   static const String referText =
-      "Earn S8.50 worth of BTC on every successful referral. Invite your friends and earn big.";
+      "Earn \$8.50 worth of BTC on every successful referral. Invite your friends and earn big.";
   static const String ReceivedAmount = "+0.991 ETH";
   static const String WithdrawnAmount = "-0.991 ETH";
 
-  static const String price = "S66,360.55";
+  static const String price = "\$66,360.55";
   static const String priceChange = "(+0.37%)";
   static const String currency = "USD/BTC";
 
@@ -41,7 +43,7 @@ class AppStrings {
   static const String high = "High";
   static const String highPrice = "53,951.31";
   static const String low = "Low";
-  static const String lowPrice = "39,902  .31";
+  static const String lowPrice = "39,902.31";
   static const String volBTC = "Vol(BTC)";
   static const String volETH = "Vol(ETH)";
 
@@ -50,11 +52,11 @@ class AppStrings {
 
   static const String latestTrades = "Latest Trade";
   static const String amountBTC = "Amount(BTC)";
-  static const String amountBTCtext = "0.5";
+  static const String amountBTCtext = "65.02";
   static const String priceETH = "Price(ETH)";
-  static const String priceETHtext = "69,589.55";
+  static const String priceETHtext = "0.000147";
   static const String time = "Time";
-  static const String timetext = "10:30";
+  static const String timetext = "21:04:01";
 
   static const String orderBook = "Order book";
   static const String orderBookPrice = "254.11";

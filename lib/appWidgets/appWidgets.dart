@@ -73,9 +73,12 @@ class CustomBottomAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildTabIcon(icon: Icons.home, index: 0),
-            _buildTabIcon(icon: Icons.wallet, index: 1),
+            _buildTabIcon(
+              icon: Icons.account_balance_wallet_outlined,
+              index: 1,
+            ),
             const SizedBox(width: 56), // Notch gap for the central FAB
-            _buildTabIcon(icon: Icons.currency_exchange_outlined, index: 2),
+            _buildTabIcon(icon: Icons.trending_up, index: 2),
             _buildTabIcon(icon: Icons.person, index: 3),
           ],
         ),
@@ -125,6 +128,29 @@ class CustomScanFAB extends StatelessWidget {
           size: 26,
         ),
         onPressed: onPressed,
+      ),
+    );
+  }
+}
+
+class namedCardWidgets extends StatelessWidget {
+  final String name;
+  const namedCardWidgets({super.key, required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 14, bottom: 10, left: 3, right: 3),
+      width: double.infinity,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: AppColor.surface,
+      ),
+      child: Text(
+        name,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: AppColor.textSecondary),
       ),
     );
   }

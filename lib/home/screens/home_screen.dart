@@ -9,17 +9,20 @@ import '../../myCard/screens/myCard_screen.dart';
 import '../../Scan/screens/scan_screen.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
 import '../widgets/home_widgets.dart';
+import '../../news/screens/news_screen.dart';
 
 const List<Map<String, dynamic>> _recentTransactions = [
   {
     'icon': Icons.arrow_upward,
     'title': AppStrings.Received,
+    'titleDate': AppStrings.ReceivedDate,
     'amount': AppStrings.ReceivedAmount,
     'color': AppColor.textGreen,
   },
   {
     'icon': Icons.arrow_downward,
     'title': AppStrings.Withdrawn,
+    'titleDate': AppStrings.WithdrawnDate,
     'amount': AppStrings.WithdrawnAmount,
     'color': AppColor.textRed,
   },
@@ -46,7 +49,10 @@ class HomeScreen extends StatelessWidget {
             children: [
               CustomScreenHeader(
                 title: AppStrings.home,
-                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                leading: IconButton(
+                  onPressed: () => Get.to(() => const NewsScreen()),
+                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
@@ -59,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                   color: AppColor.textBackground,
                 ),
                 child: Text(
@@ -114,20 +120,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
-              Container(
-                margin: const EdgeInsets.only(top: 8, left: 3, right: 3),
-                width: double.infinity,
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColor.surface,
-                ),
-                child: Text(
-                  AppStrings.marketStatistics,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColor.textSecondary),
-                ),
-              ),
+              namedCardWidgets(name: AppStrings.marketStatistics),
 
               Container(
                 width: double.infinity,
@@ -155,6 +148,7 @@ class HomeScreen extends StatelessWidget {
 
               Container(
                 width: double.infinity,
+                margin: const EdgeInsets.all(8),
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
@@ -180,6 +174,7 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
+                    SizedBox(height: 10),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: ElevatedButton(
@@ -201,7 +196,12 @@ class HomeScreen extends StatelessWidget {
               ),
 
               Container(
-                margin: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.only(
+                  top: 14,
+                  bottom: 14,
+                  left: 8,
+                  right: 8,
+                ),
                 width: double.infinity,
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -230,6 +230,7 @@ class HomeScreen extends StatelessWidget {
                         (items) => RecentTransactions(
                           icon: items['icon'],
                           title: items['title'],
+                          titleDate: items['titleDate'],
                           amount: items['amount'],
                           color: items['color'],
                         ),
@@ -243,8 +244,7 @@ class HomeScreen extends StatelessWidget {
       ),
       // Reusable Notch Bottom App Bar
       bottomNavigationBar: CustomBottomAppBar(
-        currentIndex:
-            0, // 0 for Home, 1 for Wallet, 2 for Market, 3 for Profile
+        currentIndex: 0,
         onTap: (index) {
           switch (index) {
             case 0:

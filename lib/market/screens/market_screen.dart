@@ -34,7 +34,10 @@ class MarketScreen extends StatelessWidget {
             children: [
               CustomScreenHeader(
                 title: AppStrings.exchangeMarket,
-                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
@@ -48,7 +51,7 @@ class MarketScreen extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      padding: const EdgeInsets.all(14),
+                      padding: const EdgeInsets.symmetric(vertical: 11),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColor.lightBackground),
@@ -57,67 +60,74 @@ class MarketScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.high,
-                                style: TextStyle(color: AppColor.textGreen),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.high,
+                                    style: TextStyle(color: AppColor.high),
+                                  ),
+                                  Text(
+                                    AppStrings.highPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
-                              Text(
-                                AppStrings.low,
-                                style: TextStyle(color: AppColor.textRed),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.low,
+                                    style: TextStyle(color: AppColor.low),
+                                  ),
+                                  Text(
+                                    AppStrings.lowPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
                             ],
                           ),
+                          Divider(color: AppColor.textSecondary, thickness: 1),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.highPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.volBTC,
+                                    style: TextStyle(
+                                      color: AppColor.textSecondary,
+                                    ),
+                                  ),
+                                  Text(
+                                    AppStrings.highPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
-                              Text(
-                                AppStrings.lowPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.volETH,
+                                    style: TextStyle(
+                                      color: AppColor.textSecondary,
+                                    ),
+                                  ),
+                                  Text(
+                                    AppStrings.lowPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Spacer(),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.volBTC,
-                                style: TextStyle(color: AppColor.textSecondary),
-                              ),
-                              Spacer(),
-                              Text(
-                                AppStrings.volETH,
-                                style: TextStyle(color: AppColor.textSecondary),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.highPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
-                              ),
-                              Spacer(),
-                              Text(
-                                AppStrings.lowPrice,
-                                style: TextStyle(color: AppColor.textPrimary),
-                              ),
-                              Spacer(),
                             ],
                           ),
                         ],
@@ -258,28 +268,7 @@ class MarketScreen extends StatelessWidget {
                     : const MarketDepthWidget(),
               ),
 
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColor.lightBackground,
-                ),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    AppStrings.latestTrades,
-                    style: TextStyle(
-                      color: AppColor.textPrimary,
-                      backgroundColor: AppColor.lightBackground,
-                    ),
-                  ),
-                ),
-              ),
+              namedCardWidgets(name: AppStrings.latestTrades),
 
               Column(
                 children: [
@@ -312,14 +301,21 @@ class MarketScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(16),
+                      ),
                       color: AppColor.lightDarkBackground,
+                      border: Border.all(color: AppColor.primary, width: .5),
                     ),
                     child: Column(
                       children: List.generate(
                         5,
-                        (index) => const LatestTradesRow(
+                        (index) => LatestTradesRow(
                           amount: AppStrings.amountBTCtext,
                           price: AppStrings.priceETHtext,
+                          priceColor: (index < 2)
+                              ? AppColor.textGreen
+                              : AppColor.textRed,
                           time: AppStrings.timetext,
                         ),
                       ),

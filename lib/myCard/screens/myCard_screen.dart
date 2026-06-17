@@ -24,7 +24,10 @@ class MyCardScreen extends StatelessWidget {
             children: [
               CustomScreenHeader(
                 title: AppStrings.myCard,
-                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
@@ -98,7 +101,7 @@ class MyCardScreen extends StatelessWidget {
                               fontSize: 14,
                             ),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 30),
                           Row(
                             children: [
                               Icon(
@@ -117,12 +120,24 @@ class MyCardScreen extends StatelessWidget {
                               Spacer(),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 20),
                           Row(
                             children: [
                               Spacer(),
                               Spacer(),
-                              Icon(Icons.circle, color: AppColor.textPrimary),
+                              Image.asset(
+                                "assets/images/cardlogo.png",
+                                height: 25,
+                                width: 40,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.credit_card_outlined,
+                                    color: AppColor.textPrimary,
+                                    size: 24,
+                                  );
+                                },
+                              ),
                             ],
                           ),
                           Row(
@@ -147,20 +162,7 @@ class MyCardScreen extends StatelessWidget {
               ),
               SizedBox(height: 50),
 
-              Container(
-                margin: const EdgeInsets.all(5),
-                width: double.infinity,
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColor.surface,
-                ),
-                child: Text(
-                  AppStrings.operations,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColor.textSecondary),
-                ),
-              ),
+              namedCardWidgets(name: AppStrings.operations),
 
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -178,20 +180,8 @@ class MyCardScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Container(
-                margin: const EdgeInsets.all(5),
-                width: double.infinity,
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColor.surface,
-                ),
-                child: Text(
-                  AppStrings.transactions,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColor.textSecondary),
-                ),
-              ),
+
+              namedCardWidgets(name: AppStrings.transactions),
 
               Align(
                 alignment: Alignment.centerLeft,
@@ -224,87 +214,45 @@ class MyCardScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: AppColor.secondary,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 6,
-        child: SizedBox(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // Home
-              IconButton(
-                icon: Icon(Icons.home, color: AppColor.textPrimary),
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                ),
-              ),
-              // Wallet
-              IconButton(
-                icon: Icon(Icons.wallet, color: AppColor.textSecondary),
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MarketScreen()),
-                ),
-              ),
-
-              const SizedBox(width: 56), // gap for FAB notch
-              // Market/Chart
-              IconButton(
-                icon: Icon(
-                  Icons.currency_exchange_outlined,
-                  color: AppColor.textSecondary,
-                ),
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TradingdetailsScreen(),
-                  ),
-                ),
-              ),
-              // Profile
-              IconButton(
-                icon: Icon(Icons.person, color: AppColor.textSecondary),
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProfileScreen(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: CustomBottomAppBar(
+        currentIndex: 0,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
+              );
+              break;
+            case 1:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const MarketScreen()),
+              );
+              break;
+            case 2:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const TradingdetailsScreen()),
+              );
+              break;
+            case 3:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              );
+              break;
+          }
+        },
       ),
-
-      floatingActionButton: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColor.surface,
-          border: Border.all(color: Colors.blue.shade300, width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: AppColor.primary.withValues(alpha: 0.5),
-              blurRadius: 15,
-              spreadRadius: 3,
-            ),
-          ],
-        ),
-        child: IconButton(
-          icon: const Icon(
-            Icons.qr_code_scanner_outlined,
-            color: Colors.white,
-            size: 26,
-          ),
-          onPressed: () => Navigator.pushReplacement(
+      // Reusable Floating Scanner Button
+      floatingActionButton: CustomScanFAB(
+        onPressed: () {
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const ScanScreens()),
-          ),
-        ),
+            MaterialPageRoute(builder: (_) => const ScanScreens()),
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

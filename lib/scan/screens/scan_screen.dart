@@ -23,7 +23,10 @@ class ScanScreens extends StatelessWidget {
             children: [
               CustomScreenHeader(
                 title: AppStrings.scan,
-                leading: const Icon(Icons.menu, color: AppColor.textPrimary),
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
@@ -53,10 +56,10 @@ class ScanScreens extends StatelessWidget {
               SizedBox(height: 100),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => Get.to(() => const HomeScreen()),
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  backgroundColor: AppColor.button,
+                  backgroundColor: AppColor.button2,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),

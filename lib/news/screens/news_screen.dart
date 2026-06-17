@@ -8,6 +8,7 @@ import 'package:maze/profile/screens/profile_screen.dart';
 import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
 import '../widgets/news_widgets.dart';
+import 'package:get/get.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
@@ -21,28 +22,28 @@ class NewsScreen extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.arrow_back_ios, color: AppColor.textPrimary),
-                    Spacer(),
-                    Center(
-                      child: Text(
-                        AppStrings.news,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColor.textPrimary,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    Icon(Icons.bookmarks_outlined, color: AppColor.textPrimary),
-                    Icon(Icons.search, color: AppColor.textPrimary),
-                  ],
+              CustomScreenHeader(
+                title: AppStrings.news,
+                leading: IconButton(
+                  onPressed: () => Get.to(() => const HomeScreen()),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColor.textPrimary,
+                  ),
                 ),
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.bookmarks_outlined,
+                      color: AppColor.textPrimary,
+                    ),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.search, color: AppColor.textPrimary),
+                    onPressed: () {},
+                  ),
+                ],
               ),
 
               Container(
@@ -50,8 +51,8 @@ class NewsScreen extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  image: const DecorationImage(
-                    image: AssetImage("assets/images/news.jpg"),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/news.jpg'), // ← parameter
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -61,10 +62,7 @@ class NewsScreen extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.85),
-                      ],
+                      colors: [Colors.transparent, AppColor.secondary],
                     ),
                   ),
                   padding: const EdgeInsets.all(16),
@@ -72,30 +70,22 @@ class NewsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColor.primary,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          AppStrings.CRYPTOCURRENCY,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
+                      // Category badge
                       Text(
-                        "Coinbase says hackers stole cryptocurrency from at least 6,000 customers",
+                        AppStrings.CRYPTOCURRENCY, // ← parameter
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      // Headline
+                      Text(
+                        'Coinbase says hackers stole cryptocurrency from at least 6,000 customers', // ← parameter
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

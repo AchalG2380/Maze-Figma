@@ -34,9 +34,12 @@ class ProfileScreen extends StatelessWidget {
             children: [
               CustomScreenHeader(
                 title: AppStrings.profile,
-                leading: const Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColor.textPrimary,
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColor.textPrimary,
+                  ),
                 ),
                 actions: [
                   IconButton(
@@ -62,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                           end: Alignment.bottomRight,
                         ),
                         boxShadow: [
-                          BoxShadow(color: AppColor.textGreen, spreadRadius: 2),
+                          BoxShadow(color: AppColor.high, spreadRadius: 2),
                         ],
                       ),
                       child: ClipOval(
