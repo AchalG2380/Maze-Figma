@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:maze/profile/screens/profile_screen.dart';
 import 'package:maze/scan/screens/scan_screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
-import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MarketController extends GetxController {

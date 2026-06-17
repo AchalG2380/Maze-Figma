@@ -7,7 +7,7 @@ import 'package:maze/profile/screens/profile_screen.dart';
 import 'package:get/get.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import '../../Scan/screens/scan_screen.dart';
-import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:maze/appWidgets/app_widgets.dart';
 import '../widgets/home_widgets.dart';
 import '../../news/screens/news_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';

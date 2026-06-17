@@ -7,7 +7,7 @@ import 'package:maze/profile/screens/profile_screen.dart';
 import '../../scan/screens/scan_Screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import 'package:get/get.dart';
-import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TradingdetailsScreen extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:maze/home/screens/home_screen.dart';
 import 'package:maze/market/screens/market_screen.dart';
 import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import '../../scan/screens/scan_screen.dart';
-import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:maze/appWidgets/app_widgets.dart';
 import '../widgets/profile_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
