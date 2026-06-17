@@ -34,7 +34,7 @@ class NewsScreen extends StatelessWidget {
                 actions: [
                   IconButton(
                     icon: const Icon(
-                      Icons.bookmarks_outlined,
+                      Icons.bookmark_border_outlined,
                       color: AppColor.textPrimary,
                     ),
                     onPressed: () {},

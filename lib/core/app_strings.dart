@@ -88,7 +88,7 @@ class AppStrings {
   static const String today = "Today";
   static const String shopping = "Shopping";
   static const String shoppingTime = "Aug. 23. 2011 - 02:19pm";
-  static const String shoppingAmount = "10,000";
+  static const String shoppingAmount = "-\$25,000.12";
 
   static const String news = "News";
   static const String CRYPTOCURRENCY = "CRYPTOCURRENCY";

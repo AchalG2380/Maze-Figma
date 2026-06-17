@@ -9,7 +9,7 @@ import 'package:maze/appWidgets/appWidgets.dart';
 import '../widgets/profile_widgets.dart';
 
 const List<Map<String, dynamic>> _settingsItems = [
-  {'icon': Icons.person_2, 'title': AppStrings.edit},
+  {'icon': Icons.edit_document, 'title': AppStrings.edit},
   {'icon': Icons.lock_open, 'title': AppStrings.editPass},
   {'icon': Icons.money, 'title': AppStrings.currencyW},
   {'icon': Icons.shield_outlined, 'title': AppStrings.twoFactorAuthentication},
