@@ -8,6 +8,7 @@ import '../../scan/screens/scan_Screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import 'package:get/get.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TradingdetailsScreen extends StatelessWidget {
   const TradingdetailsScreen({super.key});
@@ -44,12 +45,24 @@ class TradingdetailsScreen extends StatelessWidget {
                 title: AppStrings.tradingDetails,
                 leading: IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                  icon: SvgPicture.asset(
+                    'assets/icons/menu.svg',
+                    colorFilter: ColorFilter.mode(
+                      AppColor.textPrimary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
-                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                    icon: SvgPicture.asset(
+                      'assets/icons/notification.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColor.textPrimary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ],
               ),

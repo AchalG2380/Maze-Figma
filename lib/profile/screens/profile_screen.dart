@@ -7,12 +7,25 @@ import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import '../../scan/screens/scan_screen.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
 import '../widgets/profile_widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-const List<Map<String, dynamic>> _settingsItems = [
-  {'icon': Icons.edit_document, 'title': AppStrings.edit},
-  {'icon': Icons.lock_open, 'title': AppStrings.editPass},
-  {'icon': Icons.money, 'title': AppStrings.currencyW},
-  {'icon': Icons.shield_outlined, 'title': AppStrings.twoFactorAuthentication},
+final List<Map<String, dynamic>> _settingsItems = [
+  {
+    'icon': SvgPicture.asset('assets/icons/AllEdit.svg', width: 15),
+    'title': AppStrings.edit,
+  },
+  {
+    'icon': SvgPicture.asset('assets/icons/Password.svg', width: 15),
+    'title': AppStrings.editPass,
+  },
+  {
+    'icon': SvgPicture.asset('assets/icons/AccountBalance.svg', width: 15),
+    'title': AppStrings.currencyW,
+  },
+  {
+    'icon': SvgPicture.asset('assets/icons/Security.svg', width: 15),
+    'title': AppStrings.twoFactorAuthentication,
+  },
 ];
 
 const List<Map<String, dynamic>> supportRowItems = [
@@ -36,18 +49,12 @@ class ProfileScreen extends StatelessWidget {
                 title: AppStrings.profile,
                 leading: IconButton(
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColor.textPrimary,
-                  ),
+                  icon: SvgPicture.asset('assets/icons/Outline.svg'),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () {},
-                    icon: const Icon(
-                      Icons.settings_outlined,
-                      color: AppColor.textPrimary,
-                    ),
+                    icon: SvgPicture.asset('assets/icons/Settings.svg'),
                   ),
                 ],
               ),
@@ -84,11 +91,7 @@ class ProfileScreen extends StatelessWidget {
                           color: AppColor.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
-                          Icons.camera_alt_outlined,
-                          color: Colors.white,
-                          size: 18,
-                        ),
+                        child: SvgPicture.asset("assets/icons/Camera.svg"),
                       ),
                     ),
                   ],
@@ -111,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
                   return Column(
                     children: [
                       SettingsRow(
-                        icon: item['icon'] as IconData,
+                        icon: item['icon'] as Widget,
                         title: item['title'] as String,
                       ),
                       SizedBox(height: 8),

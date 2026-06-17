@@ -10,6 +10,7 @@ import '../../Scan/screens/scan_screen.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
 import '../widgets/home_widgets.dart';
 import '../../news/screens/news_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const List<Map<String, dynamic>> _recentTransactions = [
   {
@@ -51,12 +52,24 @@ class HomeScreen extends StatelessWidget {
                 title: AppStrings.home,
                 leading: IconButton(
                   onPressed: () => Get.to(() => const NewsScreen()),
-                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                  icon: SvgPicture.asset(
+                    'assets/icons/menu.svg',
+                    colorFilter: ColorFilter.mode(
+                      AppColor.textPrimary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
-                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                    icon: SvgPicture.asset(
+                      'assets/icons/notification.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColor.textPrimary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -86,11 +99,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Icon(
-                        Icons.qr_code_2_outlined,
-                        color: AppColor.textPrimary,
-                        size: 24,
-                      ),
+                      child: SvgPicture.asset("assets/icons/QR.svg"),
                     ),
 
                     Text(
@@ -131,6 +140,7 @@ class HomeScreen extends StatelessWidget {
                       price: AppStrings.ethereumPrice,
                       name: AppStrings.ethereum,
                       today: AppStrings.ethereumToday,
+                      logoUrl: "assets/images/bth.png",
                       imageUrl: "assets/images/Graph.png",
                       color: AppColor.textGreen,
                     ),
@@ -139,6 +149,7 @@ class HomeScreen extends StatelessWidget {
                       price: AppStrings.bitcoinPrice,
                       name: AppStrings.bitcoin,
                       today: AppStrings.bitcoinToday,
+                      logoUrl: "assets/images/ETH.png",
                       imageUrl: "assets/images/Graph2.png",
                       color: AppColor.textRed,
                     ),

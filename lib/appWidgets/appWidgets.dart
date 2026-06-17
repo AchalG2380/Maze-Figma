@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// A reusable custom header widget that matches the design of the screens in the Maze app.
 /// Since most screens use `SingleChildScrollView` with a top header inside the Column,
@@ -66,35 +67,69 @@ class CustomBottomAppBar extends StatelessWidget {
     return BottomAppBar(
       color: AppColor.secondary,
       shape: const CircularNotchedRectangle(),
-      notchMargin: 6,
+      notchMargin: 8,
       child: SizedBox(
-        height: 60,
+        height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildTabIcon(icon: Icons.home, index: 0),
             _buildTabIcon(
-              icon: Icons.account_balance_wallet_outlined,
+              icon: SvgPicture.asset(
+                'assets/icons/home.svg',
+                colorFilter: ColorFilter.mode(
+                  currentIndex == 0
+                      ? AppColor.textPrimary
+                      : AppColor.textSecondary,
+                  BlendMode.srcIn,
+                ),
+              ),
+              index: 0,
+            ),
+            _buildTabIcon(
+              icon: SvgPicture.asset(
+                'assets/icons/wallet.svg',
+                colorFilter: ColorFilter.mode(
+                  currentIndex == 1
+                      ? AppColor.textPrimary
+                      : AppColor.textSecondary,
+                  BlendMode.srcIn,
+                ),
+              ),
               index: 1,
             ),
-            const SizedBox(width: 56), // Notch gap for the central FAB
-            _buildTabIcon(icon: Icons.trending_up, index: 2),
-            _buildTabIcon(icon: Icons.person, index: 3),
+            const SizedBox(width: 32), // Notch gap for the central FAB
+            _buildTabIcon(
+              icon: SvgPicture.asset(
+                'assets/icons/stock_market.svg',
+                colorFilter: ColorFilter.mode(
+                  currentIndex == 2
+                      ? AppColor.textPrimary
+                      : AppColor.textSecondary,
+                  BlendMode.srcIn,
+                ),
+              ),
+              index: 2,
+            ),
+            _buildTabIcon(
+              icon: SvgPicture.asset(
+                'assets/icons/profile.svg',
+                colorFilter: ColorFilter.mode(
+                  currentIndex == 3
+                      ? AppColor.textPrimary
+                      : AppColor.textSecondary,
+                  BlendMode.srcIn,
+                ),
+              ),
+              index: 3,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTabIcon({required IconData icon, required int index}) {
-    final isSelected = currentIndex == index;
-    return IconButton(
-      icon: Icon(
-        icon,
-        color: isSelected ? AppColor.textPrimary : AppColor.textSecondary,
-      ),
-      onPressed: () => onTap(index),
-    );
+  Widget _buildTabIcon({required Widget icon, required int index}) {
+    return IconButton(icon: icon, onPressed: () => onTap(index));
   }
 }
 
@@ -116,16 +151,15 @@ class CustomScanFAB extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: AppColor.primary.withValues(alpha: 0.5),
-            blurRadius: 15,
+            blurRadius: 14,
             spreadRadius: 3,
           ),
         ],
       ),
       child: IconButton(
-        icon: const Icon(
-          Icons.qr_code_scanner_outlined,
-          color: Colors.white,
-          size: 26,
+        icon: SvgPicture.asset(
+          'assets/icons/scan.svg',
+          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         onPressed: onPressed,
       ),

@@ -32,10 +32,7 @@ class RecentTransactions extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: TextStyle(color: AppColor.textPrimary),
-              ),
+              Text(title, style: TextStyle(color: AppColor.textPrimary)),
               Text(titleDate, style: TextStyle(color: AppColor.textSecondary)),
             ],
           ),
@@ -54,6 +51,7 @@ class MarketStatistics extends StatelessWidget {
   final String price;
   final String name;
   final String today;
+  final String logoUrl;
   final String imageUrl;
   final Color color;
 
@@ -62,6 +60,7 @@ class MarketStatistics extends StatelessWidget {
     required this.price,
     required this.name,
     required this.today,
+    required this.logoUrl,
     required this.imageUrl,
     required this.color,
   });
@@ -81,9 +80,20 @@ class MarketStatistics extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.circle, color: Colors.white),
-                SizedBox(width: 50),
-                Text(price, style: TextStyle(color: AppColor.textPrimary)),
+                Image.asset(
+                  logoUrl,
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    price,
+                    style: TextStyle(color: AppColor.textPrimary),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
             Align(

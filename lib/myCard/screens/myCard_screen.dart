@@ -9,6 +9,7 @@ import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
 import 'package:get/get.dart';
 import '../widgets/mycard_widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyCardScreen extends StatelessWidget {
   const MyCardScreen({super.key});
@@ -26,12 +27,24 @@ class MyCardScreen extends StatelessWidget {
                 title: AppStrings.myCard,
                 leading: IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                  icon: SvgPicture.asset(
+                    'assets/icons/menu.svg',
+                    colorFilter: ColorFilter.mode(
+                      AppColor.textPrimary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
-                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                    icon: SvgPicture.asset(
+                      'assets/icons/notification.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColor.textPrimary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -104,9 +117,8 @@ class MyCardScreen extends StatelessWidget {
                           SizedBox(height: 30),
                           Row(
                             children: [
-                              Icon(
-                                Icons.credit_card,
-                                color: AppColor.textPrimary,
+                              SvgPicture.asset(
+                                'assets/icons/Credit card chip.svg',
                               ),
                               Spacer(),
                               Text(

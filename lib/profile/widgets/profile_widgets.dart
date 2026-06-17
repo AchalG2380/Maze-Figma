@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 
 class SettingsRow extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String title;
 
   const SettingsRow({super.key, required this.icon, required this.title});
@@ -10,14 +10,14 @@ class SettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: AppColor.lightDarkBackground,
       ),
       child: Row(
         children: [
-          Icon(icon, color: AppColor.textSecondary),
+          icon,
           SizedBox(width: 20),
           Text(title, style: TextStyle(color: AppColor.textSecondary)),
           Spacer(),

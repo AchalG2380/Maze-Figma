@@ -8,6 +8,7 @@ import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import 'package:get/get.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ScanScreens extends StatelessWidget {
   const ScanScreens({super.key});
@@ -25,12 +26,24 @@ class ScanScreens extends StatelessWidget {
                 title: AppStrings.scan,
                 leading: IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                  icon: SvgPicture.asset(
+                    'assets/icons/menu.svg',
+                    colorFilter: ColorFilter.mode(
+                      AppColor.textPrimary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
-                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                    icon: SvgPicture.asset(
+                      'assets/icons/notification.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColor.textPrimary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ],
               ),

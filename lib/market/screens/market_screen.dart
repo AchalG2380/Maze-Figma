@@ -9,6 +9,7 @@ import 'package:maze/profile/screens/profile_screen.dart';
 import 'package:maze/scan/screens/scan_screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import 'package:maze/appWidgets/appWidgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MarketController extends GetxController {
   // Make showTimeline observable (.obs)
@@ -36,12 +37,24 @@ class MarketScreen extends StatelessWidget {
                 title: AppStrings.exchangeMarket,
                 leading: IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.menu, color: AppColor.textPrimary),
+                  icon: SvgPicture.asset(
+                    'assets/icons/menu.svg',
+                    colorFilter: ColorFilter.mode(
+                      AppColor.textPrimary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () => Get.to(() => const MyCardScreen()),
-                    icon: const Icon(Icons.wallet, color: AppColor.textPrimary),
+                    icon: SvgPicture.asset(
+                      'assets/icons/notification.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColor.textPrimary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -202,12 +215,7 @@ class MarketScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.watch_later_outlined,
-                            color: showTimeline
-                                ? AppColor.textPrimary
-                                : AppColor.textSecondary,
-                          ),
+                          SvgPicture.asset('assets/icons/Timeline.svg'),
                           const SizedBox(width: 10),
                           Text(
                             AppStrings.timeline,
@@ -239,12 +247,7 @@ class MarketScreen extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            Icons.copy,
-                            color: !showTimeline
-                                ? AppColor.textPrimary
-                                : AppColor.textSecondary,
-                          ),
+                          SvgPicture.asset('assets/icons/book.svg'),
                           const SizedBox(width: 10),
                           Text(
                             AppStrings.marketDepth,

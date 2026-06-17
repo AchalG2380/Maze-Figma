@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BalanceRow extends StatelessWidget {
   final String title;
@@ -21,9 +22,9 @@ class BalanceRow extends StatelessWidget {
             children: [
               Icon(Icons.circle, color: AppColor.lightBackground, size: 40),
               Positioned(
-                top: 8,
-                left: 8,
-                child: Icon(Icons.money, color: AppColor.textPrimary),
+                top: 12,
+                left: 10,
+                child: SvgPicture.asset('assets/icons/AccountBalance.svg'),
               ),
             ],
           ),
@@ -62,7 +63,15 @@ class TodayRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.circle, color: AppColor.textSecondary, size: 50),
+          ClipOval(
+            child: Image.asset(
+              "assets/images/Shopping.png",
+              fit: BoxFit.cover,
+              height: 40,
+              width: 40,
+            ),
+          ),
+          SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
