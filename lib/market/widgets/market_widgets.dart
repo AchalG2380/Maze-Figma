@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:maze/core/app_color.dart';
+import 'package:maze/data/order_book_data.dart';
+import '../../appWidgets/app_charts.dart';
+import '../../data/candle_data.dart';
+import '../../charts/controllers/chart_controller.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
+import '../../charts/controllers/order_book_controller.dart';
+import '../../tradingDetails/screens/tradingDetails_screen.dart';
 
 class TimelineWidget extends StatelessWidget {
-  const TimelineWidget({super.key});
+  final bool showControls;
+
+  const TimelineWidget({super.key, this.showControls = true});
 
   @override
   Widget build(BuildContext context) {
+    // inject controller
+    final ctrl = Get.put(ChartController());
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -13,57 +27,259 @@ class TimelineWidget extends StatelessWidget {
         color: AppColor.lightDarkBackground,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.asset('assets/images/Analytics.png'),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Spacer(),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: AppColor.textRed),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40.0,
-                      vertical: 5,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(1),
+                    border: Border(
+                      right: BorderSide(color: AppColor.textPrimary),
+                      left: BorderSide(color: AppColor.textPrimary),
+                      bottom: BorderSide(color: AppColor.textPrimary),
                     ),
                   ),
-                  child: Text(
-                    "- Sell",
-                    style: TextStyle(color: AppColor.textRed, fontSize: 14),
+                  height: 400,
+                  child: Stack(
+                    children: [
+                      // grid horizontal lines
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          10,
+                          (_) => Divider(
+                            color: AppColor.textSecondary,
+                            thickness: 1,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                      // grid vertical lines
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          10,
+                          (_) => VerticalDivider(
+                            color: AppColor.textSecondary,
+                            thickness: 1,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          // ── Candle chart (70%) ──────────────
+                          Expanded(
+                            flex: 7,
+                            child: Listener(
+                              // ── mouse scroll wheel / trackpad (desktop) ──
+                              onPointerSignal: (event) {
+                                if (event is PointerScrollEvent) {
+                                  if (HardwareKeyboard
+                                      .instance
+                                      .isControlPressed) {
+                                    // Ctrl + scroll = zoom
+                                    final zoomFactor = event.scrollDelta.dy > 0
+                                        ? 0.95
+                                        : 1.05;
+                                    ctrl.onZoom(zoomFactor);
+                                  } else {
+                                    // scroll normally
+                                    ctrl.onScroll(-event.scrollDelta.dy);
+                                  }
+                                }
+                              },
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+
+                                onScaleUpdate: (d) {
+                                  if (d.scale != 1.0) {
+                                    ctrl.onZoom(d.scale); // two fingers = zoom
+                                  } else {
+                                    ctrl.onScroll(
+                                      d.focalPointDelta.dx,
+                                    ); // one finger = scroll
+                                  }
+                                },
+
+                                // ── scroll ──────────────────────────
+                                // onHorizontalDragUpdate: (d) =>
+                                //     ctrl.onScroll(d.delta.dx),
+
+                                // ── zoom ────────────────────────────
+                                //       onScaleUpdate: (d) => ctrl.onZoom(d.scale),
+
+                                // ── tooltip ─────────────────────────
+                                onTapDown: (d) =>
+                                    ctrl.onCandleTap(d.localPosition.dx),
+                                onTapUp: (_) => ctrl.onCandleRelease(),
+
+                                // Obx rebuilds ONLY this CustomPaint on change
+                                child: Obx(
+                                  () => SizedBox.expand(
+                                    child: CustomPaint(
+                                      painter: CandlePainter(
+                                        candles: ctrl.candles,
+                                        selectedIndex: ctrl
+                                            .selectedIndex
+                                            .value, // ← reactive
+                                        scrollOffset: ctrl.scrollOffset.value,
+                                        bullColor: AppColor.high,
+                                        bearColor: AppColor.low,
+                                        gridColor: const Color(0xFF1C2333),
+                                        candleWidth: ctrl.candleWidth,
+                                        candleSpacing: ctrl.candleSpacing,
+                                        emaValues: calculateEMA(
+                                          dummyCandles,
+                                          9,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 8), // gap between charts
+                          // ── Volume bars (30%) ───────────────
+                          Expanded(
+                            flex: 3,
+                            child: Obx(
+                              () => SizedBox.expand(
+                                child: CustomPaint(
+                                  painter: VolumePainter(
+                                    candles: ctrl.candles,
+                                    scrollOffset: ctrl
+                                        .scrollOffset
+                                        .value, // ← pass scroll
+                                    bullColor: AppColor.high,
+                                    bearColor: AppColor.low,
+                                    candleWidth: ctrl
+                                        .candleWidth, // must match CandlePainter
+                                    candleSpacing: ctrl
+                                        .candleSpacing, // must match CandlePainter
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.green),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
+              ),
+              // ── Right: Y-axis labels (fixed 45px, same 400 height) ──
+              SizedBox(
+                width: 45,
+                height: 400, // ← must match container height
+                child: CustomPaint(
+                  size: const Size(
+                    45,
+                    400,
+                  ), // ← explicit size so painter renders
+                  painter: YAxisPainter(
+                    candles: ctrl.candles,
+                    labelCount: 6,
+                    textColor: const Color(0xFF8A8A8A),
+                    // only covers candle area = 70% of 400 = 280px
+                    // volume takes bottom 30% so we skip that
+                    chartHeightRatio: 0.7, // ← add this param
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (showControls) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    timeframes.length,
+                    (index) => Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColor.surface,
+                            border: Border.all(
+                              color: AppColor.secondary,
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            timeframes[index],
+                            style: TextStyle(color: AppColor.textSecondary),
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Spacer(),
+                  OutlinedButton(
+                    onPressed: () => Get.to(() => const TradingdetailsScreen()),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: AppColor.textRed),
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40.0,
+                        vertical: 10,
+                      ),
                     ),
-                    padding: WidgetStatePropertyAll(
-                      const EdgeInsets.symmetric(horizontal: 40.0, vertical: 5),
-                    ),
-                  ),
-                  child: Text(
-                    "Buy +",
-                    style: TextStyle(
-                      color: AppColor.textSecondary,
-                      fontSize: 14,
+                    child: Text(
+                      "- Sell",
+                      style: TextStyle(color: AppColor.textRed, fontSize: 14),
                     ),
                   ),
-                ),
-                Spacer(),
-              ],
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: () => Get.to(() => const TradingdetailsScreen()),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(AppColor.high),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      padding: WidgetStatePropertyAll(
+                        const EdgeInsets.symmetric(
+                          horizontal: 40.0,
+                          vertical: 10,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      "Buy +",
+                      style: TextStyle(
+                        color: AppColor.textSecondary,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                ],
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -75,15 +291,105 @@ class MarketDepthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ctrl = Get.put(OrderBookController());
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: AppColor.lightDarkBackground,
       ),
-      child: Image.asset('assets/images/oderbookMarketGraph.png'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 45,
+                height: 400, // ← must match container height
+                child: CustomPaint(
+                  size: const Size(
+                    45,
+                    400,
+                  ), // ← explicit size so painter renders
+                  painter: YAxisPainter(
+                    candles: dummyCandles,
+                    labelCount: 6,
+                    textColor: const Color(0xFF8A8A8A),
+                    // only covers candle area = 70% of 400 = 280px
+                    // volume takes bottom 30% so we skip that
+                    chartHeightRatio: 0.7, // ← add this param
+                  ),
+                ),
+              ),
+              Expanded(
+                child:
+                    // ── Chart ───────────────────────────────
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final chartWidth = constraints.maxWidth;
+                        return SizedBox(
+                          height: 250,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTapDown: (d) =>
+                                ctrl.onTap(d.localPosition.dx, chartWidth),
+                            onTapUp: (_) => ctrl.onRelease(),
+                            child: Obx(
+                              () => CustomPaint(
+                                size: Size(chartWidth, 300),
+                                painter: OrderBookPainter(
+                                  orderBook: ctrl.orderBook,
+                                  bidCumulative: ctrl.bidCumulative,
+                                  askCumulative: ctrl.askCumulative,
+                                  maxCumulative: ctrl.maxCumulative,
+                                  selectedIndex: ctrl.selectedIndex.value,
+                                  selectedSide: ctrl.selectedSide.value,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+              ),
+            ],
+          ),
+          Row(
+            children: List.generate(
+              orderBookPerframes.length,
+              (index) => Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      orderBookPerframes[index],
+                      style: TextStyle(color: AppColor.textSecondary),
+                    ),
+                  ),
+                  SizedBox(width: 14),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  // Widget _infoCol(String label, String value) {
+  //   return Column(
+  //     children: [
+  //       Text(
+  //         label,
+  //         style: const TextStyle(color: Colors.white54, fontSize: 11),
+  //       ),
+  //       const SizedBox(height: 4),
+  //       Text(value, style: const TextStyle(color: Colors.white, fontSize: 13)),
+  //     ],
+  //   );
+  // }
 }
 
 class LatestTradesRow extends StatelessWidget {
@@ -114,4 +420,26 @@ class LatestTradesRow extends StatelessWidget {
       ),
     );
   }
+}
+
+List<double?> calculateEMA(List<CandleData> candles, int period) {
+  final ema = List<double?>.filled(candles.length, null);
+  if (candles.length < period) return ema;
+
+  // first EMA = simple average of first N candles
+  double sum = 0;
+  for (int i = 0; i < period; i++) {
+    sum += candles[i].close;
+  }
+  ema[period - 1] = sum / period;
+
+  // multiplier
+  final k = 2.0 / (period + 1);
+
+  // rest of EMAs
+  for (int i = period; i < candles.length; i++) {
+    ema[i] = (candles[i].close * k) + (ema[i - 1]! * (1 - k));
+  }
+
+  return ema; // null = not enough data yet for that index
 }

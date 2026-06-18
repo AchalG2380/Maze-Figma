@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
+import '../../appWidgets/app_charts.dart';
 
 class RecentTransactions extends StatelessWidget {
   final IconData icon;
@@ -54,6 +55,7 @@ class MarketStatistics extends StatelessWidget {
   final String logoUrl;
   final String imageUrl;
   final Color color;
+  final List<double> dataPoints;
 
   const MarketStatistics({
     super.key,
@@ -63,6 +65,7 @@ class MarketStatistics extends StatelessWidget {
     required this.logoUrl,
     required this.imageUrl,
     required this.color,
+    required this.dataPoints,
   });
 
   @override
@@ -107,7 +110,26 @@ class MarketStatistics extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Text(today, style: TextStyle(color: color)),
             ),
-            Center(child: Image.asset(imageUrl)),
+            Center(
+              child: SizedBox(
+                height: 70,
+                child: CustomPaint(
+                  size: const Size(double.infinity, 120),
+                  painter: AreaChartPainter(
+                    dataPoints: dataPoints,
+                    lineColor: color == AppColor.textGreen
+                        ? AppColor.high
+                        : AppColor.low,
+                    gradientTop: color == AppColor.textGreen
+                        ? AppColor.high.withValues(alpha: 0.8)
+                        : AppColor.low.withValues(alpha: 0.8),
+                    gradientBottom: color == AppColor.textGreen
+                        ? AppColor.high.withValues(alpha: 0.0)
+                        : AppColor.low.withValues(alpha: 0.0),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -9,6 +9,7 @@ import '../../myCard/screens/myCard_screen.dart';
 import 'package:get/get.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../market/widgets/market_widgets.dart';
 
 class TradingdetailsScreen extends StatelessWidget {
   const TradingdetailsScreen({super.key});
@@ -23,10 +24,17 @@ class TradingdetailsScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(price, style: TextStyle(color: priceColor, fontSize: 12)),
+          Expanded(
+            child: Text(
+              price,
+              style: TextStyle(color: priceColor, fontSize: 10),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 4),
           Text(
             amount,
-            style: const TextStyle(color: AppColor.textSecondary, fontSize: 12),
+            style: const TextStyle(color: AppColor.textSecondary, fontSize: 10),
           ),
         ],
       ),
@@ -84,33 +92,51 @@ class TradingdetailsScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.high,
-                                    style: TextStyle(color: AppColor.high),
-                                  ),
-                                  Text(
-                                    AppStrings.highPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.high,
+                                        style: TextStyle(color: AppColor.high, fontSize: 10),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.highPrice,
+                                        style: TextStyle(
+                                          color: AppColor.textPrimary,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.low,
-                                    style: TextStyle(color: AppColor.low),
-                                  ),
-                                  Text(
-                                    AppStrings.lowPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.low,
+                                        style: TextStyle(color: AppColor.low, fontSize: 10),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.lowPrice,
+                                        style: TextStyle(
+                                          color: AppColor.textPrimary,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -118,37 +144,57 @@ class TradingdetailsScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.volBTC,
-                                    style: TextStyle(
-                                      color: AppColor.textSecondary,
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.volBTC,
+                                        style: TextStyle(
+                                          color: AppColor.textSecondary,
+                                          fontSize: 10,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    AppStrings.highPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.highPrice,
+                                        style: TextStyle(
+                                          color: AppColor.textPrimary,
+                                          fontSize: 11,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.volETH,
-                                    style: TextStyle(
-                                      color: AppColor.textSecondary,
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.volETH,
+                                        style: TextStyle(
+                                          color: AppColor.textSecondary,
+                                          fontSize: 10,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    AppStrings.lowPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppStrings.lowPrice,
+                                        style: TextStyle(
+                                          color: AppColor.textPrimary,
+                                          fontSize: 11,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -217,26 +263,7 @@ class TradingdetailsScreen extends StatelessWidget {
                             ),
                             child: Column(
                               children: [
-                                SizedBox(
-                                  height: 450,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          left: -60,
-                                          right: 0,
-                                          top: 0,
-                                          bottom: 0,
-                                          child: Image.asset(
-                                            'assets/images/Analytics.png',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                const TimelineWidget(showControls: false),
                                 const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -312,23 +339,35 @@ class TradingdetailsScreen extends StatelessWidget {
                             ),
                           ),
 
-                          Row(
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(AppStrings.open),
-                              ),
-                              Spacer(),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(AppStrings.filled),
-                              ),
-                              Spacer(),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(AppStrings.cancelled),
-                              ),
-                            ],
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    AppStrings.open,
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    AppStrings.filled,
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    AppStrings.cancelled,
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -343,16 +382,15 @@ class TradingdetailsScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.orderBook,
-                                style: TextStyle(color: AppColor.textPrimary),
+                          Center(
+                            child: Text(
+                              AppStrings.orderBook,
+                              style: TextStyle(
+                                color: AppColor.textPrimary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Spacer(),
-                            ],
+                            ),
                           ),
                           const SizedBox(height: 10),
                           ...List.generate(
@@ -372,16 +410,15 @@ class TradingdetailsScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 22),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Spacer(),
-                              Text(
-                                AppStrings.trades,
-                                style: TextStyle(color: AppColor.textPrimary),
+                          Center(
+                            child: Text(
+                              AppStrings.trades,
+                              style: TextStyle(
+                                color: AppColor.textPrimary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Spacer(),
-                            ],
+                            ),
                           ),
                           const SizedBox(height: 10),
                           ...List.generate(

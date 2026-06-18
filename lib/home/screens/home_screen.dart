@@ -11,6 +11,7 @@ import 'package:maze/appWidgets/app_widgets.dart';
 import '../widgets/home_widgets.dart';
 import '../../news/screens/news_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../data/area_chart_data.dart';
 
 const List<Map<String, dynamic>> _recentTransactions = [
   {
@@ -143,6 +144,9 @@ class HomeScreen extends StatelessWidget {
                       logoUrl: "assets/images/bth.png",
                       imageUrl: "assets/images/Graph.png",
                       color: AppColor.textGreen,
+                      dataPoints: area_chart_dataPoints
+                          .where((element) => element.containsKey('Green'))
+                          .first['Green']!,
                     ),
                     SizedBox(width: 20),
                     MarketStatistics(
@@ -152,6 +156,9 @@ class HomeScreen extends StatelessWidget {
                       logoUrl: "assets/images/ETH.png",
                       imageUrl: "assets/images/Graph2.png",
                       color: AppColor.textRed,
+                      dataPoints: area_chart_dataPoints
+                          .where((element) => element.containsKey('Red'))
+                          .first['Red']!,
                     ),
                   ],
                 ),
