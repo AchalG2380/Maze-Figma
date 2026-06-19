@@ -26,8 +26,8 @@ class CandlePainter extends CustomPainter {
     this.scrollOffset = 0,
     this.bullColor = AppColor.high,
     this.bearColor = AppColor.low,
-    this.wickColor = const Color(0xFFFFFFFF),
-    this.gridColor = const Color(0xFF1C2333),
+    this.wickColor = AppColor.textPrimary,
+    this.gridColor = AppColor.lightDarkBackground,
     this.candleWidth = 8,
     this.candleSpacing = 4,
     this.emaValues = const [],
@@ -74,7 +74,7 @@ class CandlePainter extends CustomPainter {
       Offset(x, 0),
       Offset(x, size.height),
       Paint()
-        ..color = Colors.white.withOpacity(0.3)
+        ..color = AppColor.textPrimary
         ..strokeWidth = 1,
     );
   }
@@ -107,7 +107,7 @@ class CandlePainter extends CustomPainter {
         Rect.fromLTWH(boxX, boxY, boxWidth, boxHeight),
         const Radius.circular(6),
       ),
-      Paint()..color = const Color(0xFF1C2333),
+      Paint()..color = AppColor.lightDarkBackground,
     );
 
     // draw border
@@ -117,7 +117,7 @@ class CandlePainter extends CustomPainter {
         const Radius.circular(6),
       ),
       Paint()
-        ..color = Colors.white24
+        ..color = AppColor.textBackground
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.5,
     );
@@ -127,7 +127,7 @@ class CandlePainter extends CustomPainter {
       final tp = TextPainter(
         text: TextSpan(
           text: lines[i],
-          style: const TextStyle(color: Colors.white, fontSize: 11),
+          style: const TextStyle(color: AppColor.textPrimary, fontSize: 11),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
@@ -201,7 +201,7 @@ class CandlePainter extends CustomPainter {
     if (emaValues.isEmpty) return;
 
     final paint = Paint()
-      ..color = Colors.white
+      ..color = AppColor.textPrimary
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
 
@@ -244,8 +244,8 @@ class VolumePainter extends CustomPainter {
   VolumePainter({
     required this.candles,
     this.scrollOffset = 0,
-    this.bullColor = AppColor.high,
-    this.bearColor = AppColor.low,
+    this.bullColor = AppColor.greenBar,
+    this.bearColor = AppColor.redBar,
     this.candleWidth = 8,
     this.candleSpacing = 4,
   });
@@ -276,7 +276,7 @@ class VolumePainter extends CustomPainter {
           x + candleWidth / 2, // right
           size.height, // bottom
         ),
-        Paint()..color = color.withOpacity(0.5), // slightly transparent
+        Paint()..color = color.withValues(alpha: 0.2), //transparent
       );
     }
   }
@@ -297,7 +297,7 @@ class YAxisPainter extends CustomPainter {
   YAxisPainter({
     required this.candles,
     this.labelCount = 6,
-    this.textColor = const Color(0xFF8A8A8A),
+    this.textColor = AppColor.lightText,
     this.chartHeightRatio = 0.7, // ← default 70%
   });
 
@@ -369,6 +369,7 @@ class OrderBookPainter extends CustomPainter {
     _drawGrid(canvas, size);
     _drawBids(canvas, size);
     _drawAsks(canvas, size);
+    _drawHighlightDots(canvas, size);
     if (selectedIndex != null) {
       _drawTooltipLine(canvas, size);
     }
@@ -377,7 +378,7 @@ class OrderBookPainter extends CustomPainter {
   // ── grid ─────────────────────────────────────
   void _drawGrid(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.08)
+      ..color = AppColor.lightText
       ..strokeWidth = 0.5;
 
     // horizontal lines
@@ -439,10 +440,7 @@ class OrderBookPainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            const Color(0xFF00897B).withOpacity(0.8),
-            const Color(0xFF00897B).withOpacity(0.0),
-          ],
+          colors: [AppColor.oderbookGreen, AppColor.oderbookGreenBlur],
         ).createShader(Rect.fromLTWH(0, 0, center, size.height)),
     );
 
@@ -450,7 +448,7 @@ class OrderBookPainter extends CustomPainter {
     canvas.drawPath(
       strokePath,
       Paint()
-        ..color = const Color(0xFF00897B)
+        ..color = AppColor.oderbookGreen
         ..strokeWidth = 2
         ..style = PaintingStyle.stroke,
     );
@@ -498,20 +496,49 @@ class OrderBookPainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            const Color(0xFFB71C1C).withOpacity(0.8),
-            const Color(0xFFB71C1C).withOpacity(0.0),
-          ],
+          colors: [AppColor.oderbookRed, AppColor.oderbookRedBlur],
         ).createShader(Rect.fromLTWH(center, 0, center, size.height)),
     );
 
     canvas.drawPath(
       strokePath,
       Paint()
-        ..color = const Color(0xFFB71C1C)
+        ..color = AppColor.oderbookRed
         ..strokeWidth = 2
         ..style = PaintingStyle.stroke,
     );
+  }
+
+  void _drawHighlightDots(Canvas canvas, Size size) {
+    final center = size.width / 2;
+    final bids = orderBook.bids;
+    final asks = orderBook.asks;
+
+    // Draw green dot on bids (at midpoint of bids curve)
+    if (bids.length > 0) {
+      final idx = bids.length ~/ 2;
+      final x = center * (1 - idx / bids.length);
+      final y = _toY(bidCumulative[idx], size.height);
+      canvas.drawCircle(
+        Offset(x, y),
+        5.5,
+        Paint()..color = const Color(0xFF00E5FF),
+      );
+      canvas.drawCircle(Offset(x, y), 3, Paint()..color = Colors.white);
+    }
+
+    // Draw red dot on asks (at midpoint of asks curve)
+    if (asks.length > 0) {
+      final idx = asks.length ~/ 2;
+      final x = center + center * (idx / asks.length);
+      final y = _toY(askCumulative[idx], size.height);
+      canvas.drawCircle(
+        Offset(x, y),
+        5.5,
+        Paint()..color = const Color(0xFFFF0055),
+      );
+      canvas.drawCircle(Offset(x, y), 3, Paint()..color = Colors.white);
+    }
   }
 
   // ── vertical line + dot on tap ───────────────
@@ -528,39 +555,39 @@ class OrderBookPainter extends CustomPainter {
     final y = _toY(cumVol, size.height);
     final level = isBid ? orderBook.bids[i] : orderBook.asks[i];
 
-    // ── vertical line ───────────────────────────
+    // ── vertical line (cyan) ─────────────────────
     canvas.drawLine(
       Offset(x, 0),
       Offset(x, size.height),
       Paint()
-        ..color = Colors.white.withOpacity(0.4)
-        ..strokeWidth = 1,
+        ..color = const Color(0xFF00E5FF)
+        ..strokeWidth = 1.5,
     );
 
-    // ── dot at intersection ─────────────────────
-    canvas.drawCircle(Offset(x, y), 5, Paint()..color = Colors.white);
+    // ── dot at intersection (cyan/red outer border, white center) ──
     canvas.drawCircle(
       Offset(x, y),
-      3,
+      5.5,
       Paint()
-        ..color = isBid ? const Color(0xFF00897B) : const Color(0xFFB71C1C),
+        ..color = isBid ? const Color(0xFF00E5FF) : const Color(0xFFFF0055)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
     );
+    canvas.drawCircle(Offset(x, y), 3.5, Paint()..color = Colors.white);
 
     // ── floating tooltip box ────────────────────
     const boxW = 140.0;
-    const boxH = 60.0;
-    const pad = 10.0;
-    const radius = Radius.circular(6);
+    const boxH = 64.0;
+    const radius = Radius.circular(8);
 
-    // flip left if on right half
-    double boxX = x + 12;
-    if (boxX + boxW > size.width) boxX = x - boxW - 12;
+    // Centered horizontally over the vertical line, clamped to screen edges
+    double boxX = x - boxW / 2;
+    boxX = boxX.clamp(4.0, size.width - boxW - 4.0);
 
-    // flip down if too close to top
-    double boxY = y - boxH - 12;
-    if (boxY < 0) boxY = y + 12;
+    // Fixed near the top of the chart (aligned with the design)
+    const boxY = 8.0;
 
-    // shadow
+    // Shadow
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(boxX + 2, boxY + 2, boxW, boxH),
@@ -569,54 +596,73 @@ class OrderBookPainter extends CustomPainter {
       Paint()..color = Colors.black26,
     );
 
-    // background
+    // Background (dark blue matching the design image)
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
-      Paint()..color = const Color(0xFF1C2B3A),
+      Paint()..color = const Color(0xFF2B3674),
     );
 
-    // border
+    // Subtle border
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
       Paint()
-        ..color = Colors.white24
+        ..color = const Color(0xFF3F4E8C)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.5,
     );
 
-    // ── text lines ──────────────────────────────
-    void drawLine(String label, String value, double offsetY) {
-      // label (muted)
+    // ── Text Elements ───────────────────────────
+
+    // Header Price text (large bold white)
+    final headerTp = TextPainter(
+      text: TextSpan(
+        text: '${level.price.toStringAsFixed(6)} BTC',
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 11.5,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    headerTp.paint(
+      canvas,
+      Offset(boxX + (boxW - headerTp.width) / 2, boxY + 8),
+    );
+
+    // Amount & Total rows
+    void drawRow(String label, String value, double offsetY) {
       final labelTp = TextPainter(
         text: TextSpan(
           text: label,
-          style: const TextStyle(color: Colors.white54, fontSize: 10),
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.55),
+            fontSize: 9.5,
+          ),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
-      labelTp.paint(canvas, Offset(boxX + pad, boxY + offsetY));
+      labelTp.paint(canvas, Offset(boxX + 12, boxY + offsetY));
 
-      // value (white)
       final valueTp = TextPainter(
         text: TextSpan(
           text: value,
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
+            fontSize: 9.5,
+            fontWeight: FontWeight.w600,
           ),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
       valueTp.paint(
         canvas,
-        Offset(boxX + boxW - valueTp.width - pad, boxY + offsetY),
+        Offset(boxX + boxW - valueTp.width - 12, boxY + offsetY),
       );
     }
 
-    drawLine('Price', level.price.toStringAsFixed(4), pad);
-    drawLine('Amount', level.volume.toStringAsFixed(4), pad + 16);
-    drawLine('Total', cumVol.toStringAsFixed(4), pad + 32);
+    drawRow('Amount:', '${level.volume.toStringAsFixed(5)} BTC', 28);
+    drawRow('Total:', '${cumVol.toStringAsFixed(5)} ETH', 42);
   }
 
   @override
@@ -643,8 +689,7 @@ class AreaChartPainter extends CustomPainter {
   double _toY(double value, double height) {
     final max = dataPoints.reduce((a, b) => a > b ? a : b);
     final min = dataPoints.reduce((a, b) => a < b ? a : b);
-    // 10% padding top
-    return height * 0.1 + (height * 0.85) * (1 - (value - min) / (max - min));
+    return height * 0.1 + (height * 0.50) * (1 - (value - min) / (max - min));
   }
 
   @override

@@ -10,15 +10,7 @@ import 'package:maze/scan/screens/scan_screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-class MarketController extends GetxController {
-  // Make showTimeline observable (.obs)
-  final showTimeline = true.obs;
-
-  void setShowTimeline(bool value) {
-    showTimeline.value = value;
-  }
-}
+import '../controllers/market_controller.dart';
 
 class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
@@ -285,6 +277,7 @@ class MarketScreen extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           AppStrings.amountBTC,

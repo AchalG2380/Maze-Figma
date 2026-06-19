@@ -141,8 +141,7 @@ class HomeScreen extends StatelessWidget {
                       price: AppStrings.ethereumPrice,
                       name: AppStrings.ethereum,
                       today: AppStrings.ethereumToday,
-                      logoUrl: "assets/images/bth.png",
-                      imageUrl: "assets/images/Graph.png",
+                      logoUrl: "assets/images/ETH.png",
                       color: AppColor.textGreen,
                       dataPoints: area_chart_dataPoints
                           .where((element) => element.containsKey('Green'))
@@ -153,8 +152,7 @@ class HomeScreen extends StatelessWidget {
                       price: AppStrings.bitcoinPrice,
                       name: AppStrings.bitcoin,
                       today: AppStrings.bitcoinToday,
-                      logoUrl: "assets/images/ETH.png",
-                      imageUrl: "assets/images/Graph2.png",
+                      logoUrl: "assets/images/bth.png",
                       color: AppColor.textRed,
                       dataPoints: area_chart_dataPoints
                           .where((element) => element.containsKey('Red'))

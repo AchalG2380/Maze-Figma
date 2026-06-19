@@ -52,7 +52,7 @@ class TimelineWidget extends StatelessWidget {
                         children: List.generate(
                           10,
                           (_) => Divider(
-                            color: AppColor.textSecondary,
+                            color: AppColor.textBackground,
                             thickness: 1,
                             height: 1,
                           ),
@@ -64,7 +64,7 @@ class TimelineWidget extends StatelessWidget {
                         children: List.generate(
                           10,
                           (_) => VerticalDivider(
-                            color: AppColor.textSecondary,
+                            color: AppColor.textBackground,
                             thickness: 1,
                             width: 1,
                           ),
@@ -96,13 +96,14 @@ class TimelineWidget extends StatelessWidget {
                               child: GestureDetector(
                                 behavior: HitTestBehavior.opaque,
 
+                                onScaleStart: (d) => ctrl.onScaleStart(),
+                                onScaleEnd: (d) => ctrl.onScaleEnd(),
                                 onScaleUpdate: (d) {
-                                  if (d.scale != 1.0) {
-                                    ctrl.onZoom(d.scale); // two fingers = zoom
+                                  if (d.pointerCount > 1) {
+                                    ctrl.onScaleUpdate(d.scale, d.pointerCount);
                                   } else {
-                                    ctrl.onScroll(
-                                      d.focalPointDelta.dx,
-                                    ); // one finger = scroll
+                                    ctrl.onScroll(d.focalPointDelta.dx);
+                                    ctrl.onScaleUpdate(1.0, d.pointerCount);
                                   }
                                 },
 
@@ -247,14 +248,19 @@ class TimelineWidget extends StatelessWidget {
                     ),
                     child: Text(
                       "- Sell",
-                      style: TextStyle(color: AppColor.textRed, fontSize: 14),
+                      style: TextStyle(
+                        color: AppColor.sellButton,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                   Spacer(),
                   ElevatedButton(
                     onPressed: () => Get.to(() => const TradingdetailsScreen()),
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(AppColor.high),
+                      backgroundColor: WidgetStatePropertyAll(
+                        AppColor.buyButton,
+                      ),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
@@ -307,19 +313,24 @@ class MarketDepthWidget extends StatelessWidget {
             children: [
               SizedBox(
                 width: 45,
-                height: 400, // ← must match container height
+                height: 250, // ← must match container height
                 child: CustomPaint(
                   size: const Size(
                     45,
-                    400,
+                    250,
                   ), // ← explicit size so painter renders
-                  painter: YAxisPainter(
-                    candles: dummyCandles,
-                    labelCount: 6,
-                    textColor: const Color(0xFF8A8A8A),
-                    // only covers candle area = 70% of 400 = 280px
-                    // volume takes bottom 30% so we skip that
-                    chartHeightRatio: 0.7, // ← add this param
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(
+                      orderBookYaxis.length,
+                      (index) => Text(
+                        orderBookYaxis[index],
+                        style: TextStyle(
+                          color: AppColor.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -335,7 +346,8 @@ class MarketDepthWidget extends StatelessWidget {
                             behavior: HitTestBehavior.opaque,
                             onTapDown: (d) =>
                                 ctrl.onTap(d.localPosition.dx, chartWidth),
-                            onTapUp: (_) => ctrl.onRelease(),
+                            onHorizontalDragUpdate: (d) =>
+                                ctrl.onTap(d.localPosition.dx, chartWidth),
                             child: Obx(
                               () => CustomPaint(
                                 size: Size(chartWidth, 300),
@@ -356,20 +368,24 @@ class MarketDepthWidget extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            children: List.generate(
-              orderBookPerframes.length,
-              (index) => Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      orderBookPerframes[index],
-                      style: TextStyle(color: AppColor.textSecondary),
+          Padding(
+            padding: const EdgeInsets.only(left: 30),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                orderBookPerframes.length,
+                (index) => Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
+                      child: Text(
+                        orderBookPerframes[index],
+                        style: TextStyle(color: AppColor.textSecondary),
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 14),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -412,6 +428,7 @@ class LatestTradesRow extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(amount, style: TextStyle(color: AppColor.textSecondary)),
           Text(price, style: TextStyle(color: priceColor)),

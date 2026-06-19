@@ -30,10 +30,33 @@ class ChartController extends GetxController {
     scrollOffset.value = (scrollOffset.value - delta).clamp(0.0, maxScroll);
   }
 
+  double _baseScale = 1.0;
+  int _lastPointerCount = 0;
+
+  void onScaleStart() {
+    _baseScale = candleScale.value;
+    _lastPointerCount = 0;
+  }
+
+  void onScaleEnd() {
+    _lastPointerCount = 0;
+  }
+
   // ── zoom handler ───────────────────────
   void onZoom(double scaleChange) {
     candleScale.value = (candleScale.value * scaleChange).clamp(0.5, 3.0);
     // 0.5 = zoomed out max, 3.0 = zoomed in max
+  }
+
+  void onScaleUpdate(double scale, int pointerCount) {
+    if (pointerCount > 1) {
+      if (_lastPointerCount <= 1) {
+        // Just transitioned to multi-touch zoom: update base scale to avoid jumps
+        _baseScale = candleScale.value;
+      }
+      candleScale.value = (_baseScale * scale).clamp(0.5, 3.0);
+    }
+    _lastPointerCount = pointerCount;
   }
 
   // tap handler — called from GestureDetector

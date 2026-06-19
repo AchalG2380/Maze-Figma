@@ -48,13 +48,23 @@ class AppStrings {
   static const String volETH = "Vol(ETH)";
 
   static const String buy = "Buy";
+  static const String pricew = "Price";
+  static const String btcEth = "BTC/ETH";
   static const String sell = "Sell";
+
+  static const String placedTime = "Placed 2min ago";
+  static const String amount = "Amount";
+  static const String executed = "Executed";
+
+  static const String buyPrice = "0.001230BTC";
+  static const String buyAmount = "0.001230ETH";
+  static const String buyExecuted = "0.000ETH";
 
   static const String latestTrades = "Latest Trade";
   static const String amountBTC = "Amount(BTC)";
   static const String amountBTCtext = "65.02";
   static const String priceETH = "Price(ETH)";
-  static const String priceETHtext = "0.000147";
+  static const String priceETHtext = "0.00147";
   static const String time = "Time";
   static const String timetext = "21:04:01";
 
@@ -100,4 +110,5 @@ class AppStrings {
       "Emerging market 'cryptoization' threatens financial stability: IMF";
   static const String newsWebsite = "www.clooma.com";
   static const String newsTime = "Just now / 2mins ago";
+  static const String search = "Search";
 }

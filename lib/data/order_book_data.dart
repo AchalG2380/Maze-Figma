@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 // single price level
 class OrderLevel {
   final double price;
@@ -14,29 +16,43 @@ class OrderBookData {
   const OrderBookData({required this.bids, required this.asks});
 }
 
-final dummyOrderBook = OrderBookData(
-  // bids — highest price first, volume accumulates left→center
-  bids: [
-    OrderLevel(price: 20.48, volume: 120),
-    OrderLevel(price: 20.45, volume: 200),
-    OrderLevel(price: 20.40, volume: 150),
-    OrderLevel(price: 20.35, volume: 300),
-    OrderLevel(price: 20.28, volume: 180),
-    OrderLevel(price: 20.20, volume: 250),
-    OrderLevel(price: 20.10, volume: 400),
-    OrderLevel(price: 19.95, volume: 320),
-  ],
-  // asks — lowest price first, volume accumulates center→right
-  asks: [
-    OrderLevel(price: 20.50, volume: 80),
-    OrderLevel(price: 20.55, volume: 160),
-    OrderLevel(price: 20.62, volume: 200),
-    OrderLevel(price: 20.70, volume: 140),
-    OrderLevel(price: 20.80, volume: 280),
-    OrderLevel(price: 20.92, volume: 220),
-    OrderLevel(price: 21.05, volume: 350),
-    OrderLevel(price: 21.20, volume: 300),
-  ],
-);
+final dummyOrderBook = _generateDummyOrderBook();
+
+OrderBookData _generateDummyOrderBook() {
+  final bids = <OrderLevel>[];
+  final asks = <OrderLevel>[];
+
+  // Bids go from 20.48 down to ~19.50 (30 steps)
+  double bidPrice = 20.48;
+  for (int i = 0; i < 30; i++) {
+    // sin waves create realistic supply/demand concentration curves
+    final wave = (1.0 + math.sin(i / 3.0)) * 120.0;
+    final volume = 50.0 + i * 10.0 + wave;
+    bids.add(
+      OrderLevel(
+        price: double.parse(bidPrice.toStringAsFixed(4)),
+        volume: double.parse(volume.toStringAsFixed(2)),
+      ),
+    );
+    bidPrice -= 0.03;
+  }
+
+  // Asks go from 20.50 up to ~21.48 (30 steps)
+  double askPrice = 20.50;
+  for (int i = 0; i < 30; i++) {
+    final wave = (1.0 + math.sin(i / 3.0)) * 120.0;
+    final volume = 50.0 + i * 10.0 + wave;
+    asks.add(
+      OrderLevel(
+        price: double.parse(askPrice.toStringAsFixed(4)),
+        volume: double.parse(volume.toStringAsFixed(2)),
+      ),
+    );
+    askPrice += 0.03;
+  }
+
+  return OrderBookData(bids: bids, asks: asks);
+}
 
 final List<String> orderBookPerframes = ['15%', '25%', '35%', '45%', '55%'];
+final List<String> orderBookYaxis = ['1k', '1k', '1k', '1k', '1k'];

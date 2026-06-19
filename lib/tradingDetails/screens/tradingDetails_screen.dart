@@ -10,6 +10,9 @@ import 'package:get/get.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../market/widgets/market_widgets.dart';
+import '../widgets/tradingDetails_widgets.dart';
+import '../controllers/trading_details_controller.dart';
+import '../../data/candle_data.dart';
 
 class TradingdetailsScreen extends StatelessWidget {
   const TradingdetailsScreen({super.key});
@@ -41,8 +44,48 @@ class TradingdetailsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildTabButton({
+    required String label,
+    required TradingTab tab,
+    required TradingDetailsController controller,
+  }) {
+    return Obx(() {
+      final isSelected = controller.activeTab.value == tab;
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => controller.selectTab(tab),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? AppColor.primary : AppColor.textSecondary,
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Container(
+                width: 4,
+                height: 4,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isSelected ? AppColor.primary : Colors.transparent,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(TradingDetailsController());
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SafeArea(
@@ -80,7 +123,7 @@ class TradingdetailsScreen extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      margin: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(left: 10),
                       padding: const EdgeInsets.symmetric(vertical: 11),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
@@ -92,51 +135,33 @@ class TradingdetailsScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.high,
-                                        style: TextStyle(color: AppColor.high, fontSize: 10),
-                                      ),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.high,
+                                    style: TextStyle(color: AppColor.high),
+                                  ),
+                                  Text(
+                                    AppStrings.highPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
                                     ),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.highPrice,
-                                        style: TextStyle(
-                                          color: AppColor.textPrimary,
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.low,
-                                        style: TextStyle(color: AppColor.low, fontSize: 10),
-                                      ),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.low,
+                                    style: TextStyle(color: AppColor.low),
+                                  ),
+                                  Text(
+                                    AppStrings.lowPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
                                     ),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.lowPrice,
-                                        style: TextStyle(
-                                          color: AppColor.textPrimary,
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -144,57 +169,37 @@ class TradingdetailsScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.volBTC,
-                                        style: TextStyle(
-                                          color: AppColor.textSecondary,
-                                          fontSize: 10,
-                                        ),
-                                      ),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.volBTC,
+                                    style: TextStyle(
+                                      color: AppColor.textSecondary,
                                     ),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.highPrice,
-                                        style: TextStyle(
-                                          color: AppColor.textPrimary,
-                                          fontSize: 11,
-                                        ),
-                                      ),
+                                  ),
+                                  Text(
+                                    AppStrings.highPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.volETH,
-                                        style: TextStyle(
-                                          color: AppColor.textSecondary,
-                                          fontSize: 10,
-                                        ),
-                                      ),
+                              Column(
+                                children: [
+                                  Text(
+                                    AppStrings.volETH,
+                                    style: TextStyle(
+                                      color: AppColor.textSecondary,
                                     ),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        AppStrings.lowPrice,
-                                        style: TextStyle(
-                                          color: AppColor.textPrimary,
-                                          fontSize: 11,
-                                        ),
-                                      ),
+                                  ),
+                                  Text(
+                                    AppStrings.lowPrice,
+                                    style: TextStyle(
+                                      color: AppColor.textPrimary,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -250,11 +255,19 @@ class TradingdetailsScreen extends StatelessWidget {
                   Expanded(
                     flex: 7,
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.only(
+                        right: 8,
+                        top: 8,
+                        bottom: 8,
+                      ),
                       child: Column(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.only(
+                              right: 8,
+                              top: 8,
+                              bottom: 8,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.horizontal(
                                 right: Radius.circular(12),
@@ -264,7 +277,45 @@ class TradingdetailsScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 const TimelineWidget(showControls: false),
-                                const SizedBox(height: 20),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 5,
+                                    bottom: 5,
+                                    right: 30,
+                                  ),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: List.generate(
+                                        timeframes.length,
+                                        (index) => Row(
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(3),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: AppColor.surface,
+                                                border: Border.all(
+                                                  color: AppColor.secondary,
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              child: Text(
+                                                timeframes[index],
+                                                style: TextStyle(
+                                                  color: AppColor.textSecondary,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 14),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -284,10 +335,7 @@ class TradingdetailsScreen extends StatelessWidget {
                                         ),
                                         child: const Text(
                                           "H1",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                     ),
@@ -306,9 +354,9 @@ class TradingdetailsScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        child: const Icon(
-                                          Icons.reply,
-                                          color: Colors.white,
+                                        child: SvgPicture.asset(
+                                          "assets/icons/Vector.svg",
+                                          height: 14,
                                         ),
                                       ),
                                     ),
@@ -327,48 +375,49 @@ class TradingdetailsScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        child: const Icon(
-                                          Icons.language,
-                                          color: Colors.white,
+                                        child: SvgPicture.asset(
+                                          "assets/icons/Bolt.svg",
+                                          height: 14,
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 10),
                               ],
                             ),
                           ),
 
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    AppStrings.open,
-                                    style: const TextStyle(fontSize: 11),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    AppStrings.filled,
-                                    style: const TextStyle(fontSize: 11),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    AppStrings.cancelled,
-                                    style: const TextStyle(fontSize: 11),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildTabButton(
+                                label: AppStrings.open,
+                                tab: TradingTab.open,
+                                controller: controller,
+                              ),
+                              _buildTabButton(
+                                label: AppStrings.filled,
+                                tab: TradingTab.filled,
+                                controller: controller,
+                              ),
+                              _buildTabButton(
+                                label: AppStrings.cancelled,
+                                tab: TradingTab.cancelled,
+                                controller: controller,
+                              ),
+                            ],
                           ),
+
+                          const SizedBox(height: 12),
+                          Obx(() {
+                            switch (controller.activeTab.value) {
+                              case TradingTab.open:
+                              case TradingTab.filled:
+                              case TradingTab.cancelled:
+                                return const PricingCard();
+                            }
+                          }),
                         ],
                       ),
                     ),

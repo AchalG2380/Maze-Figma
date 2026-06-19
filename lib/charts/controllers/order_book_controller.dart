@@ -5,8 +5,8 @@ class OrderBookController extends GetxController {
   final orderBook = dummyOrderBook;
 
   // selected point on tap
-  final selectedSide = Rxn<String>(); // 'bid' or 'ask'
-  final selectedIndex = RxnInt();
+  final selectedSide = Rxn<String>('bid'); // Default to bid side
+  final selectedIndex = RxnInt(0);         // Default to index 0 (center)
 
   // ── compute cumulative volumes ──────────────
   List<double> get bidCumulative {
@@ -56,8 +56,9 @@ class OrderBookController extends GetxController {
   }
 
   void onRelease() {
-    selectedSide.value = null;
-    selectedIndex.value = null;
+    // Reset to center default instead of null
+    selectedSide.value = 'bid';
+    selectedIndex.value = 0;
   }
 
   // selected level data for tooltip

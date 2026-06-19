@@ -53,7 +53,6 @@ class MarketStatistics extends StatelessWidget {
   final String name;
   final String today;
   final String logoUrl;
-  final String imageUrl;
   final Color color;
   final List<double> dataPoints;
 
@@ -63,7 +62,6 @@ class MarketStatistics extends StatelessWidget {
     required this.name,
     required this.today,
     required this.logoUrl,
-    required this.imageUrl,
     required this.color,
     required this.dataPoints,
   });
@@ -73,7 +71,7 @@ class MarketStatistics extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: Container(
-        padding: EdgeInsets.only(top: 14, left: 10, right: 10),
+        padding: EdgeInsets.only(top: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColor.lightDarkBackground,
@@ -81,51 +79,60 @@ class MarketStatistics extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Row(
-              children: [
-                Image.asset(
-                  logoUrl,
-                  width: 30,
-                  height: 30,
-                  fit: BoxFit.contain,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    price,
-                    style: TextStyle(color: AppColor.textPrimary),
-                    overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                children: [
+                  Image.asset(
+                    logoUrl,
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.contain,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      price,
+                      style: TextStyle(color: AppColor.textPrimary),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Align(
               alignment: Alignment.bottomLeft,
-              child: Text(
-                name,
-                style: TextStyle(color: AppColor.textSecondary),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  name,
+                  style: TextStyle(color: AppColor.textSecondary),
+                ),
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
-              child: Text(today, style: TextStyle(color: color)),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(today, style: TextStyle(color: color)),
+              ),
             ),
             Center(
               child: SizedBox(
-                height: 70,
+                height: 65,
                 child: CustomPaint(
                   size: const Size(double.infinity, 120),
                   painter: AreaChartPainter(
                     dataPoints: dataPoints,
                     lineColor: color == AppColor.textGreen
-                        ? AppColor.high
-                        : AppColor.low,
+                        ? AppColor.oderbookGreen
+                        : AppColor.oderbookRed,
                     gradientTop: color == AppColor.textGreen
-                        ? AppColor.high.withValues(alpha: 0.8)
-                        : AppColor.low.withValues(alpha: 0.8),
+                        ? AppColor.oderbookGreen.withValues(alpha: 0.8)
+                        : AppColor.oderbookRed.withValues(alpha: 0.8),
                     gradientBottom: color == AppColor.textGreen
-                        ? AppColor.high.withValues(alpha: 0.0)
-                        : AppColor.low.withValues(alpha: 0.0),
+                        ? AppColor.oderbookGreen.withValues(alpha: 0.0)
+                        : AppColor.oderbookRed.withValues(alpha: 0.0),
                   ),
                 ),
               ),

@@ -10,7 +10,7 @@ class SettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: AppColor.lightDarkBackground,
@@ -35,7 +35,7 @@ class SupportRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: AppColor.lightDarkBackground,
@@ -60,7 +60,7 @@ class OptionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: AppColor.lightDarkBackground,

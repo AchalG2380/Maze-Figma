@@ -62,7 +62,7 @@ class MyCardScreen extends StatelessWidget {
                         width: 300, // fixed width, not double.infinity
                         height: 200,
                         decoration: BoxDecoration(
-                          color: Color(0xFF0A1A5C),
+                          color: AppColor.primary.withValues(alpha: .3),
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
@@ -79,7 +79,7 @@ class MyCardScreen extends StatelessWidget {
                           width: 320, // fixed width, not double.infinity
                           height: 200,
                           decoration: BoxDecoration(
-                            color: Color(0xFF1230CC),
+                            color: AppColor.primary.withValues(alpha: .5),
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
@@ -197,12 +197,49 @@ class MyCardScreen extends StatelessWidget {
 
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.today,
-                  style: const TextStyle(
-                    color: AppColor.textPrimary,
-                    fontSize: 18,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppStrings.today,
+                      style: const TextStyle(
+                        color: AppColor.textPrimary,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Container(
+                      width: 140,
+                      height: 30,
+                      padding: EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(color: AppColor.textSecondary),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.search, color: AppColor.textSecondary),
+                          SizedBox(width: 4),
+                          Expanded(
+                            child: TextField(
+                              style: TextStyle(color: AppColor.textPrimary),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                isDense: true,
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 4,
+                                ),
+                                hintText: AppStrings.search,
+                                hintStyle: TextStyle(
+                                  color: AppColor.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 8),

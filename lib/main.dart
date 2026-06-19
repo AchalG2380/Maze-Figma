@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(1, 4, 31, 1),
         ),
+        fontFamily: 'Inter',
       ),
       home: const SplashScreen(),
     );
