@@ -124,8 +124,7 @@ class NewsScreen extends StatelessWidget {
 
       // Reusable Notch Bottom App Bar
       bottomNavigationBar: CustomBottomAppBar(
-        currentIndex:
-            0, // 0 for Home, 1 for Wallet, 2 for Market, 3 for Profile
+        currentIndex: 0,
         onTap: (index) {
           switch (index) {
             case 0:

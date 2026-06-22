@@ -670,7 +670,7 @@ class OrderBookPainter extends CustomPainter {
         text: TextSpan(
           text: label,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.55),
+            color: AppColor.textPrimary.withValues(alpha: 0.55),
             fontSize: 9.5,
           ),
         ),
@@ -682,7 +682,7 @@ class OrderBookPainter extends CustomPainter {
         text: TextSpan(
           text: value,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColor.textPrimary,
             fontSize: 9.5,
             fontWeight: FontWeight.w600,
           ),

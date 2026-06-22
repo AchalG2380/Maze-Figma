@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: "Maze",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromRGBO(1, 4, 31, 1),
+          seedColor: const Color.fromRGBO(19, 69, 199, 1),
         ),
         fontFamily: 'Inter',
       ),

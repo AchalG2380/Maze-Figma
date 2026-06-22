@@ -36,12 +36,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: Icon(Icons.menu),
-      //   title: Text(AppStrings.home, textAlign: TextAlign.center),
-      //   actions: [Icon(Icons.wallet)],
-      //   backgroundColor: AppColor.primary,
-      // ),
       extendBody: true,
       backgroundColor: AppColor.background,
       body: SafeArea(

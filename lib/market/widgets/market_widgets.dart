@@ -107,13 +107,6 @@ class TimelineWidget extends StatelessWidget {
                                   }
                                 },
 
-                                // ── scroll ──────────────────────────
-                                // onHorizontalDragUpdate: (d) =>
-                                //     ctrl.onScroll(d.delta.dx),
-
-                                // ── zoom ────────────────────────────
-                                //       onScaleUpdate: (d) => ctrl.onZoom(d.scale),
-
                                 // ── tooltip ─────────────────────────
                                 onTapDown: (d) =>
                                     ctrl.onCandleTap(d.localPosition.dx),
@@ -449,19 +442,6 @@ class MarketDepthWidget extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _infoCol(String label, String value) {
-  //   return Column(
-  //     children: [
-  //       Text(
-  //         label,
-  //         style: const TextStyle(color: Colors.white54, fontSize: 11),
-  //       ),
-  //       const SizedBox(height: 4),
-  //       Text(value, style: const TextStyle(color: Colors.white, fontSize: 13)),
-  //     ],
-  //   );
-  // }
 }
 
 class LatestTradesRow extends StatelessWidget {

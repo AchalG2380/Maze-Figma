@@ -3,8 +3,6 @@ import 'package:maze/core/app_color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// A reusable custom header widget that matches the design of the screens in the Maze app.
-/// Since most screens use `SingleChildScrollView` with a top header inside the Column,
-/// this is built as a standard Widget for direct placement inside a layout.
 class CustomScreenHeader extends StatelessWidget {
   final String title;
   final Widget? leading;

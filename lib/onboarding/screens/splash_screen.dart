@@ -11,8 +11,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  // ← add this
-
   late AnimationController _controller;
   late Animation<double> _scale;
   late Animation<double> _fade;
@@ -61,7 +59,6 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: AppColor.lightDarkBackground,
       body: Stack(
         children: [
-          // Your existing curve background — untouched
           Positioned.fill(
             child: CustomPaint(
               painter: _CurvePainter(color: AppColor.background),
@@ -84,7 +81,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-// Your existing painter — zero changes needed
 class _CurvePainter extends CustomPainter {
   final Color color;
   _CurvePainter({required this.color});

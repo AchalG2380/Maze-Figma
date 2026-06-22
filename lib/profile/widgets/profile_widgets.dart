@@ -69,7 +69,7 @@ class OptionRow extends StatelessWidget {
         children: [
           Text(title, style: TextStyle(color: AppColor.textSecondary)),
           Spacer(),
-          if (trailing != null) trailing!, // ✅ only renders if passed
+          if (trailing != null) trailing!, // only renders if passed
         ],
       ),
     );
