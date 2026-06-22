@@ -6,7 +6,7 @@ class ChartController extends GetxController {
   final selectedIndex = RxnInt(); // Rxn = nullable Rx
 
   // your candle data lives here too
-  final candles = dummyCandles;
+  final candles = dummyCandles.obs;
 
   // ── scroll + zoom state ────────────────
   final scrollOffset = 0.0.obs; // how far scrolled (pixels)

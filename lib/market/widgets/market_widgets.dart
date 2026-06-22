@@ -134,10 +134,9 @@ class TimelineWidget extends StatelessWidget {
                                         gridColor: const Color(0xFF1C2333),
                                         candleWidth: ctrl.candleWidth,
                                         candleSpacing: ctrl.candleSpacing,
-                                        emaValues: calculateEMA(
-                                          dummyCandles,
-                                          9,
-                                        ),
+                                        emaLines: [
+                                          calculateEMA(dummyCandles, 9),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -178,21 +177,78 @@ class TimelineWidget extends StatelessWidget {
               // ── Right: Y-axis labels (fixed 45px, same 400 height) ──
               SizedBox(
                 width: 45,
-                height: 400, // ← must match container height
-                child: CustomPaint(
-                  size: const Size(
-                    45,
-                    400,
-                  ), // ← explicit size so painter renders
-                  painter: YAxisPainter(
-                    candles: ctrl.candles,
-                    labelCount: 6,
-                    textColor: const Color(0xFF8A8A8A),
-                    // only covers candle area = 70% of 400 = 280px
-                    // volume takes bottom 30% so we skip that
-                    chartHeightRatio: 0.7, // ← add this param
-                  ),
-                ),
+                height: 400,
+                child: Obx(() {
+                  // ── current price info ──
+                  final candles = ctrl.candles;
+                  final currentPrice = candles.last.close;
+                  final isBull = candles.last.isBull;
+                  final badgeColor = isBull ? AppColor.high : AppColor.low;
+
+                  // ── calculate Y position of badge ──
+                  // must match CandlePainter._toY logic exactly
+                  final double chartHeight = 400;
+                  final double candleAreaHeight = chartHeight * 0.7; // 280px
+
+                  final maxPrice = candles
+                      .map((c) => c.high)
+                      .reduce((a, b) => a > b ? a : b);
+                  final minPrice = candles
+                      .map((c) => c.low)
+                      .reduce((a, b) => a < b ? a : b);
+                  final range = maxPrice - minPrice;
+
+                  final double padded = candleAreaHeight * 0.8;
+                  final double offsetY = candleAreaHeight * 0.1;
+                  final double badgeY =
+                      offsetY +
+                      padded * (1 - (currentPrice - minPrice) / range);
+
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // ── Y-axis labels ──
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomPaint(
+                          size: const Size(45, 400),
+                          painter: YAxisPainter(
+                            candles: candles,
+                            labelCount: 6,
+                            textColor: const Color(0xFF8A8A8A),
+                            chartHeightRatio: 0.7,
+                          ),
+                        ),
+                      ),
+
+                      // ── Price badge ──
+                      Positioned(
+                        top: badgeY - 10, // center badge on the line
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: badgeColor,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            currentPrice.toStringAsFixed(2),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
               ),
             ],
           ),

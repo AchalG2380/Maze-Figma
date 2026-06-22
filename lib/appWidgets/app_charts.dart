@@ -18,7 +18,13 @@ class CandlePainter extends CustomPainter {
   final double candleWidth;
   final double candleSpacing;
 
-  final List<double?> emaValues;
+  final List<List<double?>> emaLines;
+
+  double get currentPrice => candles.last.close;
+  bool get isCurrentBull => candles.last.isBull;
+  double currentPriceYRatio(double height) {
+    return _toY(currentPrice, height) / height;
+  }
 
   CandlePainter({
     required this.candles,
@@ -30,7 +36,7 @@ class CandlePainter extends CustomPainter {
     this.gridColor = AppColor.lightDarkBackground,
     this.candleWidth = 8,
     this.candleSpacing = 4,
-    this.emaValues = const [],
+    this.emaLines = const [],
   });
 
   // ── price range across all candles ─
@@ -61,6 +67,7 @@ class CandlePainter extends CustomPainter {
     _drawGrid(canvas, size);
     _drawCandles(canvas, size);
     _drawEMA(canvas, size);
+    _drawCurrentPriceLine(canvas, size);
     if (selectedIndex != null) {
       _drawHighlightLine(canvas, size);
       _drawTooltip(canvas, size);
@@ -197,32 +204,59 @@ class CandlePainter extends CustomPainter {
     }
   }
 
-  void _drawEMA(Canvas canvas, Size size) {
-    if (emaValues.isEmpty) return;
+  void _drawCurrentPriceLine(Canvas canvas, Size size) {
+    final currentPrice = candles.last.close;
+    final isBull = candles.last.isBull;
+    final y = _toY(currentPrice, size.height);
 
     final paint = Paint()
-      ..color = AppColor.textPrimary
-      ..strokeWidth = 1.5
-      ..style = PaintingStyle.stroke;
+      ..color = isBull ? AppColor.high : AppColor.low
+      ..strokeWidth = 1;
 
-    final path = Path();
-    bool started = false;
+    const dashWidth = 6.0;
+    const dashSpace = 4.0;
+    double startX = 0;
 
-    for (int i = 0; i < emaValues.length; i++) {
-      if (emaValues[i] == null) continue; // skip nulls at start
-
-      final x = _toX(i);
-      final y = _toY(emaValues[i]!, size.height);
-
-      if (!started) {
-        path.moveTo(x, y); // first point
-        started = true;
-      } else {
-        path.lineTo(x, y); // connect to next
-      }
+    while (startX < size.width) {
+      canvas.drawLine(Offset(startX, y), Offset(startX + dashWidth, y), paint);
+      startX += dashWidth + dashSpace;
     }
+  }
 
-    canvas.drawPath(path, paint);
+  void _drawEMA(Canvas canvas, Size size) {
+    if (emaLines.isEmpty) return;
+
+    // Distinct accent colors for different EMA lines
+    final colors = [AppColor.textPrimary];
+
+    for (int lineIndex = 0; lineIndex < emaLines.length; lineIndex++) {
+      final emaValues = emaLines[lineIndex];
+      if (emaValues.isEmpty) continue;
+
+      final paint = Paint()
+        ..color = colors[lineIndex % colors.length]
+        ..strokeWidth = 1.5
+        ..style = PaintingStyle.stroke;
+
+      final path = Path();
+      bool started = false;
+
+      for (int i = 0; i < emaValues.length; i++) {
+        if (emaValues[i] == null) continue; // skip nulls at start
+
+        final x = _toX(i);
+        final y = _toY(emaValues[i]!, size.height);
+
+        if (!started) {
+          path.moveTo(x, y); // first point
+          started = true;
+        } else {
+          path.lineTo(x, y); // connect to next
+        }
+      }
+
+      canvas.drawPath(path, paint);
+    }
   }
 
   @override
@@ -689,7 +723,7 @@ class AreaChartPainter extends CustomPainter {
   double _toY(double value, double height) {
     final max = dataPoints.reduce((a, b) => a > b ? a : b);
     final min = dataPoints.reduce((a, b) => a < b ? a : b);
-    return height * 0.1 + (height * 0.50) * (1 - (value - min) / (max - min));
+    return height * 0.1 + (height * 0.7) * (1 - (value - min) / (max - min));
   }
 
   @override

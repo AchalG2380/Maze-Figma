@@ -33,4 +33,6 @@ class AppColor {
   static const Color lightBackground = Color.fromRGBO(25, 61, 153, 1);
   static const Color lightDarkBackground = Color.fromRGBO(19, 24, 60, 1);
   static const Color surface = Color.fromRGBO(69, 121, 255, .2);
+  static const Color transparent = Color.fromRGBO(0, 0, 0, 0);
+  static const Color QR = Color.fromRGBO(187, 222, 251, 1);
 }

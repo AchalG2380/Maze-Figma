@@ -274,117 +274,122 @@ class TradingdetailsScreen extends StatelessWidget {
                               ),
                               color: AppColor.lightDarkBackground,
                             ),
-                            child: Column(
-                              children: [
-                                const TimelineWidget(showControls: false),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 5,
-                                    bottom: 5,
-                                    right: 30,
-                                  ),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: List.generate(
-                                        timeframes.length,
-                                        (index) => Row(
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(3),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: AppColor.surface,
-                                                border: Border.all(
-                                                  color: AppColor.secondary,
-                                                  width: 1,
+                            child: Transform.translate(
+                              offset: const Offset(-20, 0),
+                              child: Column(
+                                children: [
+                                  const TimelineWidget(showControls: false),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 5,
+                                      bottom: 5,
+                                      right: 30,
+                                    ),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: List.generate(
+                                          timeframes.length,
+                                          (index) => Row(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.all(
+                                                  3,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: AppColor.surface,
+                                                  border: Border.all(
+                                                    color: AppColor.secondary,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  timeframes[index],
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppColor.textSecondary,
+                                                  ),
                                                 ),
                                               ),
-                                              child: Text(
-                                                timeframes[index],
-                                                style: TextStyle(
-                                                  color: AppColor.textSecondary,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 14),
-                                          ],
+                                              const SizedBox(width: 14),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 40,
-                                      height: 40,
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColor.primary,
-                                          padding: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColor.primary,
+                                            padding: EdgeInsets.zero,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            "H1",
+                                            style: TextStyle(
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
-                                        child: const Text(
-                                          "H1",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    SizedBox(
-                                      width: 40,
-                                      height: 40,
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColor.primary,
-                                          padding: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
+                                      const SizedBox(width: 16),
+                                      SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColor.primary,
+                                            padding: EdgeInsets.zero,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                             ),
                                           ),
-                                        ),
-                                        child: SvgPicture.asset(
-                                          "assets/icons/Vector.svg",
-                                          height: 14,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    SizedBox(
-                                      width: 40,
-                                      height: 40,
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColor.primary,
-                                          padding: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/Vector.svg",
+                                            height: 14,
                                           ),
                                         ),
-                                        child: SvgPicture.asset(
-                                          "assets/icons/Bolt.svg",
-                                          height: 14,
+                                      ),
+                                      const SizedBox(width: 16),
+                                      SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColor.primary,
+                                            padding: EdgeInsets.zero,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/Bolt.svg",
+                                            height: 14,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                              ],
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                ],
+                              ),
                             ),
                           ),
 

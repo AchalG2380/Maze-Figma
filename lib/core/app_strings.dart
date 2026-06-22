@@ -37,7 +37,7 @@ class AppStrings {
   static const String priceChange = "(+0.37%)";
   static const String currency = "USD/BTC";
 
-  static const String timeline = "timeline";
+  static const String timeline = "Timeline";
   static const String marketDepth = "Market Depth";
 
   static const String high = "High";
@@ -93,7 +93,7 @@ class AppStrings {
   static const String cardNumber = "5061 0000 0000 0000";
   static const String mastercard = "Mastercard";
   static const String operations = "Operations";
-  static const String balanceW = "balance";
+  static const String balanceW = "Balance";
   static const String transactions = "Transactions";
   static const String today = "Today";
   static const String shopping = "Shopping";

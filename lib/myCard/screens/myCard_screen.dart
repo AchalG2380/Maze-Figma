@@ -10,12 +10,14 @@ import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:get/get.dart';
 import '../widgets/mycard_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../controllers/mycard_controller.dart';
 
 class MyCardScreen extends StatelessWidget {
   const MyCardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(MyCardController());
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SafeArea(
@@ -177,6 +179,7 @@ class MyCardScreen extends StatelessWidget {
               namedCardWidgets(name: AppStrings.operations),
 
               SingleChildScrollView(
+                controller: controller.scrollController,
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.all(5),
                 child: Row(
@@ -191,6 +194,23 @@ class MyCardScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
+              Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(3, (index) {
+                  final isActive = controller.activeIndex.value == index;
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    width: isActive ? 16 : 5,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: isActive ? AppColor.primary : AppColor.textSecondary,
+                      borderRadius: BorderRadius.circular(2.5),
+                    ),
+                  );
+                }),
+              )),
               const SizedBox(height: 10),
 
               namedCardWidgets(name: AppStrings.transactions),

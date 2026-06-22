@@ -52,7 +52,7 @@ class NewsScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/news.jpg'), // ← parameter
+                    image: AssetImage('assets/images/news.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -72,7 +72,7 @@ class NewsScreen extends StatelessWidget {
                     children: [
                       // Category badge
                       Text(
-                        AppStrings.CRYPTOCURRENCY, // ← parameter
+                        AppStrings.CRYPTOCURRENCY,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -86,7 +86,16 @@ class NewsScreen extends StatelessWidget {
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          AppStrings.newsWebsite,
+                          style: const TextStyle(
+                            color: AppColor.textSecondary,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
