@@ -263,7 +263,7 @@ class MarketScreen extends StatelessWidget {
                     : const MarketDepthWidget(),
               ),
 
-              namedCardWidgets(name: AppStrings.latestTrades),
+              NamedCardWidgets(name: AppStrings.latestTrades),
 
               Column(
                 children: [

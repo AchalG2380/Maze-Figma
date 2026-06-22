@@ -93,7 +93,7 @@ class _CurvePainter extends CustomPainter {
     path.moveTo(0, size.height * 0.98);
     path.quadraticBezierTo(
       size.width * 0.5,
-      size.height * 0.50,
+      size.height * 0.45,
       size.width,
       size.height * 0.40,
     );

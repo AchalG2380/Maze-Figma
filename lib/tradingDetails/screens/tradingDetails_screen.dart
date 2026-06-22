@@ -4,7 +4,7 @@ import 'package:maze/core/app_strings.dart';
 import 'package:maze/home/screens/home_screen.dart';
 import 'package:maze/market/screens/market_screen.dart';
 import 'package:maze/profile/screens/profile_screen.dart';
-import '../../scan/screens/scan_Screen.dart';
+import '../../scan/screens/scan_screen.dart';
 import '../../myCard/screens/myCard_screen.dart';
 import 'package:get/get.dart';
 import 'package:maze/appWidgets/app_widgets.dart';

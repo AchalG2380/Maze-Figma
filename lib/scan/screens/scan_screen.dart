@@ -70,130 +70,128 @@ class _ScanScreenState extends State<ScanScreens>
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              CustomScreenHeader(
-                title: AppStrings.scan,
-                leading: IconButton(
-                  onPressed: () {},
+        child: Column(
+          children: [
+            CustomScreenHeader(
+              title: AppStrings.scan,
+              leading: IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  'assets/icons/menu.svg',
+                  colorFilter: ColorFilter.mode(
+                    AppColor.textPrimary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () => Get.to(() => const MyCardScreen()),
                   icon: SvgPicture.asset(
-                    'assets/icons/menu.svg',
+                    'assets/icons/notification.svg',
                     colorFilter: ColorFilter.mode(
                       AppColor.textPrimary,
                       BlendMode.srcIn,
                     ),
                   ),
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: () => Get.to(() => const MyCardScreen()),
-                    icon: SvgPicture.asset(
-                      'assets/icons/notification.svg',
-                      colorFilter: ColorFilter.mode(
-                        AppColor.textPrimary,
-                        BlendMode.srcIn,
+              ],
+            ),
+
+            SizedBox(height: 24),
+
+            Text(
+              AppStrings.scanInfo,
+              style: TextStyle(color: AppColor.textPrimary, fontSize: 14),
+            ),
+
+            SizedBox(height: 40),
+
+            // ── Scan frame ───────────────────────────
+            Center(
+              child: SizedBox(
+                width: scanSize,
+                height: scanSize,
+                child: Stack(
+                  children: [
+                    // 1. Live camera feed clipped to frame
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: MobileScanner(
+                        controller: _controller,
+                        onDetect: _onDetect,
                       ),
                     ),
-                  ),
-                ],
-              ),
 
-              SizedBox(height: 50),
+                    // 2. Corner brackets on top of camera
+                    CustomPaint(
+                      size: Size(scanSize, scanSize),
+                      painter: _CornerPainter(),
+                    ),
 
-              Text(
-                AppStrings.scanInfo,
-                style: TextStyle(color: AppColor.textPrimary, fontSize: 14),
-              ),
-
-              SizedBox(height: 100),
-
-              // ── Scan frame ───────────────────────────
-              Center(
-                child: SizedBox(
-                  width: scanSize,
-                  height: scanSize,
-                  child: Stack(
-                    children: [
-                      // 1. Live camera feed clipped to frame
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: MobileScanner(
-                          controller: _controller,
-                          onDetect: _onDetect,
-                        ),
-                      ),
-
-                      // 2. Corner brackets on top of camera
-                      CustomPaint(
-                        size: Size(scanSize, scanSize),
-                        painter: _CornerPainter(),
-                      ),
-
-                      // 3. Animated scan line
-                      AnimatedBuilder(
-                        animation: _scanAnim,
-                        builder: (context, _) {
-                          return Positioned(
-                            // moves from top to bottom of frame
-                            top: _scanAnim.value * (scanSize - 3),
-                            left: 12,
-                            right: 12,
-                            child: Container(
-                              height: 2.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColor.transparent,
-                                    AppColor.lightBackground,
-                                    AppColor.QR,
-                                    AppColor.lightBackground,
-                                    AppColor.transparent,
-                                  ],
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColor.QR.withValues(alpha: 0.7),
-                                    blurRadius: 8,
-                                    spreadRadius: 2,
-                                  ),
+                    // 3. Animated scan line
+                    AnimatedBuilder(
+                      animation: _scanAnim,
+                      builder: (context, _) {
+                        return Positioned(
+                          // moves from top to bottom of frame
+                          top: _scanAnim.value * (scanSize - 3),
+                          left: 12,
+                          right: 12,
+                          child: Container(
+                            height: 2.5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2),
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColor.transparent,
+                                  AppColor.lightBackground,
+                                  AppColor.QR,
+                                  AppColor.lightBackground,
+                                  AppColor.transparent,
                                 ],
                               ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColor.QR.withValues(alpha: 0.7),
+                                  blurRadius: 8,
+                                  spreadRadius: 2,
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 30),
+            ),
+            SizedBox(height: 20),
 
-              Text(
-                AppStrings.scanStart,
-                style: TextStyle(color: AppColor.textPrimary, fontSize: 12),
-              ),
+            Text(
+              AppStrings.scanStart,
+              style: TextStyle(color: AppColor.textPrimary, fontSize: 12),
+            ),
 
-              SizedBox(height: 100),
+            Spacer(),
 
-              ElevatedButton(
-                onPressed: () => Get.to(() => const HomeScreen()),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  backgroundColor: AppColor.button2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(color: AppColor.textSecondary),
+            ElevatedButton(
+              onPressed: () => Get.to(() => const HomeScreen()),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                backgroundColor: AppColor.button2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
-            ],
-          ),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: AppColor.textSecondary),
+              ),
+            ),
+            Spacer(),
+          ],
         ),
       ),
       // Reusable Notch Bottom App Bar

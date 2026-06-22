@@ -124,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
-              namedCardWidgets(name: AppStrings.marketStatistics),
+              NamedCardWidgets(name: AppStrings.marketStatistics),
 
               Container(
                 width: double.infinity,

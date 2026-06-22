@@ -39,7 +39,7 @@ class MyCardScreen extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () => Get.to(() => const MyCardScreen()),
+                    onPressed: () {},
                     icon: SvgPicture.asset(
                       'assets/icons/notification.svg',
                       colorFilter: ColorFilter.mode(
@@ -176,7 +176,7 @@ class MyCardScreen extends StatelessWidget {
               ),
               SizedBox(height: 50),
 
-              namedCardWidgets(name: AppStrings.operations),
+              NamedCardWidgets(name: AppStrings.operations),
 
               SingleChildScrollView(
                 controller: controller.scrollController,
@@ -217,7 +217,7 @@ class MyCardScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              namedCardWidgets(name: AppStrings.transactions),
+              NamedCardWidgets(name: AppStrings.transactions),
 
               Align(
                 alignment: Alignment.centerLeft,

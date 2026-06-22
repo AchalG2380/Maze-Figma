@@ -18,7 +18,9 @@ class TimelineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // inject controller
-    final ctrl = Get.put(ChartController());
+    final ctrl = Get.isRegistered<ChartController>()
+        ? Get.find<ChartController>()
+        : Get.put(ChartController());
 
     return Container(
       padding: const EdgeInsets.all(14),

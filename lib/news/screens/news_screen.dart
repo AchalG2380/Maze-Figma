@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maze/Scan/screens/scan_screen.dart';
+import 'package:maze/scan/screens/scan_screen.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
 import 'package:maze/home/screens/home_screen.dart';

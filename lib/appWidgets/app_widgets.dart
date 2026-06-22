@@ -165,9 +165,9 @@ class CustomScanFAB extends StatelessWidget {
   }
 }
 
-class namedCardWidgets extends StatelessWidget {
+class NamedCardWidgets extends StatelessWidget {
   final String name;
-  const namedCardWidgets({super.key, required this.name});
+  const NamedCardWidgets({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
