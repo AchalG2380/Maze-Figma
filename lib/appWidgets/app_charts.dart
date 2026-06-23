@@ -288,7 +288,7 @@ class VolumePainter extends CustomPainter {
   double get _maxVolume =>
       candles.map((c) => c.volume).reduce((a, b) => a > b ? a : b);
 
-  // same X logic as CandlePainter — must match!
+  // same X logic as CandlePainter
   double _toX(int index) =>
       index * (candleWidth + candleSpacing) + candleWidth / 2 - scrollOffset;
 
@@ -326,13 +326,13 @@ class YAxisPainter extends CustomPainter {
   final List<CandleData> candles;
   final int labelCount;
   final Color textColor;
-  final double chartHeightRatio; // ← new: how much height candles use
+  final double chartHeightRatio;
 
   YAxisPainter({
     required this.candles,
     this.labelCount = 6,
     this.textColor = AppColor.lightText,
-    this.chartHeightRatio = 0.7, // ← default 70%
+    this.chartHeightRatio = 0.7,
   });
 
   double get _maxPrice =>

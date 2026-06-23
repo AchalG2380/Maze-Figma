@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
-import 'package:maze/home/screens/home_screen.dart';
-import 'package:maze/market/screens/market_screen.dart';
-import 'package:maze/tradingDetails/screens/tradingDetails_screen.dart';
-import '../../scan/screens/scan_screen.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import '../widgets/profile_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -169,46 +165,9 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       // Reusable Notch Bottom App Bar
-      bottomNavigationBar: CustomBottomAppBar(
-        currentIndex: 0,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const HomeScreen()),
-              );
-              break;
-            case 1:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const MarketScreen()),
-              );
-              break;
-            case 2:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const TradingdetailsScreen()),
-              );
-              break;
-            case 3:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              );
-              break;
-          }
-        },
-      ),
+      bottomNavigationBar: CustomBottomAppBar(),
       // Reusable Floating Scanner Button
-      floatingActionButton: CustomScanFAB(
-        onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const ScanScreens()),
-          );
-        },
-      ),
+      floatingActionButton: CustomScanFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

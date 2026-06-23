@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../home/screens/home_screen.dart';
+import '../market/screens/market_screen.dart';
+import '../tradingdetails/screens/tradingDetails_screen.dart';
+import '../profile/screens/profile_screen.dart';
+import '../scan/screens/scan_screen.dart';
+import 'package:get/get.dart';
 
 /// A reusable custom header widget that matches the design of the screens in the Maze app.
 class CustomScreenHeader extends StatelessWidget {
@@ -51,14 +57,7 @@ class CustomScreenHeader extends StatelessWidget {
 /// A reusable bottom navigation bar matching the notch design.
 /// Communicates user selection back to the parent using the [onTap] callback.
 class CustomBottomAppBar extends StatelessWidget {
-  final int currentIndex;
-  final ValueChanged<int> onTap;
-
-  const CustomBottomAppBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
+  const CustomBottomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,53 +71,21 @@ class CustomBottomAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildTabIcon(
-              icon: SvgPicture.asset(
-                'assets/icons/home.svg',
-                colorFilter: ColorFilter.mode(
-                  currentIndex == 0
-                      ? AppColor.textPrimary
-                      : AppColor.textSecondary,
-                  BlendMode.srcIn,
-                ),
-              ),
-              index: 0,
+              icon: SvgPicture.asset('assets/icons/home.svg'),
+              onPressed: () => Get.off(() => HomeScreen()),
             ),
             _buildTabIcon(
-              icon: SvgPicture.asset(
-                'assets/icons/wallet.svg',
-                colorFilter: ColorFilter.mode(
-                  currentIndex == 1
-                      ? AppColor.textPrimary
-                      : AppColor.textSecondary,
-                  BlendMode.srcIn,
-                ),
-              ),
-              index: 1,
+              icon: SvgPicture.asset('assets/icons/wallet.svg'),
+              onPressed: () => Get.off(() => MarketScreen()),
             ),
             const SizedBox(width: 32), // Notch gap for the central FAB
             _buildTabIcon(
-              icon: SvgPicture.asset(
-                'assets/icons/stock_market.svg',
-                colorFilter: ColorFilter.mode(
-                  currentIndex == 2
-                      ? AppColor.textPrimary
-                      : AppColor.textSecondary,
-                  BlendMode.srcIn,
-                ),
-              ),
-              index: 2,
+              icon: SvgPicture.asset('assets/icons/stock_market.svg'),
+              onPressed: () => Get.off(() => TradingdetailsScreen()),
             ),
             _buildTabIcon(
-              icon: SvgPicture.asset(
-                'assets/icons/profile.svg',
-                colorFilter: ColorFilter.mode(
-                  currentIndex == 3
-                      ? AppColor.textPrimary
-                      : AppColor.textSecondary,
-                  BlendMode.srcIn,
-                ),
-              ),
-              index: 3,
+              icon: SvgPicture.asset('assets/icons/profile.svg'),
+              onPressed: () => Get.off(() => ProfileScreen()),
             ),
           ],
         ),
@@ -126,16 +93,17 @@ class CustomBottomAppBar extends StatelessWidget {
     );
   }
 
-  Widget _buildTabIcon({required Widget icon, required int index}) {
-    return IconButton(icon: icon, onPressed: () => onTap(index));
+  Widget _buildTabIcon({
+    required Widget icon,
+    required VoidCallback onPressed,
+  }) {
+    return IconButton(icon: icon, onPressed: onPressed);
   }
 }
 
 /// A reusable Floating Action Button matching the custom scanner notch button design.
 class CustomScanFAB extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const CustomScanFAB({super.key, required this.onPressed});
+  const CustomScanFAB({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +127,7 @@ class CustomScanFAB extends StatelessWidget {
           'assets/icons/scan.svg',
           colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
-        onPressed: onPressed,
+        onPressed: () => Get.off(() => ScanScreens()),
       ),
     );
   }
