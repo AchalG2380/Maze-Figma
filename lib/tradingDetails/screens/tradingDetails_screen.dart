@@ -308,6 +308,7 @@ class TradingdetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: AppColor.textPrimary,
                                 fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
@@ -335,6 +336,7 @@ class TradingdetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: AppColor.textPrimary,
                                 fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),

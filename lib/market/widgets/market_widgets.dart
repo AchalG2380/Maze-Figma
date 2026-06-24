@@ -293,8 +293,8 @@ class TimelineWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 50.0,
-                        vertical: 20,
+                        horizontal: 35.0,
+                        vertical: 15,
                       ),
                     ),
                     child: Text(
@@ -302,6 +302,7 @@ class TimelineWidget extends StatelessWidget {
                       style: TextStyle(
                         color: AppColor.sellButton,
                         fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -319,8 +320,8 @@ class TimelineWidget extends StatelessWidget {
                       ),
                       padding: WidgetStatePropertyAll(
                         const EdgeInsets.symmetric(
-                          horizontal: 50.0,
-                          vertical: 20,
+                          horizontal: 35.0,
+                          vertical: 15,
                         ),
                       ),
                     ),
@@ -329,6 +330,7 @@ class TimelineWidget extends StatelessWidget {
                       style: TextStyle(
                         color: AppColor.textPrimary,
                         fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

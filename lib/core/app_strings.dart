@@ -23,7 +23,7 @@ class AppStrings {
   static const String liveMarkets =
       "Market cap \$780,091 • BTC Dominance 32.11% • Cryptocurrencies 3";
   static const String balance = "\$41,000";
-  static const String todayChange = "+19.25 for today";
+  static const String todayChange = "+\$19.25 for today";
   static const String eth = "ETH";
   static const String btc = "BTC";
   static const String price = "355.01";

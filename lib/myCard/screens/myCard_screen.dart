@@ -102,7 +102,7 @@ class MyCardScreen extends StatelessWidget {
                             style: TextStyle(
                               color: AppColor.textPrimary,
                               fontSize: 13,
-                              fontWeight: FontWeight.w200,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
@@ -111,6 +111,7 @@ class MyCardScreen extends StatelessWidget {
                             style: TextStyle(
                               color: AppColor.textPrimary,
                               fontSize: 14,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           SizedBox(height: 30),
@@ -148,15 +149,15 @@ class MyCardScreen extends StatelessWidget {
                             ],
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Spacer(),
-                              Spacer(),
                               Text(
                                 AppStrings.mastercard,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColor.textPrimary,
                                   fontSize: 12,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],

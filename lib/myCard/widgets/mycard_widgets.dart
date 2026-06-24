@@ -34,7 +34,7 @@ class BalanceRow extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: AppColor.textPrimary,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -89,7 +89,7 @@ class TodayRow extends StatelessWidget {
                     name,
                     style: const TextStyle(
                       color: AppColor.textPrimary,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
@@ -97,13 +97,18 @@ class TodayRow extends StatelessWidget {
                     style: const TextStyle(
                       color: AppColor.textPrimary,
                       fontSize: 10,
-                      fontWeight: FontWeight.w200,
                     ),
                   ),
                 ],
               ),
               const Spacer(),
-              Text(amount, style: const TextStyle(color: AppColor.textPrimary)),
+              Text(
+                amount,
+                style: const TextStyle(
+                  color: AppColor.textPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),

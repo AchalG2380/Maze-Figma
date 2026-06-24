@@ -46,21 +46,26 @@ class RecentTransactions extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: TextStyle(color: AppColor.textPrimary)),
               Text(
-                titleDate,
+                title,
                 style: TextStyle(
                   color: AppColor.textPrimary,
-                  fontWeight: FontWeight.w200,
-                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
+              ),
+              Text(
+                titleDate,
+                style: TextStyle(color: AppColor.textPrimary, fontSize: 13),
               ),
             ],
           ),
           Spacer(),
           Align(
             alignment: Alignment.bottomRight,
-            child: Text(amount, style: TextStyle(color: color)),
+            child: Text(
+              amount,
+              style: TextStyle(color: color, fontWeight: FontWeight.w500),
+            ),
           ),
         ],
       ),
@@ -120,7 +125,8 @@ class MarketStatistics extends StatelessWidget {
                         name,
                         style: TextStyle(
                           color: AppColor.textPrimary,
-                          fontSize: 13,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -146,8 +152,8 @@ class MarketStatistics extends StatelessWidget {
                               coin,
                               style: TextStyle(
                                 color: AppColor.textSecondary,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w200,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -165,7 +171,6 @@ class MarketStatistics extends StatelessWidget {
                                       style: TextStyle(
                                         color: color,
                                         fontSize: 12,
-                                        fontWeight: FontWeight.w200,
                                       ),
                                     ),
                                     Padding(

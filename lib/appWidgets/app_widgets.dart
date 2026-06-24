@@ -38,7 +38,7 @@ class CustomScreenHeader extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: AppColor.textPrimary,
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -151,7 +151,10 @@ class NamedCardWidgets extends StatelessWidget {
       child: Text(
         name,
         textAlign: TextAlign.center,
-        style: TextStyle(color: AppColor.textPrimary),
+        style: TextStyle(
+          color: AppColor.textPrimary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -170,7 +173,7 @@ class TradeHeader extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 11),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColor.lightBackground),
+              border: Border.all(color: AppColor.secondary),
               color: AppColor.lightDarkBackground,
             ),
             child: Column(
@@ -182,17 +185,14 @@ class TradeHeader extends StatelessWidget {
                       children: [
                         Text(
                           AppStrings.high,
-                          style: TextStyle(
-                            color: AppColor.textGreen,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: TextStyle(color: AppColor.textGreen),
                         ),
                         SizedBox(height: 5),
                         Text(
                           AppStrings.highPrice,
                           style: TextStyle(
                             color: AppColor.textPrimary,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -201,17 +201,14 @@ class TradeHeader extends StatelessWidget {
                       children: [
                         Text(
                           AppStrings.low,
-                          style: TextStyle(
-                            color: AppColor.textRed,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: TextStyle(color: AppColor.textRed),
                         ),
                         SizedBox(height: 5),
                         Text(
                           AppStrings.lowPrice,
                           style: TextStyle(
                             color: AppColor.textPrimary,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -233,7 +230,7 @@ class TradeHeader extends StatelessWidget {
                           AppStrings.highPrice,
                           style: TextStyle(
                             color: AppColor.textPrimary,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -249,7 +246,7 @@ class TradeHeader extends StatelessWidget {
                           AppStrings.lowPrice,
                           style: TextStyle(
                             color: AppColor.textPrimary,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -280,7 +277,7 @@ class TradeHeader extends StatelessWidget {
                   AppStrings.priceChange,
                   style: TextStyle(
                     color: AppColor.high,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -299,10 +296,7 @@ class TradeHeader extends StatelessWidget {
                         value: AppStrings.currency,
                         child: Text(
                           AppStrings.currency,
-                          style: TextStyle(
-                            color: AppColor.textPrimary,
-                            fontWeight: FontWeight.w200,
-                          ),
+                          style: TextStyle(color: AppColor.textPrimary),
                         ),
                       ),
                     ],

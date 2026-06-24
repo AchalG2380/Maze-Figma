@@ -19,7 +19,13 @@ class SettingsRow extends StatelessWidget {
         children: [
           icon,
           SizedBox(width: 20),
-          Text(title, style: TextStyle(color: AppColor.textPrimary)),
+          Text(
+            title,
+            style: TextStyle(
+              color: AppColor.textPrimary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           Spacer(),
         ],
       ),
@@ -42,7 +48,13 @@ class SupportRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(title, style: TextStyle(color: AppColor.textPrimary)),
+          Text(
+            title,
+            style: TextStyle(
+              color: AppColor.textPrimary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           Spacer(),
           Icon(Icons.arrow_forward_ios, color: AppColor.textSecondary),
         ],
@@ -67,7 +79,13 @@ class OptionRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(title, style: TextStyle(color: AppColor.textPrimary)),
+          Text(
+            title,
+            style: TextStyle(
+              color: AppColor.textPrimary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           Spacer(),
           if (trailing != null) trailing!, // only renders if passed
         ],

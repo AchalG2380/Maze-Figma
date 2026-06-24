@@ -107,6 +107,7 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(
                         color: AppColor.textPrimary,
                         fontSize: 24,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
@@ -125,8 +126,8 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(
                         color: AppColor.high,
                         fontSize: 14,
-                        fontWeight: FontWeight.w200,
                         height: 2.0,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(height: 12),
@@ -187,7 +188,7 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(
                           color: AppColor.textPrimary,
                           fontSize: 12,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -200,6 +201,7 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(
                           color: AppColor.textPrimary,
                           fontSize: 16,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -241,7 +243,10 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       AppStrings.recentTransactions,
-                      style: TextStyle(color: AppColor.textPrimary),
+                      style: TextStyle(
+                        color: AppColor.textPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Spacer(),
                     Text(

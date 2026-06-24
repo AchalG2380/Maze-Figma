@@ -100,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(
                   color: AppColor.textPrimary,
                   fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
@@ -108,7 +108,7 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(
                   color: AppColor.textSecondary,
                   fontSize: 16,
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(height: 20),
@@ -131,7 +131,11 @@ class ProfileScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   AppStrings.notifications,
-                  style: TextStyle(color: AppColor.textPrimary, fontSize: 18),
+                  style: TextStyle(
+                    color: AppColor.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 8),
@@ -154,7 +158,11 @@ class ProfileScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   AppStrings.support,
-                  style: TextStyle(color: AppColor.textPrimary, fontSize: 18),
+                  style: TextStyle(
+                    color: AppColor.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 8),

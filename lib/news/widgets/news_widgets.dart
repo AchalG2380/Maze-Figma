@@ -69,7 +69,7 @@ class NewsItemWidget extends StatelessWidget {
                     style: const TextStyle(
                       color: AppColor.primary,
                       fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const Spacer(),
@@ -80,6 +80,7 @@ class NewsItemWidget extends StatelessWidget {
                         style: const TextStyle(
                           color: AppColor.textPrimary,
                           fontSize: 12,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       const Spacer(),

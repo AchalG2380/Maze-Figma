@@ -83,6 +83,7 @@ class MarketScreen extends StatelessWidget {
                               color: showTimeline
                                   ? AppColor.textPrimary
                                   : AppColor.textSecondary,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -115,6 +116,7 @@ class MarketScreen extends StatelessWidget {
                               color: !showTimeline
                                   ? AppColor.textPrimary
                                   : AppColor.textSecondary,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -149,15 +151,24 @@ class MarketScreen extends StatelessWidget {
                       children: [
                         Text(
                           AppStrings.amountBTC,
-                          style: TextStyle(color: AppColor.textPrimary),
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         Text(
                           AppStrings.priceETH,
-                          style: TextStyle(color: AppColor.textPrimary),
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         Text(
                           AppStrings.time,
-                          style: TextStyle(color: AppColor.textPrimary),
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ],
                     ),
