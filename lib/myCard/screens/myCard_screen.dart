@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../widgets/mycard_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../controllers/mycard_controller.dart';
+import '../../news/screens/news_screen.dart';
 
 class MyCardScreen extends StatelessWidget {
   const MyCardScreen({super.key});
@@ -34,7 +35,7 @@ class MyCardScreen extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => Get.to(() => const NewsScreen()),
                     icon: SvgPicture.asset(
                       'assets/icons/notification.svg',
                       colorFilter: ColorFilter.mode(
@@ -124,7 +125,7 @@ class MyCardScreen extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColor.textPrimary,
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

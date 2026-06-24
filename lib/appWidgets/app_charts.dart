@@ -633,7 +633,7 @@ class OrderBookPainter extends CustomPainter {
     // Background (dark blue matching the design image)
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
-      Paint()..color = AppColor.lightBackground,
+      Paint()..color = AppColor.surface.withValues(alpha: .7),
     );
 
     // Subtle border
@@ -652,7 +652,7 @@ class OrderBookPainter extends CustomPainter {
       text: TextSpan(
         text: '${level.price.toStringAsFixed(6)} BTC',
         style: const TextStyle(
-          color: AppColor.textPrimary,
+          color: AppColor.lightText,
           fontSize: 11.5,
           fontWeight: FontWeight.bold,
         ),
@@ -669,10 +669,7 @@ class OrderBookPainter extends CustomPainter {
       final labelTp = TextPainter(
         text: TextSpan(
           text: label,
-          style: TextStyle(
-            color: AppColor.textPrimary.withValues(alpha: 0.55),
-            fontSize: 9.5,
-          ),
+          style: TextStyle(color: AppColor.lightText, fontSize: 9.5),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
@@ -682,7 +679,7 @@ class OrderBookPainter extends CustomPainter {
         text: TextSpan(
           text: value,
           style: const TextStyle(
-            color: AppColor.textPrimary,
+            color: AppColor.lightText,
             fontSize: 9.5,
             fontWeight: FontWeight.w600,
           ),

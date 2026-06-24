@@ -69,6 +69,7 @@ class NewsItemWidget extends StatelessWidget {
                     style: const TextStyle(
                       color: AppColor.primary,
                       fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Spacer(),
@@ -77,14 +78,14 @@ class NewsItemWidget extends StatelessWidget {
                       Text(
                         time,
                         style: const TextStyle(
-                          color: AppColor.textSecondary,
+                          color: AppColor.textPrimary,
                           fontSize: 12,
                         ),
                       ),
                       const Spacer(),
-                      const Icon(
+                      Icon(
                         Icons.bookmark_border,
-                        color: AppColor.textSecondary,
+                        color: AppColor.textPrimary,
                         size: 23,
                       ),
                     ],

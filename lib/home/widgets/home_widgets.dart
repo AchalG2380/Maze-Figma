@@ -25,7 +25,7 @@ class RecentTransactions extends StatelessWidget {
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColor.lightDarkBackground,
+        color: AppColor.lightBackground2,
         border: Border.all(color: AppColor.secondary, width: 1),
       ),
       child: Row(
@@ -37,7 +37,7 @@ class RecentTransactions extends StatelessWidget {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: AppColor.secondary,
+                color: AppColor.lightDarkBackground,
                 borderRadius: BorderRadius.circular(2),
               ),
               child: icon,
@@ -99,7 +99,7 @@ class MarketStatistics extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColor.lightDarkBackground,
-          border: Border.all(color: AppColor.secondary, width: 1),
+          border: Border.all(color: AppColor.surface, width: 1),
         ),
         child: Column(
           children: [
@@ -116,23 +116,31 @@ class MarketStatistics extends StatelessWidget {
                         height: 30,
                         fit: BoxFit.contain,
                       ),
-                      Text(name, style: TextStyle(color: AppColor.textPrimary)),
+                      Text(
+                        name,
+                        style: TextStyle(
+                          color: AppColor.textPrimary,
+                          fontSize: 13,
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 4),
                   Expanded(
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            Text(
-                              price,
-                              style: TextStyle(
-                                color: AppColor.textPrimary,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                            Flexible(
+                              child: Text(
+                                price,
+                                style: TextStyle(
+                                  color: AppColor.textPrimary,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               coin,
@@ -141,7 +149,6 @@ class MarketStatistics extends StatelessWidget {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w200,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),

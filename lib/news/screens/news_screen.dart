@@ -82,6 +82,7 @@ class NewsScreen extends StatelessWidget {
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Align(
@@ -89,7 +90,7 @@ class NewsScreen extends StatelessWidget {
                         child: Text(
                           AppStrings.newsWebsite,
                           style: const TextStyle(
-                            color: AppColor.textSecondary,
+                            color: AppColor.textPrimary,
                             fontSize: 12,
                           ),
                         ),

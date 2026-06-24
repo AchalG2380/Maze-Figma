@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maze/myCard/screens/myCard_screen.dart';
 import '../home/screens/home_screen.dart';
 import '../market/screens/market_screen.dart';
-import '../tradingdetails/screens/tradingDetails_screen.dart';
 import '../profile/screens/profile_screen.dart';
 import '../scan/screens/scan_screen.dart';
 import 'package:get/get.dart';
@@ -63,7 +63,7 @@ class CustomBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: AppColor.secondary,
+      color: AppColor.lightBackground3,
       shape: const CircularNotchedRectangle(),
       notchMargin: 8,
       child: SizedBox(
@@ -77,12 +77,12 @@ class CustomBottomAppBar extends StatelessWidget {
             ),
             _buildTabIcon(
               icon: SvgPicture.asset('assets/icons/wallet.svg'),
-              onPressed: () => Get.off(() => MarketScreen()),
+              onPressed: () => Get.off(() => MyCardScreen()),
             ),
             const SizedBox(width: 32), // Notch gap for the central FAB
             _buildTabIcon(
               icon: SvgPicture.asset('assets/icons/stock_market.svg'),
-              onPressed: () => Get.off(() => TradingdetailsScreen()),
+              onPressed: () => Get.off(() => MarketScreen()),
             ),
             _buildTabIcon(
               icon: SvgPicture.asset('assets/icons/profile.svg'),
@@ -113,11 +113,11 @@ class CustomScanFAB extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColor.surface,
+        color: AppColor.primary.withValues(alpha: 0.5),
         border: Border.all(color: Colors.blue.shade300, width: 2),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primary.withValues(alpha: 0.5),
+            color: AppColor.secondary.withValues(alpha: 0.5),
             blurRadius: 14,
             spreadRadius: 3,
           ),
@@ -146,7 +146,7 @@ class NamedCardWidgets extends StatelessWidget {
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColor.surface,
+        color: AppColor.lightBackground3,
       ),
       child: Text(
         name,
@@ -287,7 +287,7 @@ class TradeHeader extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
-                    color: AppColor.lightBackground,
+                    color: AppColor.lightBackground2.withValues(alpha: .6),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: DropdownButton(

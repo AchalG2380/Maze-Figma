@@ -3,10 +3,10 @@ import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
 import 'package:maze/market/widgets/market_widgets.dart';
 import 'package:get/get.dart';
-import '../../myCard/screens/myCard_screen.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../controllers/market_controller.dart';
+import '../../news/screens/news_screen.dart';
 
 class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
@@ -35,7 +35,7 @@ class MarketScreen extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () => Get.to(() => const MyCardScreen()),
+                    onPressed: () => Get.to(() => const NewsScreen()),
                     icon: SvgPicture.asset(
                       'assets/icons/notification.svg',
                       colorFilter: ColorFilter.mode(
@@ -60,7 +60,7 @@ class MarketScreen extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           showTimeline
-                              ? AppColor.lightBackground
+                              ? AppColor.secondary
                               : AppColor.lightDarkBackground,
                         ),
                         shape: WidgetStatePropertyAll(
@@ -93,7 +93,7 @@ class MarketScreen extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           !showTimeline
-                              ? AppColor.lightBackground
+                              ? AppColor.secondary
                               : AppColor.lightDarkBackground,
                         ),
                         shape: WidgetStatePropertyAll(
@@ -141,7 +141,7 @@ class MarketScreen extends StatelessWidget {
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(16),
                       ),
-                      color: AppColor.lightBackground,
+                      color: AppColor.secondary,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

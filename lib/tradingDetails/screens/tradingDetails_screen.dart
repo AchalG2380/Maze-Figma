@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
-import '../../myCard/screens/myCard_screen.dart';
 import 'package:get/get.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +8,7 @@ import '../../market/widgets/market_widgets.dart';
 import '../widgets/tradingDetails_widgets.dart';
 import '../controllers/trading_details_controller.dart';
 import '../../data/candle_data.dart';
+import '../../news/screens/news_screen.dart';
 
 class TradingdetailsScreen extends StatelessWidget {
   const TradingdetailsScreen({super.key});
@@ -103,7 +103,7 @@ class TradingdetailsScreen extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () => Get.to(() => const MyCardScreen()),
+                    onPressed: () => Get.to(() => const NewsScreen()),
                     icon: SvgPicture.asset(
                       'assets/icons/notification.svg',
                       colorFilter: ColorFilter.mode(
@@ -140,7 +140,7 @@ class TradingdetailsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.horizontal(
                                 right: Radius.circular(12),
                               ),
-                              color: AppColor.lightDarkBackground,
+                              color: AppColor.lightBackground4,
                             ),
                             child: Transform.translate(
                               offset: const Offset(-20, 0),
@@ -167,11 +167,9 @@ class TradingdetailsScreen extends StatelessWidget {
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(5),
-                                                  color: AppColor.surface,
-                                                  border: Border.all(
-                                                    color: AppColor.secondary,
-                                                    width: 1,
-                                                  ),
+                                                  color: AppColor
+                                                      .lightBackground
+                                                      .withValues(alpha: .8),
                                                 ),
                                                 child: Text(
                                                   timeframes[index],

@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 final List<Map<String, dynamic>> _settingsItems = [
   {
     'icon': SvgPicture.asset('assets/icons/AllEdit.svg', width: 15),
-    'title': (AppStrings.edit,),
+    'title': AppStrings.edit,
   },
   {
     'icon': SvgPicture.asset('assets/icons/Password.svg', width: 15),

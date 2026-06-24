@@ -26,7 +26,7 @@ class TimelineWidget extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: AppColor.lightDarkBackground,
+        color: AppColor.lightBackground4,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -263,10 +263,8 @@ class TimelineWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: AppColor.surface,
-                            border: Border.all(
-                              color: AppColor.secondary,
-                              width: 1,
+                            color: AppColor.lightBackground.withValues(
+                              alpha: .8,
                             ),
                           ),
                           child: Text(
@@ -356,7 +354,7 @@ class MarketDepthWidget extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: AppColor.lightDarkBackground,
+        color: AppColor.lightBackground4,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:maze/core/app_color.dart';
 import 'package:maze/core/app_strings.dart';
 import 'package:get/get.dart';
-import '../../myCard/screens/myCard_screen.dart';
 import 'package:maze/appWidgets/app_widgets.dart';
 import '../widgets/home_widgets.dart';
 import '../../news/screens/news_screen.dart';
@@ -61,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () => Get.to(() => const MyCardScreen()),
+                    onPressed: () => Get.to(() => const NewsScreen()),
                     icon: SvgPicture.asset(
                       'assets/icons/notification.svg',
                       colorFilter: ColorFilter.mode(
@@ -177,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: AppColor.lightBackground,
+                  color: AppColor.secondary,
                 ),
                 child: Column(
                   children: [
@@ -236,7 +235,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: AppColor.surface,
+                  color: AppColor.lightBackground3,
                 ),
                 child: Row(
                   children: [

@@ -4,7 +4,7 @@ class AppColor {
   AppColor._();
 
   static const Color primary = Color.fromRGBO(19, 69, 199, 1);
-  static const Color secondary = Color.fromRGBO(0, 24, 84, 1);
+  static const Color secondary = Color.fromRGBO(25, 61, 153, 1);
 
   // --- Text
   static const Color textPrimary = Color(0xFFFFFFFF);
@@ -30,9 +30,12 @@ class AppColor {
 
   // --- Background / Surface ---
   static const Color background = Color.fromRGBO(1, 4, 31, 1);
-  static const Color lightBackground = Color.fromRGBO(25, 61, 153, 1);
-  static const Color lightDarkBackground = Color.fromRGBO(19, 24, 60, 1);
-  static const Color surface = Color.fromRGBO(69, 121, 255, .2);
+  static const Color lightBackground = Color.fromRGBO(30, 49, 97, 1);
+  static const Color lightBackground2 = Color.fromRGBO(25, 32, 74, 1);
+  static const Color lightBackground3 = Color.fromRGBO(0, 24, 84, 1);
+  static const Color lightBackground4 = Color.fromRGBO(19, 24, 60, 1);
+  static const Color lightDarkBackground = Color.fromRGBO(25, 31, 63, 1);
+  static const Color surface = Color.fromRGBO(27, 42, 124, 1);
   static const Color transparent = Color.fromRGBO(0, 0, 0, 0);
   static const Color qr = Color.fromRGBO(187, 222, 251, 1);
 }
