@@ -32,7 +32,10 @@ class BalanceRow extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColor.textSecondary),
+            style: TextStyle(
+              color: AppColor.textPrimary,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),
@@ -54,35 +57,114 @@ class TodayRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColor.lightDarkBackground,
-        border: Border.all(color: AppColor.primary, width: 1),
+    return CustomPaint(
+      foregroundPainter: RoundedNonUniformBorderPainter(
+        radius: 8,
+        topColor: AppColor.primary,
+        leftColor: AppColor.primary,
+        rightColor: AppColor.primary.withValues(alpha: 0.2),
+        bottomColor: AppColor.primary.withValues(alpha: 0.2),
+        strokeWidth: 1.0,
       ),
-      child: Row(
-        children: [
-          ClipOval(
-            child: Image.asset(
-              "assets/images/Shopping.png",
-              fit: BoxFit.cover,
-              height: 40,
-              width: 40,
-            ),
-          ),
-          SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          decoration: const BoxDecoration(color: AppColor.lightDarkBackground),
+          child: Row(
             children: [
-              Text(name, style: const TextStyle(color: AppColor.textPrimary)),
-              Text(date, style: const TextStyle(color: AppColor.textSecondary)),
+              ClipOval(
+                child: Image.asset(
+                  "assets/images/Shopping.png",
+                  fit: BoxFit.cover,
+                  height: 40,
+                  width: 40,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(color: AppColor.textPrimary),
+                  ),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      color: AppColor.textPrimary,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w200,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Text(amount, style: const TextStyle(color: AppColor.textPrimary)),
             ],
           ),
-          const Spacer(),
-          Text(amount, style: const TextStyle(color: AppColor.textSecondary)),
-        ],
+        ),
       ),
     );
+  }
+}
+
+class RoundedNonUniformBorderPainter extends CustomPainter {
+  final double radius;
+  final Color topColor;
+  final Color leftColor;
+  final Color rightColor;
+  final Color bottomColor;
+  final double strokeWidth;
+
+  RoundedNonUniformBorderPainter({
+    required this.radius,
+    required this.topColor,
+    required this.leftColor,
+    required this.rightColor,
+    required this.bottomColor,
+    this.strokeWidth = 1.0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double w = size.width;
+    final double h = size.height;
+    final double r = radius;
+    final double offset = strokeWidth / 2;
+
+    final rect = Rect.fromLTWH(
+      offset,
+      offset,
+      w - strokeWidth,
+      h - strokeWidth,
+    );
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(r));
+
+    final paint = Paint()
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke
+      ..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [topColor, topColor, rightColor],
+        stops: const [
+          0.0,
+          0.5, // 50% of diagonal path remains solid
+          1.0, // Fades to bottom/right color at the corner
+        ],
+      ).createShader(rect);
+
+    canvas.drawRRect(rrect, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant RoundedNonUniformBorderPainter oldDelegate) {
+    return oldDelegate.radius != radius ||
+        oldDelegate.topColor != topColor ||
+        oldDelegate.leftColor != leftColor ||
+        oldDelegate.rightColor != rightColor ||
+        oldDelegate.bottomColor != bottomColor ||
+        oldDelegate.strokeWidth != strokeWidth;
   }
 }

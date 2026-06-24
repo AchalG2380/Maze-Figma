@@ -9,16 +9,24 @@ import '../../news/screens/news_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../data/area_chart_data.dart';
 
-const List<Map<String, dynamic>> _recentTransactions = [
+final List<Map<String, dynamic>> _recentTransactions = [
   {
-    'icon': Icons.arrow_upward,
+    'icon': SvgPicture.asset(
+      "assets/icons/Polygon 1.svg",
+      width: 10,
+      colorFilter: ColorFilter.mode(AppColor.textGreen, BlendMode.srcIn),
+    ),
     'title': AppStrings.Received,
     'titleDate': AppStrings.ReceivedDate,
     'amount': AppStrings.ReceivedAmount,
     'color': AppColor.textGreen,
   },
   {
-    'icon': Icons.arrow_downward,
+    'icon': SvgPicture.asset(
+      "assets/icons/Polygon 2.svg",
+      width: 10,
+      colorFilter: ColorFilter.mode(AppColor.textRed, BlendMode.srcIn),
+    ),
     'title': AppStrings.Withdrawn,
     'titleDate': AppStrings.WithdrawnDate,
     'amount': AppStrings.WithdrawnAmount,
@@ -81,6 +89,7 @@ class HomeScreen extends StatelessWidget {
 
               Container(
                 width: double.infinity,
+                margin: EdgeInsets.symmetric(vertical: 8),
                 padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
@@ -108,12 +117,18 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
+                        height: 1.0,
                       ),
                     ),
                     Text(
                       AppStrings.todayChange,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColor.textGreen, fontSize: 12),
+                      style: TextStyle(
+                        color: AppColor.high,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w200,
+                        height: 2.0,
+                      ),
                     ),
                     SizedBox(height: 12),
                   ],
@@ -128,22 +143,26 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     MarketStatistics(
-                      price: AppStrings.ethereumPrice,
+                      price: AppStrings.price,
+                      coin: AppStrings.eth,
                       name: AppStrings.ethereum,
                       today: AppStrings.ethereumToday,
                       logoUrl: "assets/images/ETH.png",
-                      color: AppColor.textGreen,
+                      color: AppColor.high,
+                      arrow: SvgPicture.asset("assets/icons/Polygon 1.svg"),
                       dataPoints: area_chart_dataPoints
                           .where((element) => element.containsKey('Green'))
                           .first['Green']!,
                     ),
                     SizedBox(width: 20),
                     MarketStatistics(
-                      price: AppStrings.bitcoinPrice,
+                      price: AppStrings.price,
+                      coin: AppStrings.btc,
                       name: AppStrings.bitcoin,
                       today: AppStrings.bitcoinToday,
                       logoUrl: "assets/images/bth.png",
-                      color: AppColor.textRed,
+                      color: AppColor.low,
+                      arrow: SvgPicture.asset("assets/icons/Polygon 2.svg"),
                       dataPoints: area_chart_dataPoints
                           .where((element) => element.containsKey('Red'))
                           .first['Red']!,
@@ -167,17 +186,22 @@ class HomeScreen extends StatelessWidget {
                       child: Text(
                         AppStrings.referRewards,
                         style: TextStyle(
-                          color: AppColor.textSecondary,
+                          color: AppColor.textPrimary,
                           fontSize: 12,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
+                    SizedBox(height: 5),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         AppStrings.referText,
                         textAlign: TextAlign.left,
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(
+                          color: AppColor.textPrimary,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -223,7 +247,10 @@ class HomeScreen extends StatelessWidget {
                     Spacer(),
                     Text(
                       AppStrings.seeMore,
-                      style: TextStyle(color: AppColor.textSecondary),
+                      style: TextStyle(
+                        color: AppColor.textSecondary,
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                   ],
                 ),

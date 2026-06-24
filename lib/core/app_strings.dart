@@ -21,11 +21,12 @@ class AppStrings {
   static const String seeMore = "See more";
 
   static const String liveMarkets =
-      "Market cap \$780,091 . BTC Dominance 32.11% . Cryptocurrencies3";
+      "Market cap \$780,091 • BTC Dominance 32.11% • Cryptocurrencies 3";
   static const String balance = "\$41,000";
   static const String todayChange = "+19.25 for today";
-  static const String ethereumPrice = "355.01ETH";
-  static const String bitcoinPrice = "355.01BTC";
+  static const String eth = "ETH";
+  static const String btc = "BTC";
+  static const String price = "355.01";
   static const String ethereumToday = "+11.75%";
   static const String bitcoinToday = "-11.75%";
   static const String referText =
@@ -33,8 +34,8 @@ class AppStrings {
   static const String ReceivedAmount = "+0.991 ETH";
   static const String WithdrawnAmount = "-0.991 ETH";
 
-  static const String price = "\$66,360.55";
-  static const String priceChange = "(+0.37%)";
+  static const String tradBalance = "\$66,360.55";
+  static const String priceChange = "(+1.25%)";
   static const String currency = "USD/BTC";
 
   static const String timeline = "Timeline";
@@ -90,7 +91,7 @@ class AppStrings {
 
   static const String myCard = "My Card";
   static const String cardHolder = "Card Holder";
-  static const String cardNumber = "5061 0000 0000 0000";
+  static const String cardNumber = "5061  0000  0000  0000";
   static const String mastercard = "Mastercard";
   static const String operations = "Operations";
   static const String balanceW = "Balance";

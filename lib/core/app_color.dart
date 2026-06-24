@@ -10,12 +10,12 @@ class AppColor {
   static const Color textPrimary = Color(0xFFFFFFFF);
   static const Color textSecondary = Color(0xFFCCCCCC);
   static const Color lightText = Color(0xFF8A8A8A);
-  static const Color textGreen = Colors.greenAccent;
-  static const Color textRed = Colors.redAccent;
+  static const Color textGreen = Color.fromRGBO(18, 221, 0, 1);
+  static const Color textRed = Color.fromRGBO(255, 63, 63, 1);
   static const Color textBackground = Color.fromRGBO(255, 255, 255, 0.47);
 
-  static const Color high = Color.fromRGBO(18, 221, 0, 1);
-  static const Color low = Color.fromRGBO(255, 63, 63, 1);
+  static const Color high = Colors.greenAccent;
+  static const Color low = Colors.redAccent;
   static const Color greenBar = Color.fromARGB(50, 76, 175, 79);
   static const Color redBar = Color.fromARGB(50, 255, 102, 0);
   static const Color oderbookGreen = Color.fromRGBO(0, 239, 196, 1);

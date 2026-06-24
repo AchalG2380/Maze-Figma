@@ -7,6 +7,7 @@ import '../tradingdetails/screens/tradingDetails_screen.dart';
 import '../profile/screens/profile_screen.dart';
 import '../scan/screens/scan_screen.dart';
 import 'package:get/get.dart';
+import '../core/app_strings.dart';
 
 /// A reusable custom header widget that matches the design of the screens in the Maze app.
 class CustomScreenHeader extends StatelessWidget {
@@ -37,7 +38,7 @@ class CustomScreenHeader extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: AppColor.textPrimary,
-                fontSize: 20,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -150,8 +151,169 @@ class NamedCardWidgets extends StatelessWidget {
       child: Text(
         name,
         textAlign: TextAlign.center,
-        style: TextStyle(color: AppColor.textSecondary),
+        style: TextStyle(color: AppColor.textPrimary),
       ),
+    );
+  }
+}
+
+class TradeHeader extends StatelessWidget {
+  const TradeHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 11),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColor.lightBackground),
+              color: AppColor.lightDarkBackground,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          AppStrings.high,
+                          style: TextStyle(
+                            color: AppColor.textGreen,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          AppStrings.highPrice,
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          AppStrings.low,
+                          style: TextStyle(
+                            color: AppColor.textRed,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          AppStrings.lowPrice,
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Divider(color: AppColor.textSecondary, thickness: 1),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          AppStrings.volBTC,
+                          style: TextStyle(color: AppColor.textSecondary),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          AppStrings.highPrice,
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          AppStrings.volETH,
+                          style: TextStyle(color: AppColor.textSecondary),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          AppStrings.lowPrice,
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  AppStrings.tradBalance,
+                  style: TextStyle(
+                    color: AppColor.textPrimary,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  AppStrings.priceChange,
+                  style: TextStyle(
+                    color: AppColor.high,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: AppColor.lightBackground,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: DropdownButton(
+                    value: AppStrings.currency,
+                    dropdownColor: AppColor.lightDarkBackground,
+                    iconEnabledColor: AppColor.textPrimary,
+                    items: [
+                      DropdownMenuItem<String>(
+                        value: AppStrings.currency,
+                        child: Text(
+                          AppStrings.currency,
+                          style: TextStyle(
+                            color: AppColor.textPrimary,
+                            fontWeight: FontWeight.w200,
+                          ),
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

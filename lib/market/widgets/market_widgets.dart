@@ -74,9 +74,9 @@ class TimelineWidget extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          // ── Candle chart (70%) ──────────────
+                          // ── Candle chart (80%) ──────────────
                           Expanded(
-                            flex: 7,
+                            flex: 8,
                             child: Listener(
                               // ── mouse scroll wheel / trackpad (desktop) ──
                               onPointerSignal: (event) {
@@ -124,8 +124,8 @@ class TimelineWidget extends StatelessWidget {
                                             .selectedIndex
                                             .value, // ← reactive
                                         scrollOffset: ctrl.scrollOffset.value,
-                                        bullColor: AppColor.high,
-                                        bearColor: AppColor.low,
+                                        bullColor: AppColor.textGreen,
+                                        bearColor: AppColor.textRed,
                                         gridColor: const Color(0xFF1C2333),
                                         candleWidth: ctrl.candleWidth,
                                         candleSpacing: ctrl.candleSpacing,
@@ -141,9 +141,9 @@ class TimelineWidget extends StatelessWidget {
                           ),
 
                           const SizedBox(height: 8), // gap between charts
-                          // ── Volume bars (30%) ───────────────
+                          // ── Volume bars (20%) ───────────────
                           Expanded(
-                            flex: 3,
+                            flex: 2,
                             child: Obx(
                               () => SizedBox.expand(
                                 child: CustomPaint(
@@ -152,8 +152,8 @@ class TimelineWidget extends StatelessWidget {
                                     scrollOffset: ctrl
                                         .scrollOffset
                                         .value, // ← pass scroll
-                                    bullColor: AppColor.high,
-                                    bearColor: AppColor.low,
+                                    bullColor: AppColor.textGreen,
+                                    bearColor: AppColor.textRed,
                                     candleWidth: ctrl
                                         .candleWidth, // must match CandlePainter
                                     candleSpacing: ctrl
@@ -178,12 +178,14 @@ class TimelineWidget extends StatelessWidget {
                   final candles = ctrl.candles;
                   final currentPrice = candles.last.close;
                   final isBull = candles.last.isBull;
-                  final badgeColor = isBull ? AppColor.high : AppColor.low;
+                  final badgeColor = isBull
+                      ? AppColor.textGreen
+                      : AppColor.textRed;
 
                   // ── calculate Y position of badge ──
                   // must match CandlePainter._toY logic exactly
                   final double chartHeight = 400;
-                  final double candleAreaHeight = chartHeight * 0.7; // 280px
+                  final double candleAreaHeight = chartHeight * 0.8; // 280px
 
                   final maxPrice = candles
                       .map((c) => c.high)
@@ -293,8 +295,8 @@ class TimelineWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 40.0,
-                        vertical: 10,
+                        horizontal: 50.0,
+                        vertical: 20,
                       ),
                     ),
                     child: Text(
@@ -319,15 +321,15 @@ class TimelineWidget extends StatelessWidget {
                       ),
                       padding: WidgetStatePropertyAll(
                         const EdgeInsets.symmetric(
-                          horizontal: 40.0,
-                          vertical: 10,
+                          horizontal: 50.0,
+                          vertical: 20,
                         ),
                       ),
                     ),
                     child: Text(
                       "Buy +",
                       style: TextStyle(
-                        color: AppColor.textSecondary,
+                        color: AppColor.textPrimary,
                         fontSize: 14,
                       ),
                     ),
@@ -449,6 +451,7 @@ class MarketDepthWidget extends StatelessWidget {
 class LatestTradesRow extends StatelessWidget {
   final String amount;
   final String price;
+  final Widget icon;
   final Color priceColor;
   final String time;
 
@@ -456,6 +459,7 @@ class LatestTradesRow extends StatelessWidget {
     super.key,
     required this.amount,
     required this.price,
+    required this.icon,
     required this.priceColor,
     required this.time,
   });
@@ -469,7 +473,13 @@ class LatestTradesRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(amount, style: TextStyle(color: AppColor.textSecondary)),
-          Text(price, style: TextStyle(color: priceColor)),
+          Row(
+            children: [
+              Text(price, style: TextStyle(color: priceColor)),
+              SizedBox(width: 2),
+              icon,
+            ],
+          ),
           Text(time, style: TextStyle(color: AppColor.textSecondary)),
         ],
       ),

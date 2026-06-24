@@ -19,22 +19,23 @@ class TradingdetailsScreen extends StatelessWidget {
     required Color priceColor,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Text(
               price,
-              style: TextStyle(color: priceColor, fontSize: 10),
+              style: TextStyle(color: priceColor, fontSize: 12),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           const SizedBox(width: 4),
           Text(
             amount,
-            style: const TextStyle(color: AppColor.textSecondary, fontSize: 10),
+            style: const TextStyle(color: AppColor.textSecondary, fontSize: 12),
           ),
+          const SizedBox(width: 8),
         ],
       ),
     );
@@ -59,14 +60,14 @@ class TradingdetailsScreen extends StatelessWidget {
                 label,
                 style: TextStyle(
                   color: isSelected ? AppColor.primary : AppColor.textSecondary,
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
               const SizedBox(height: 4),
               Container(
-                width: 4,
-                height: 4,
+                width: 5,
+                height: 5,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isSelected ? AppColor.primary : Colors.transparent,
@@ -114,139 +115,7 @@ class TradingdetailsScreen extends StatelessWidget {
                 ],
               ),
 
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      padding: const EdgeInsets.symmetric(vertical: 11),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColor.lightBackground),
-                        color: AppColor.lightDarkBackground,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.high,
-                                    style: TextStyle(color: AppColor.high),
-                                  ),
-                                  Text(
-                                    AppStrings.highPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.low,
-                                    style: TextStyle(color: AppColor.low),
-                                  ),
-                                  Text(
-                                    AppStrings.lowPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Divider(color: AppColor.textSecondary, thickness: 1),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.volBTC,
-                                    style: TextStyle(
-                                      color: AppColor.textSecondary,
-                                    ),
-                                  ),
-                                  Text(
-                                    AppStrings.highPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.volETH,
-                                    style: TextStyle(
-                                      color: AppColor.textSecondary,
-                                    ),
-                                  ),
-                                  Text(
-                                    AppStrings.lowPrice,
-                                    style: TextStyle(
-                                      color: AppColor.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            AppStrings.price,
-                            style: TextStyle(
-                              color: AppColor.textPrimary,
-                              fontSize: 24,
-                            ),
-                          ),
-                          Text(
-                            AppStrings.priceChange,
-                            style: TextStyle(color: AppColor.textGreen),
-                          ),
-                          SizedBox(height: 20),
-                          DropdownButton(
-                            value: AppStrings.currency,
-                            dropdownColor: AppColor.lightDarkBackground,
-                            items: [
-                              DropdownMenuItem<String>(
-                                value: AppStrings.currency,
-                                child: Text(
-                                  AppStrings.currency,
-                                  style: TextStyle(
-                                    color: AppColor.textSecondary,
-                                  ),
-                                ),
-                              ),
-                            ],
-                            onChanged: (value) {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              Container(padding: EdgeInsets.all(12), child: TradeHeader()),
 
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -440,8 +309,7 @@ class TradingdetailsScreen extends StatelessWidget {
                               AppStrings.orderBook,
                               style: TextStyle(
                                 color: AppColor.textPrimary,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
                             ),
                           ),
@@ -468,8 +336,7 @@ class TradingdetailsScreen extends StatelessWidget {
                               AppStrings.trades,
                               style: TextStyle(
                                 color: AppColor.textPrimary,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
                             ),
                           ),

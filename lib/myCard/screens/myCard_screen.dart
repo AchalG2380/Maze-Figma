@@ -100,7 +100,8 @@ class MyCardScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColor.textPrimary,
-                              fontSize: 14,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w200,
                             ),
                           ),
                           Text(
@@ -124,6 +125,7 @@ class MyCardScreen extends StatelessWidget {
                                 style: TextStyle(
                                   color: AppColor.textPrimary,
                                   fontSize: 14,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Spacer(),
@@ -131,21 +133,16 @@ class MyCardScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 20),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Spacer(),
-                              Spacer(),
-                              Image.asset(
-                                "assets/images/cardlogo.png",
-                                height: 25,
-                                width: 40,
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(
-                                    Icons.credit_card_outlined,
-                                    color: AppColor.textPrimary,
-                                    size: 24,
-                                  );
-                                },
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Image.asset(
+                                  "assets/images/cardlogo.png",
+                                  height: 25,
+                                  width: 40,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ],
                           ),
@@ -158,7 +155,7 @@ class MyCardScreen extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColor.textPrimary,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                 ),
                               ),
                             ],

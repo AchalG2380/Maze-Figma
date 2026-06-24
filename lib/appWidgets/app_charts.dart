@@ -30,8 +30,8 @@ class CandlePainter extends CustomPainter {
     required this.candles,
     this.selectedIndex,
     this.scrollOffset = 0,
-    this.bullColor = AppColor.high,
-    this.bearColor = AppColor.low,
+    this.bullColor = AppColor.textGreen,
+    this.bearColor = AppColor.textRed,
     this.wickColor = AppColor.textPrimary,
     this.gridColor = AppColor.lightDarkBackground,
     this.candleWidth = 8,
@@ -210,7 +210,7 @@ class CandlePainter extends CustomPainter {
     final y = _toY(currentPrice, size.height);
 
     final paint = Paint()
-      ..color = isBull ? AppColor.high : AppColor.low
+      ..color = isBull ? AppColor.textGreen : AppColor.textRed
       ..strokeWidth = 1;
 
     const dashWidth = 6.0;
@@ -633,14 +633,14 @@ class OrderBookPainter extends CustomPainter {
     // Background (dark blue matching the design image)
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
-      Paint()..color = const Color(0xFF2B3674),
+      Paint()..color = AppColor.lightBackground,
     );
 
     // Subtle border
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
       Paint()
-        ..color = const Color(0xFF3F4E8C)
+        ..color = AppColor.secondary
         ..style = PaintingStyle.stroke
         ..strokeWidth = 0.5,
     );
@@ -652,7 +652,7 @@ class OrderBookPainter extends CustomPainter {
       text: TextSpan(
         text: '${level.price.toStringAsFixed(6)} BTC',
         style: const TextStyle(
-          color: Colors.white,
+          color: AppColor.textPrimary,
           fontSize: 11.5,
           fontWeight: FontWeight.bold,
         ),
@@ -723,7 +723,7 @@ class AreaChartPainter extends CustomPainter {
   double _toY(double value, double height) {
     final max = dataPoints.reduce((a, b) => a > b ? a : b);
     final min = dataPoints.reduce((a, b) => a < b ? a : b);
-    return height * 0.1 + (height * 0.7) * (1 - (value - min) / (max - min));
+    return height * 0.1 + (height * 0.4) * (1 - (value - min) / (max - min));
   }
 
   @override
@@ -770,7 +770,7 @@ class AreaChartPainter extends CustomPainter {
       strokePath,
       Paint()
         ..color = lineColor
-        ..strokeWidth = 2
+        ..strokeWidth = 1
         ..style = PaintingStyle.stroke,
     );
   }

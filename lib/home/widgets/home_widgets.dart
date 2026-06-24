@@ -3,7 +3,7 @@ import 'package:maze/core/app_color.dart';
 import '../../appWidgets/app_charts.dart';
 
 class RecentTransactions extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String title;
   final String titleDate;
   final String amount;
@@ -26,15 +26,35 @@ class RecentTransactions extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: AppColor.lightDarkBackground,
+        border: Border.all(color: AppColor.secondary, width: 1),
       ),
       child: Row(
         children: [
-          Icon(icon, color: color),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Container(
+              padding: EdgeInsets.all(5),
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: AppColor.secondary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: icon,
+            ),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: TextStyle(color: AppColor.textPrimary)),
-              Text(titleDate, style: TextStyle(color: AppColor.textSecondary)),
+              Text(
+                titleDate,
+                style: TextStyle(
+                  color: AppColor.textPrimary,
+                  fontWeight: FontWeight.w200,
+                  fontSize: 13,
+                ),
+              ),
             ],
           ),
           Spacer(),
@@ -50,8 +70,10 @@ class RecentTransactions extends StatelessWidget {
 
 class MarketStatistics extends StatelessWidget {
   final String price;
+  final String coin;
   final String name;
   final String today;
+  final Widget arrow;
   final String logoUrl;
   final Color color;
   final List<double> dataPoints;
@@ -59,10 +81,12 @@ class MarketStatistics extends StatelessWidget {
   const MarketStatistics({
     super.key,
     required this.price,
+    required this.coin,
     required this.name,
     required this.today,
     required this.logoUrl,
     required this.color,
+    required this.arrow,
     required this.dataPoints,
   });
 
@@ -83,40 +107,80 @@ class MarketStatistics extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Row(
                 children: [
-                  Image.asset(
-                    logoUrl,
-                    width: 30,
-                    height: 30,
-                    fit: BoxFit.contain,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        logoUrl,
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.contain,
+                      ),
+                      Text(name, style: TextStyle(color: AppColor.textPrimary)),
+                    ],
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Text(
-                      price,
-                      style: TextStyle(color: AppColor.textPrimary),
-                      overflow: TextOverflow.ellipsis,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              price,
+                              style: TextStyle(
+                                color: AppColor.textPrimary,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              coin,
+                              style: TextStyle(
+                                color: AppColor.textSecondary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w200,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      today,
+                                      style: TextStyle(
+                                        color: color,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w200,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                      ),
+                                      child: arrow,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  name,
-                  style: TextStyle(color: AppColor.textSecondary),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(today, style: TextStyle(color: color)),
-              ),
-            ),
+            SizedBox(height: 5),
+
             Center(
               child: SizedBox(
                 height: 65,
@@ -124,13 +188,13 @@ class MarketStatistics extends StatelessWidget {
                   size: const Size(double.infinity, 120),
                   painter: AreaChartPainter(
                     dataPoints: dataPoints,
-                    lineColor: color == AppColor.textGreen
+                    lineColor: color == AppColor.high
                         ? AppColor.oderbookGreen
                         : AppColor.oderbookRed,
-                    gradientTop: color == AppColor.textGreen
+                    gradientTop: color == AppColor.high
                         ? AppColor.oderbookGreen.withValues(alpha: 0.8)
                         : AppColor.oderbookRed.withValues(alpha: 0.8),
-                    gradientBottom: color == AppColor.textGreen
+                    gradientBottom: color == AppColor.high
                         ? AppColor.oderbookGreen.withValues(alpha: 0.0)
                         : AppColor.oderbookRed.withValues(alpha: 0.0),
                   ),

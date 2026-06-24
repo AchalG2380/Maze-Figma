@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 final List<Map<String, dynamic>> _settingsItems = [
   {
     'icon': SvgPicture.asset('assets/icons/AllEdit.svg', width: 15),
-    'title': AppStrings.edit,
+    'title': (AppStrings.edit,),
   },
   {
     'icon': SvgPicture.asset('assets/icons/Password.svg', width: 15),
@@ -68,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
                           end: Alignment.bottomRight,
                         ),
                         boxShadow: [
-                          BoxShadow(color: AppColor.high, spreadRadius: 2),
+                          BoxShadow(color: AppColor.textGreen, spreadRadius: 2),
                         ],
                       ),
                       child: ClipOval(
@@ -97,11 +97,19 @@ class ProfileScreen extends StatelessWidget {
 
               Text(
                 AppStrings.name,
-                style: TextStyle(color: AppColor.textPrimary, fontSize: 18),
+                style: TextStyle(
+                  color: AppColor.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               Text(
                 AppStrings.ID,
-                style: TextStyle(color: AppColor.textSecondary, fontSize: 16),
+                style: TextStyle(
+                  color: AppColor.textSecondary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
               SizedBox(height: 20),
 
