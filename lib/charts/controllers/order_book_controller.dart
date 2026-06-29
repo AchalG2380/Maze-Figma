@@ -6,7 +6,7 @@ class OrderBookController extends GetxController {
 
   // selected point on tap
   final selectedSide = Rxn<String>('bid'); // Default to bid side
-  final selectedIndex = RxnInt(0);         // Default to index 0 (center)
+  final selectedIndex = RxnInt(0); // Default to index 0 (center)
 
   // ── compute cumulative volumes ──────────────
   List<double> get bidCumulative {

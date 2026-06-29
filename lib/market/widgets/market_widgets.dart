@@ -129,9 +129,6 @@ class TimelineWidget extends StatelessWidget {
                                         gridColor: const Color(0xFF1C2333),
                                         candleWidth: ctrl.candleWidth,
                                         candleSpacing: ctrl.candleSpacing,
-                                        emaLines: [
-                                          calculateEMA(dummyCandles, 9),
-                                        ],
                                       ),
                                     ),
                                   ),
@@ -353,7 +350,7 @@ class MarketDepthWidget extends StatelessWidget {
     final ctrl = Get.put(OrderBookController());
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: AppColor.lightBackground4,
@@ -485,26 +482,4 @@ class LatestTradesRow extends StatelessWidget {
       ),
     );
   }
-}
-
-List<double?> calculateEMA(List<CandleData> candles, int period) {
-  final ema = List<double?>.filled(candles.length, null);
-  if (candles.length < period) return ema;
-
-  // first EMA = simple average of first N candles
-  double sum = 0;
-  for (int i = 0; i < period; i++) {
-    sum += candles[i].close;
-  }
-  ema[period - 1] = sum / period;
-
-  // multiplier
-  final k = 2.0 / (period + 1);
-
-  // rest of EMAs
-  for (int i = period; i < candles.length; i++) {
-    ema[i] = (candles[i].close * k) + (ema[i - 1]! * (1 - k));
-  }
-
-  return ema; // null = not enough data yet for that index
 }

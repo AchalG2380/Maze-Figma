@@ -66,7 +66,7 @@ class CandlePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     _drawGrid(canvas, size);
     _drawCandles(canvas, size);
-    _drawEMA(canvas, size);
+    _drawCurves(canvas, size);
     _drawCurrentPriceLine(canvas, size);
     if (selectedIndex != null) {
       _drawHighlightLine(canvas, size);
@@ -179,7 +179,7 @@ class CandlePainter extends CustomPainter {
       canvas.drawLine(
         Offset(x, _toY(candle.high, size.height)),
         Offset(x, _toY(candle.low, size.height)),
-        paint..strokeWidth = 1.5,
+        paint..strokeWidth = 0.7,
       );
 
       // 2. Draw body (thick — open to close)
@@ -211,7 +211,7 @@ class CandlePainter extends CustomPainter {
 
     final paint = Paint()
       ..color = isBull ? AppColor.textGreen : AppColor.textRed
-      ..strokeWidth = 1;
+      ..strokeWidth = .5;
 
     const dashWidth = 6.0;
     const dashSpace = 4.0;
@@ -223,39 +223,112 @@ class CandlePainter extends CustomPainter {
     }
   }
 
-  void _drawEMA(Canvas canvas, Size size) {
-    if (emaLines.isEmpty) return;
+  void _drawCurves(Canvas canvas, Size size) {
+    final curveColor = AppColor.chartLine.withValues(alpha: .8);
 
-    // Distinct accent colors for different EMA lines
-    final colors = [AppColor.textPrimary];
+    final linePaint = Paint()
+      ..color = curveColor
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
 
-    for (int lineIndex = 0; lineIndex < emaLines.length; lineIndex++) {
-      final emaValues = emaLines[lineIndex];
-      if (emaValues.isEmpty) continue;
+    final dotPaint = Paint()
+      ..color = AppColor.chartLine.withValues(alpha: .8)
+      ..style = PaintingStyle.fill;
 
-      final paint = Paint()
-        ..color = colors[lineIndex % colors.length]
-        ..strokeWidth = 1.5
-        ..style = PaintingStyle.stroke;
+    // 1. Diagonal Line (bottom-left to top-right, perfectly straight!)
+    final startY = size.height * 0.75;
+    final endY = size.height * 0.10;
 
-      final path = Path();
-      bool started = false;
+    canvas.drawLine(Offset(0, startY), Offset(size.width, endY), linePaint);
 
-      for (int i = 0; i < emaValues.length; i++) {
-        if (emaValues[i] == null) continue; // skip nulls at start
+    // Draw dots at start and end
+    canvas.drawCircle(Offset(0, startY), 4.5, dotPaint);
+    canvas.drawCircle(Offset(size.width, endY), 4.5, dotPaint);
 
-        final x = _toX(i);
-        final y = _toY(emaValues[i]!, size.height);
+    // 2. Wavy Solid Curve (refined fixed path matching image)
+    final wavyPath = Path();
+    wavyPath.moveTo(0, size.height * 0.28);
+    wavyPath.cubicTo(
+      size.width * 0.20,
+      size.height * 0.22,
+      size.width * 0.30,
+      size.height * 0.75,
+      size.width * 0.45,
+      size.height * 0.75,
+    );
+    wavyPath.cubicTo(
+      size.width * 0.55,
+      size.height * 0.75,
+      size.width * 0.65,
+      size.height * 0.28,
+      size.width * 0.72,
+      size.height * 0.28,
+    );
+    wavyPath.cubicTo(
+      size.width * 0.80,
+      size.height * 0.28,
+      size.width * 0.88,
+      size.height * 0.70,
+      size.width * 0.92,
+      size.height * 0.70,
+    );
+    wavyPath.cubicTo(
+      size.width * 0.96,
+      size.height * 0.70,
+      size.width * 0.98,
+      size.height * 0.58,
+      size.width,
+      size.height * 0.58,
+    );
+    canvas.drawPath(wavyPath, linePaint);
 
-        if (!started) {
-          path.moveTo(x, y); // first point
-          started = true;
-        } else {
-          path.lineTo(x, y); // connect to next
-        }
+    // 3. Wavy Dotted Curve (refined fixed path matching image)
+    final dottedPath = Path();
+    dottedPath.moveTo(0, size.height * 0.38);
+    dottedPath.cubicTo(
+      size.width * 0.15,
+      size.height * 0.38,
+      size.width * 0.25,
+      size.height * 0.55,
+      size.width * 0.32,
+      size.height * 0.55,
+    );
+    dottedPath.cubicTo(
+      size.width * 0.38,
+      size.height * 0.55,
+      size.width * 0.45,
+      size.height * 0.42,
+      size.width * 0.52,
+      size.height * 0.42,
+    );
+    dottedPath.cubicTo(
+      size.width * 0.62,
+      size.height * 0.42,
+      size.width * 0.75,
+      size.height * 0.65,
+      size.width * 0.82,
+      size.height * 0.65,
+    );
+    dottedPath.cubicTo(
+      size.width * 0.90,
+      size.height * 0.65,
+      size.width * 0.95,
+      size.height * 0.55,
+      size.width,
+      size.height * 0.55,
+    );
+
+    // Draw dashed path using path metrics
+    for (final metric in dottedPath.computeMetrics()) {
+      double distance = 0.0;
+      const dashLength = 3.0;
+      const spaceLength = 3.0;
+      while (distance < metric.length) {
+        final extract = metric.extractPath(distance, distance + dashLength);
+        canvas.drawPath(extract, linePaint);
+        distance += dashLength + spaceLength;
       }
-
-      canvas.drawPath(path, paint);
     }
   }
 
@@ -392,10 +465,57 @@ class OrderBookPainter extends CustomPainter {
     this.selectedSide,
   });
 
-  // ── Y: cumulative volume → pixel ────────────
-  double _toY(double cumVol, double height) {
-    // top = max volume, bottom = 0
-    return height * (1 - cumVol / maxCumulative) * 0.9 + height * 0.05;
+  // Smooth spline control points matching the reference image curve shape
+  static const bidsY = [
+    0.88,
+    0.85,
+    0.80,
+    0.78,
+    0.68,
+    0.58,
+    0.55,
+    0.54,
+    0.43,
+    0.42,
+  ];
+  static const asksY = [
+    0.88,
+    0.82,
+    0.76,
+    0.74,
+    0.68,
+    0.60,
+    0.55,
+    0.54,
+    0.44,
+    0.42,
+  ];
+
+  // Hermite Spline Interpolation for smooth, organic chart curves
+  double _interpolateY(double t, List<double> yValues) {
+    final double indexDouble = t * (yValues.length - 1);
+    final int index = indexDouble.floor().clamp(0, yValues.length - 2);
+    final double fraction = indexDouble - index;
+
+    final double p0 = yValues[index == 0 ? 0 : index - 1];
+    final double p1 = yValues[index];
+    final double p2 = yValues[index + 1];
+    final double p3 = index + 2 >= yValues.length
+        ? yValues.length - 1
+        : index + 2;
+
+    final double t2 = fraction * fraction;
+    final double t3 = t2 * fraction;
+
+    final double h00 = 2 * t3 - 3 * t2 + 1;
+    final double h10 = t3 - 2 * t2 + fraction;
+    final double h01 = -2 * t3 + 3 * t2;
+    final double h11 = t3 - t2;
+
+    final double m0 = (p2 - p0) / 2.0;
+    final double m1 = (yValues[p3.toInt()] - p1) / 2.0;
+
+    return h00 * p1 + h10 * m0 + h01 * p2 + h11 * m1;
   }
 
   @override
@@ -409,65 +529,49 @@ class OrderBookPainter extends CustomPainter {
     }
   }
 
-  // ── grid ─────────────────────────────────────
+  // ── grid matching design layout (9 lines) ─────────────────
   void _drawGrid(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = AppColor.lightText
       ..strokeWidth = 0.5;
 
     // horizontal lines
-    for (int i = 1; i < 5; i++) {
-      final y = size.height * i / 5;
+    for (int i = 0; i <= 8; i++) {
+      final y = size.height * i / 8;
       canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
 
     // vertical lines
-    for (int i = 1; i < 6; i++) {
-      final x = size.width * i / 6;
+    for (int i = 1; i < 10; i++) {
+      final x = size.width * i / 9;
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
   }
 
   // ── BID curve (green, left side) ─────────────
-  // ── smooth bid stroke ───────────────────
   void _drawBids(Canvas canvas, Size size) {
     final center = size.width / 2;
-    final bids = orderBook.bids;
 
     final path = Path();
     final strokePath = Path();
 
     path.moveTo(center, size.height);
-    strokePath.moveTo(center, size.height);
+    path.lineTo(center, size.height * bidsY.first);
+    strokePath.moveTo(center, size.height * bidsY.first);
 
-    for (int i = 0; i < bids.length; i++) {
-      final x = center * (1 - i / bids.length);
-      final y = _toY(bidCumulative[i], size.height);
+    const steps = 40;
+    for (int i = 1; i <= steps; i++) {
+      final t = i / steps;
+      final x = center * (1 - t);
+      final y = size.height * _interpolateY(t, bidsY);
 
-      if (i == 0) {
-        path.lineTo(x, y);
-        strokePath.lineTo(x, y);
-      } else {
-        // previous point
-        final prevX = center * (1 - (i - 1) / bids.length);
-        final prevY = _toY(bidCumulative[i - 1], size.height);
-
-        // control point = midpoint between prev and current
-        final cpX = (prevX + x) / 2;
-        final cpY = (prevY + y) / 2;
-
-        path.quadraticBezierTo(prevX, prevY, cpX, cpY);
-        path.quadraticBezierTo(cpX, cpY, x, y);
-
-        strokePath.quadraticBezierTo(prevX, prevY, cpX, cpY);
-        strokePath.quadraticBezierTo(cpX, cpY, x, y);
-      }
+      path.lineTo(x, y);
+      strokePath.lineTo(x, y);
     }
 
     path.lineTo(0, size.height);
     path.close();
 
-    // gradient fill
     canvas.drawPath(
       path,
       Paint()
@@ -478,7 +582,6 @@ class OrderBookPainter extends CustomPainter {
         ).createShader(Rect.fromLTWH(0, 0, center, size.height)),
     );
 
-    // stroke
     canvas.drawPath(
       strokePath,
       Paint()
@@ -491,34 +594,22 @@ class OrderBookPainter extends CustomPainter {
   // ── ASK curve (red, right side) ──────────────
   void _drawAsks(Canvas canvas, Size size) {
     final center = size.width / 2;
-    final asks = orderBook.asks;
 
     final path = Path();
     final strokePath = Path();
 
     path.moveTo(center, size.height);
-    strokePath.moveTo(center, size.height);
+    path.lineTo(center, size.height * asksY.first);
+    strokePath.moveTo(center, size.height * asksY.first);
 
-    for (int i = 0; i < asks.length; i++) {
-      final x = center + center * (i / asks.length);
-      final y = _toY(askCumulative[i], size.height);
+    const steps = 40;
+    for (int i = 1; i <= steps; i++) {
+      final t = i / steps;
+      final x = center + center * t;
+      final y = size.height * _interpolateY(t, asksY);
 
-      if (i == 0) {
-        path.lineTo(x, y);
-        strokePath.lineTo(x, y);
-      } else {
-        final prevX = center + center * ((i - 1) / asks.length);
-        final prevY = _toY(askCumulative[i - 1], size.height);
-
-        final cpX = (prevX + x) / 2;
-        final cpY = (prevY + y) / 2;
-
-        path.quadraticBezierTo(prevX, prevY, cpX, cpY);
-        path.quadraticBezierTo(cpX, cpY, x, y);
-
-        strokePath.quadraticBezierTo(prevX, prevY, cpX, cpY);
-        strokePath.quadraticBezierTo(cpX, cpY, x, y);
-      }
+      path.lineTo(x, y);
+      strokePath.lineTo(x, y);
     }
 
     path.lineTo(size.width, size.height);
@@ -545,34 +636,26 @@ class OrderBookPainter extends CustomPainter {
 
   void _drawHighlightDots(Canvas canvas, Size size) {
     final center = size.width / 2;
-    final bids = orderBook.bids;
-    final asks = orderBook.asks;
 
-    // Draw green dot on bids (at midpoint of bids curve)
-    if (bids.length > 0) {
-      final idx = bids.length ~/ 2;
-      final x = center * (1 - idx / bids.length);
-      final y = _toY(bidCumulative[idx], size.height);
-      canvas.drawCircle(
-        Offset(x, y),
-        5.5,
-        Paint()..color = const Color(0xFF00E5FF),
-      );
-      canvas.drawCircle(Offset(x, y), 3, Paint()..color = Colors.white);
-    }
+    // Bid dot — at t = 0.6 (shoulder point matching 20% on the screen)
+    final bidX = center * (1 - 0.6);
+    final bidY = size.height * _interpolateY(0.6, bidsY);
+    canvas.drawCircle(
+      Offset(bidX, bidY),
+      5.5,
+      Paint()..color = const Color(0xFF00E5FF),
+    );
+    canvas.drawCircle(Offset(bidX, bidY), 3.0, Paint()..color = Colors.white);
 
-    // Draw red dot on asks (at midpoint of asks curve)
-    if (asks.length > 0) {
-      final idx = asks.length ~/ 2;
-      final x = center + center * (idx / asks.length);
-      final y = _toY(askCumulative[idx], size.height);
-      canvas.drawCircle(
-        Offset(x, y),
-        5.5,
-        Paint()..color = const Color(0xFFFF0055),
-      );
-      canvas.drawCircle(Offset(x, y), 3, Paint()..color = Colors.white);
-    }
+    // Ask dot — at t = 0.6 (shoulder point matching 50% on the screen)
+    final askX = center + center * 0.6;
+    final askY = size.height * _interpolateY(0.6, asksY);
+    canvas.drawCircle(
+      Offset(askX, askY),
+      5.5,
+      Paint()..color = const Color(0xFFFF0055),
+    );
+    canvas.drawCircle(Offset(askX, askY), 3.0, Paint()..color = Colors.white);
   }
 
   // ── vertical line + dot on tap ───────────────
@@ -581,95 +664,76 @@ class OrderBookPainter extends CustomPainter {
     final i = selectedIndex!;
     final isBid = selectedSide == 'bid';
 
-    final x = isBid
-        ? center * (1 - i / orderBook.bids.length)
-        : center + center * (i / orderBook.asks.length);
-
-    final cumVol = isBid ? bidCumulative[i] : askCumulative[i];
-    final y = _toY(cumVol, size.height);
+    final t = i / (isBid ? orderBook.bids.length : orderBook.asks.length);
+    final x = isBid ? center * (1 - t) : center + center * t;
+    final y = size.height * _interpolateY(t, isBid ? bidsY : asksY);
     final level = isBid ? orderBook.bids[i] : orderBook.asks[i];
+    final cumVol = isBid ? bidCumulative[i] : askCumulative[i];
 
     // ── vertical line (cyan) ─────────────────────
     canvas.drawLine(
-      Offset(x, 0),
-      Offset(x, size.height),
+      Offset(x, y),
+      Offset(x, 48), // connects to bottom center of tooltip
       Paint()
-        ..color = const Color(0xFF00E5FF)
+        ..color = const Color(0xFF00E5FF).withOpacity(0.8)
         ..strokeWidth = 1.5,
     );
 
     // ── dot at intersection (cyan/red outer border, white center) ──
     canvas.drawCircle(
       Offset(x, y),
-      5.5,
+      6.0,
       Paint()
         ..color = isBid ? const Color(0xFF00E5FF) : const Color(0xFFFF0055)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2,
+        ..style = PaintingStyle.fill,
     );
-    canvas.drawCircle(Offset(x, y), 3.5, Paint()..color = Colors.white);
+    canvas.drawCircle(Offset(x, y), 3.0, Paint()..color = Colors.white);
 
-    // ── floating tooltip box ────────────────────
-    const boxW = 140.0;
-    const boxH = 64.0;
+    // ── floating tooltip box (matching design exactly!) ──
+    const boxW = 150.0;
+    const boxH = 75.0;
     const radius = Radius.circular(8);
 
-    // Centered horizontally over the vertical line, clamped to screen edges
     double boxX = x - boxW / 2;
     boxX = boxX.clamp(4.0, size.width - boxW - 4.0);
 
-    // Fixed near the top of the chart (aligned with the design)
     const boxY = 8.0;
 
-    // Shadow
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(boxX + 2, boxY + 2, boxW, boxH),
-        radius,
-      ),
-      Paint()..color = Colors.black26,
-    );
-
-    // Background (dark blue matching the design image)
+    // Background (dark navy, semi-transparent)
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
-      Paint()..color = AppColor.surface.withValues(alpha: .7),
+      Paint()..color = AppColor.primary.withOpacity(0.3),
     );
 
     // Subtle border
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(boxX, boxY, boxW, boxH), radius),
       Paint()
-        ..color = AppColor.secondary
+        ..color = const Color(0xFF00E5FF).withOpacity(0.2)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.5,
+        ..strokeWidth = 1.0,
     );
-
-    // ── Text Elements ───────────────────────────
 
     // Header Price text (large bold white)
     final headerTp = TextPainter(
       text: TextSpan(
-        text: '${level.price.toStringAsFixed(6)} BTC',
+        text: '${level.price.toStringAsFixed(8)} BTC',
         style: const TextStyle(
           color: AppColor.lightText,
-          fontSize: 11.5,
+          fontSize: 12.0,
           fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    headerTp.paint(
-      canvas,
-      Offset(boxX + (boxW - headerTp.width) / 2, boxY + 8),
-    );
+    headerTp.paint(canvas, Offset(boxX + 12, boxY + 10));
 
     // Amount & Total rows
     void drawRow(String label, String value, double offsetY) {
       final labelTp = TextPainter(
         text: TextSpan(
           text: label,
-          style: TextStyle(color: AppColor.lightText, fontSize: 9.5),
+          style: TextStyle(color: AppColor.lightText, fontSize: 10.0),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
@@ -680,8 +744,8 @@ class OrderBookPainter extends CustomPainter {
           text: value,
           style: const TextStyle(
             color: AppColor.lightText,
-            fontSize: 9.5,
-            fontWeight: FontWeight.w600,
+            fontSize: 10.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
         textDirection: TextDirection.ltr,
@@ -692,8 +756,8 @@ class OrderBookPainter extends CustomPainter {
       );
     }
 
-    drawRow('Amount:', '${level.volume.toStringAsFixed(5)} BTC', 28);
-    drawRow('Total:', '${cumVol.toStringAsFixed(5)} ETH', 42);
+    drawRow('Amount:', '${level.volume.toStringAsFixed(5)} BTC', 32);
+    drawRow('Total:', '${cumVol.toStringAsFixed(5)} ETH', 50);
   }
 
   @override

@@ -12,7 +12,7 @@ class AppColor {
   static const Color lightText = Color(0xFF8A8A8A);
   static const Color textGreen = Color.fromRGBO(18, 221, 0, 1);
   static const Color textRed = Color.fromRGBO(255, 63, 63, 1);
-  static const Color textBackground = Color.fromRGBO(255, 255, 255, 0.47);
+  static const Color textBackground = Color.fromRGBO(255, 255, 255, 0.4);
 
   static const Color high = Colors.greenAccent;
   static const Color low = Colors.redAccent;
@@ -22,6 +22,8 @@ class AppColor {
   static const Color oderbookGreenBlur = Color.fromRGBO(0, 239, 196, 0);
   static const Color oderbookRed = Color.fromRGBO(255, 63, 63, 1);
   static const Color oderbookRedBlur = Color.fromRGBO(255, 63, 63, 0);
+
+  static const Color chartLine = Color.fromRGBO(156, 184, 255, 1);
 
   static const Color button = Color.fromRGBO(255, 168, 0, 1);
   static const Color button2 = Color.fromRGBO(84, 94, 83, 1);

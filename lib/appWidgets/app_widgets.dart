@@ -38,7 +38,7 @@ class CustomScreenHeader extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: AppColor.textPrimary,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -185,7 +185,10 @@ class TradeHeader extends StatelessWidget {
                       children: [
                         Text(
                           AppStrings.high,
-                          style: TextStyle(color: AppColor.textGreen),
+                          style: TextStyle(
+                            color: AppColor.textGreen,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(height: 5),
                         Text(
@@ -201,7 +204,10 @@ class TradeHeader extends StatelessWidget {
                       children: [
                         Text(
                           AppStrings.low,
-                          style: TextStyle(color: AppColor.textRed),
+                          style: TextStyle(
+                            color: AppColor.textRed,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(height: 5),
                         Text(

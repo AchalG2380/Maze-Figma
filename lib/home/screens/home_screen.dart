@@ -89,49 +89,64 @@ class HomeScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 margin: EdgeInsets.symmetric(vertical: 8),
-                padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: AppColor.primary,
                 ),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: SvgPicture.asset("assets/icons/QR.svg"),
-                    ),
+                child: ClipRRect(
+                  // ← clips the boxes so they don't overflow card edges
+                  borderRadius: BorderRadius.circular(16),
+                  child: Stack(
+                    children: [
+                      // ── Background decorative boxes ──
+                      Positioned.fill(
+                        child: CustomPaint(painter: _CardBackgroundPainter()),
+                      ),
 
-                    Text(
-                      AppStrings.TPB,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColor.textPrimary,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
+                      // ── Your existing content ──
+                      Padding(
+                        padding: const EdgeInsets.all(14),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: SvgPicture.asset("assets/icons/QR.svg"),
+                            ),
+                            Text(
+                              AppStrings.TPB,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppColor.textPrimary,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              AppStrings.balance,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                height: 1.0,
+                              ),
+                            ),
+                            Text(
+                              AppStrings.todayChange,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppColor.high,
+                                fontSize: 14,
+                                height: 2.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                          ],
+                        ),
                       ),
-                    ),
-                    Text(
-                      AppStrings.balance,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        height: 1.0,
-                      ),
-                    ),
-                    Text(
-                      AppStrings.todayChange,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColor.high,
-                        fontSize: 14,
-                        height: 2.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
@@ -187,7 +202,7 @@ class HomeScreen extends StatelessWidget {
                         AppStrings.referRewards,
                         style: TextStyle(
                           color: AppColor.textPrimary,
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -200,7 +215,7 @@ class HomeScreen extends StatelessWidget {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: AppColor.textPrimary,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -286,4 +301,81 @@ class HomeScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+}
+
+class _CardBackgroundPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.04)
+      ..style = PaintingStyle.fill;
+
+    canvas.save();
+    final side1 = size.height * 0.8;
+    canvas.translate(size.width * 0.14, size.height * 0.75);
+    canvas.rotate(0.785398); // 45 degrees in radians
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset.zero, width: side1, height: side1),
+        const Radius.circular(24),
+      ),
+      paint,
+    );
+    canvas.restore();
+
+    canvas.save();
+    final side2 = size.height * 0.7;
+    canvas.translate(size.width * 0.67, size.height * 0.23);
+    canvas.rotate(0.785398);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset.zero, width: side2, height: side2),
+        const Radius.circular(16),
+      ),
+      paint..color = Colors.white.withOpacity(0.04),
+    );
+    canvas.restore();
+
+    canvas.save();
+    final side3 = size.height * 0.8;
+    canvas.translate(size.width * 0.85, size.height * 0.8);
+    canvas.rotate(0.785398);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset.zero, width: side3, height: side3),
+        const Radius.circular(24),
+      ),
+      paint..color = Colors.white.withOpacity(0.04),
+    );
+    canvas.restore();
+
+    canvas.save();
+    final side4 = size.height * 0.75;
+    canvas.translate(size.width * 0.32, size.height * 0.12);
+    canvas.rotate(0.785398);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset.zero, width: side4, height: side4),
+        const Radius.circular(20),
+      ),
+      paint..color = Colors.white.withOpacity(0.04),
+    );
+    canvas.restore();
+
+    canvas.save();
+    final side5 = size.height * 0.8;
+    canvas.translate(size.width * 0.5, size.height * 0.8);
+    canvas.rotate(0.785398);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset.zero, width: side5, height: side5),
+        const Radius.circular(22),
+      ),
+      paint..color = Colors.white.withOpacity(0.04),
+    );
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

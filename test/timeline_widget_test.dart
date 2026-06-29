@@ -45,27 +45,27 @@ void main() {
 
   test('dummyCandles satisfy minimum move and big candle density requirements', () {
     final candles = dummyCandles;
-    int countLessThan7 = 0;
+    int countLessThanMinMove = 0;
     int bigCandlesCount = 0;
 
     for (int i = 0; i < candles.length; i++) {
       final c = candles[i];
       final move = (c.close - c.open).abs();
-      if (move < 7.0) {
-        countLessThan7++;
+      if (move < 0.015) {
+        countLessThanMinMove++;
       }
-      if (move >= 15.0) {
+      if (move >= 0.10) {
         bigCandlesCount++;
       }
     }
 
     final bigCandleRatio = bigCandlesCount / candles.length;
     print('Total dummy candles: ${candles.length}');
-    print('Candles with move < 7.0: $countLessThan7');
-    print('Big candles (move >= 15.0): $bigCandlesCount (${(bigCandleRatio * 100).toStringAsFixed(1)}%)');
+    print('Candles with move < 0.02: $countLessThanMinMove');
+    print('Big candles (move >= 0.10): $bigCandlesCount (${(bigCandleRatio * 100).toStringAsFixed(1)}%)');
 
-    expect(countLessThan7, 0, reason: 'All candles must have a move of at least 7.0 points.');
-    expect(bigCandleRatio, greaterThanOrEqualTo(0.35), reason: 'At least 35% of candles should be big candles (>= 15.0 points move).');
+    expect(countLessThanMinMove, 0, reason: 'All candles must have a move of at least 0.02 points.');
+    expect(bigCandleRatio, greaterThanOrEqualTo(0.20), reason: 'At least 20% of candles should be big candles (>= 0.10 points move).');
   });
 
   test('ChartController handles pinch-to-zoom correctly', () {

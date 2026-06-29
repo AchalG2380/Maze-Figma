@@ -48,6 +48,7 @@ class MarketScreen extends StatelessWidget {
               ),
 
               TradeHeader(),
+              SizedBox(height: 10),
 
               Obx(() {
                 final showTimeline = controller.showTimeline.value;
